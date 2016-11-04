@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/metafunction.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/any_of.hpp>
+#include <boost/hana/detail/type_at.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/contains.hpp>
 #include <boost/hana/fwd/core/tag_of.hpp>
@@ -42,8 +43,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         struct types;
 
         struct types_tag;
-
-        //////////////////////////////////////////////////////////////////////
 
         template <typename ...T>
         struct types { };
@@ -88,30 +87,13 @@ BOOST_HANA_NAMESPACE_BEGIN
         apply(hana::experimental::types<T...> const&, F const&) { return {}; }
     };
 
-    namespace types_detail {
-        template <std::size_t I, typename T>
-        struct elt { using type = T; };
-
-        template <typename Indices, typename ...T>
-        struct indexer;
-
-        template <std::size_t ...I, typename ...T>
-        struct indexer<std::index_sequence<I...>, T...>
-            : elt<I, T>...
-        { };
-
-        template <std::size_t I, typename T>
-        elt<I, T> get_elt(elt<I, T> const&);
-    }
-
     // Iterable
     template <>
     struct at_impl<hana::experimental::types_tag> {
         template <typename ...T, typename N>
         static constexpr auto
         apply(hana::experimental::types<T...> const&, N const&) {
-            using Indexer = types_detail::indexer<std::make_index_sequence<sizeof...(T)>, T...>;
-            using Nth = typename decltype(types_detail::get_elt<N::value>(Indexer{}))::type;
+            using Nth = typename detail::type_at<N::value, T...>::type;
             return hana::type<Nth>{};
         }
     };
@@ -126,18 +108,16 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     template <>
     struct drop_front_impl<hana::experimental::types_tag> {
-        template <std::size_t n, typename Indexer, std::size_t ...i>
-        static hana::experimental::types<
-            typename decltype(types_detail::get_elt<i + n>(Indexer{}))::type...
-        > helper(std::index_sequence<i...>);
+        template <std::size_t n, typename ...T, std::size_t ...i>
+        static hana::experimental::types<typename detail::type_at<i + n, T...>::type...>
+        helper(std::index_sequence<i...>);
 
         template <typename ...T, typename N>
         static constexpr auto
         apply(hana::experimental::types<T...> const&, N const&) {
             constexpr std::size_t n = N::value > sizeof...(T) ? sizeof...(T) : N::value;
             using Indices = std::make_index_sequence<sizeof...(T) - n>;
-            using Indexer = types_detail::indexer<std::make_index_sequence<sizeof...(T)>, T...>;
-            return decltype(helper<n, Indexer>(Indices{})){};
+            return decltype(helper<n, T...>(Indices{})){};
         }
     };
 
