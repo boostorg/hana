@@ -82,10 +82,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Conversion to `char const*`
     //! ---------------------------
     //! A `hana::string` can be converted to a `constexpr` null-delimited
-    //! string of type `char const*` by using `to<char const*>`. This makes
-    //! it easy to turn a compile-time string into a runtime string. However,
-    //! note that this conversion is not an embedding, because `char const*`
-    //! does not model the same concepts as `hana::string` does.
+    //! string of type `char const*` by using the `c_str()` method or
+    //! `hana::to<char const*>`. This makes it easy to turn a compile-time
+    //! string into a runtime string. However, note that this conversion is
+    //! not an embedding, because `char const*` does not model the same
+    //! concepts as `hana::string` does.
     //! @include example/string/to.cpp
     //!
     //!
@@ -127,6 +128,9 @@ BOOST_HANA_NAMESPACE_BEGIN
         //! Equivalent to `hana::at`
         template <typename N>
         constexpr decltype(auto) operator[](N&& n);
+
+        //! Returns a null-delimited C-style string.
+        static constexpr char const* c_str();
     };
 #else
     template <char ...s>

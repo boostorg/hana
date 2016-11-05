@@ -48,11 +48,20 @@ BOOST_HANA_NAMESPACE_BEGIN
     // string<>
     //////////////////////////////////////////////////////////////////////////
     //! @cond
+    namespace detail {
+        template <char ...s>
+        constexpr char const string_storage[sizeof...(s) + 1] = {s..., '\0'};
+    }
+
     template <char ...s>
     struct string
         : detail::operators::adl<string<s...>>
         , detail::iterable_operators<string<s...>>
-    { };
+    {
+        static constexpr char const* c_str() {
+            return &detail::string_storage<s...>[0];
+        }
+    };
     //! @endcond
 
     template <char ...s>
@@ -132,17 +141,9 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <>
     struct to_impl<char const*, string_tag> {
         template <char ...c>
-        static constexpr char const c_string[sizeof...(c) + 1] = {c..., '\0'};
-
-        template <char ...c>
         static constexpr char const* apply(string<c...> const&)
-        { return c_string<c...>; }
+        { return string<c...>::c_str(); }
     };
-
-    //! @cond
-    template <char ...c>
-    constexpr char const to_impl<char const*, string_tag>::c_string[sizeof...(c) + 1];
-    //! @endcond
 
     //////////////////////////////////////////////////////////////////////////
     // Comparable
