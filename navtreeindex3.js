@@ -218,6 +218,7 @@ var NAVTREEINDEX3 =
 "structboost_1_1hana_1_1detail_1_1nested__to.html":[1,8,10],
 "structboost_1_1hana_1_1detail_1_1operators_1_1adl.html":[1,8,11],
 "structboost_1_1hana_1_1detail_1_1std__common__type.html":[1,8,12],
+"structboost_1_1hana_1_1detail_1_1type__at.html":[1,8,13],
 "structboost_1_1hana_1_1embedding.html":[1,3,6],
 "structboost_1_1hana_1_1experimental_1_1types.html":[1,4,0],
 "structboost_1_1hana_1_1has__common.html":[1,3,1],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "structboost_1_1hana_1_1integral__constant.html#a883a869b5e96e32744ebf75d63c763ae":[1,1,1,35],
 "structboost_1_1hana_1_1integral__constant.html#a8e52c0f4a65a852dc88f97259a05ff17":[1,1,1,13],
 "structboost_1_1hana_1_1integral__constant.html#a96c109b048f822be0ca7578c93694405":[1,1,1,15],
-"structboost_1_1hana_1_1integral__constant.html#aa301b96de91d665fdc846bde4659b0d3":[1,1,1,14],
-"structboost_1_1hana_1_1integral__constant.html#aa3f0436b623de5208767751e1e9f7e59":[1,1,1,41]
+"structboost_1_1hana_1_1integral__constant.html#aa301b96de91d665fdc846bde4659b0d3":[1,1,1,14]
 };

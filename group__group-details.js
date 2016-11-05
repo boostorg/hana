@@ -13,6 +13,7 @@ var group__group_details =
     [ "nested_to", "structboost_1_1hana_1_1detail_1_1nested__to.html", null ],
     [ "adl", "structboost_1_1hana_1_1detail_1_1operators_1_1adl.html", null ],
     [ "std_common_type", "structboost_1_1hana_1_1detail_1_1std__common__type.html", null ],
+    [ "type_at", "structboost_1_1hana_1_1detail_1_1type__at.html", null ],
     [ "BOOST_HANA_DISPATCH_IF", "group__group-details.html#ga5de7a0132a80e37c73d544ece1e6dd4e", null ],
     [ "BOOST_HANA_PP_NARG", "group__group-details.html#ga62fe3327023c37706c827cc82624998b", null ],
     [ "BOOST_HANA_PP_CONCAT", "group__group-details.html#ga444e73a2fe13732b802a770b55b4a99c", null ],
