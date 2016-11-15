@@ -17,8 +17,14 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/insert.hpp>
 #include <boost/hana/fwd/keys.hpp>
 
+#include <utility>
+
 
 BOOST_HANA_NAMESPACE_BEGIN
+    //! Tag representing `hana::map`s.
+    //! @relates hana::map
+    struct map_tag { };
+
     //! @ingroup group-datatypes
     //! Basic associative container requiring unique, `Comparable` and
     //! `Hashable` keys.
@@ -27,12 +33,21 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! keys must be `Hashable`, and any two keys with equal hashes must be
     //! `Comparable` with each other at compile-time.
     //!
-    //! @note
-    //! The actual representation of a `hana::map` is implementation-defined.
-    //! In particular, one should not take for granted the order of the
-    //! template parameters and the presence of any additional constructors
-    //! or assignment operators than what is documented. The canonical way of
-    //! creating a `hana::map` is through `hana::make_map`.
+    //! Note that the actual representation of a `hana::map` is an implementation
+    //! detail. As such, one should not assume anything more than what is
+    //! explicitly documented as being part of the interface of a map,
+    //! such as:
+    //! - the presence of additional constructors
+    //! - the presence of additional assignment operators
+    //! - the fact that `hana::map<Pairs...>` is, or is not, a dependent type
+    //!
+    //! In particular, the last point is very important; `hana::map<Pairs...>`
+    //! is only a shortcut for
+    //! @code
+    //!     decltype(hana::make_pair(std::declval<Pairs>()...))
+    //! @endcode
+    //! which is not something that can be pattern-matched on during template
+    //! argument deduction, for example.
     //!
     //!
     //! Modeled concepts
@@ -63,8 +78,13 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! `Foldable` contains duplicate keys, only the value associated to the
     //! first occurence of each key is kept.
     //! @include example/map/to.cpp
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/map/map.cpp
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
-    template <typename implementation_defined>
+    template <typename ...Pairs>
     struct map {
         //! Default-construct a map. This constructor only exists when all the
         //! elements of the map are default-constructible.
@@ -77,6 +97,14 @@ BOOST_HANA_NAMESPACE_BEGIN
         //! Move-construct a map from another map. This constructor only
         //! exists when all the elements of the map are move-constructible.
         constexpr map(map&& other) = default;
+
+        //! Construct the map from the provided pairs. `P...` must be pairs of
+        //! the same type (modulo ref and cv-qualifiers), and in the same order,
+        //! as those appearing in `Pairs...`. The pairs provided to this
+        //! constructor are emplaced into the map's storage using perfect
+        //! forwarding.
+        template <typename ...P>
+        explicit constexpr map(P&& ...pairs);
 
         //! Equivalent to `hana::equal`
         template <typename X, typename Y>
@@ -91,13 +119,9 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator[](Key&& key);
     };
 #else
-    template <typename HashTable, typename Storage>
-    struct map;
+    template <typename ...Pairs>
+    using map = decltype(hana::make<map_tag>(std::declval<Pairs>()...));
 #endif
-
-    //! Tag representing `hana::map`s.
-    //! @relates hana::map
-    struct map_tag { };
 
     //! Function object for creating a `hana::map`.
     //! @relates hana::map

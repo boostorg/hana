@@ -71,33 +71,38 @@ BOOST_HANA_NAMESPACE_BEGIN
     // map
     //////////////////////////////////////////////////////////////////////////
     //! @cond
-    template <typename HashTable, typename Storage>
-    struct map
-        : detail::searchable_operators<map<HashTable, Storage>>
-        , detail::operators::adl<map<HashTable, Storage>>
-    {
-        using hash_table_type = HashTable;
-        using storage_type = Storage;
-
-        Storage storage;
-
-        using hana_tag = map_tag;
-
-        explicit constexpr map(Storage const& xs)
-            : storage(xs)
-        { }
-
-        explicit constexpr map(Storage&& xs)
-            : storage(static_cast<Storage&&>(xs))
-        { }
-
-        constexpr map() = default;
-        constexpr map(map const& other) = default;
-        constexpr map(map&& other) = default;
-    };
-    //! @endcond
-
     namespace detail {
+        template <typename HashTable, typename Storage>
+        struct map_impl
+            : detail::searchable_operators<map_impl<HashTable, Storage>>
+            , detail::operators::adl<map_impl<HashTable, Storage>>
+        {
+            using hash_table_type = HashTable;
+            using storage_type = Storage;
+
+            Storage storage;
+
+            using hana_tag = map_tag;
+
+            template <typename ...P>
+            explicit constexpr map_impl(P&& ...pairs)
+                : storage{static_cast<P&&>(pairs)...}
+            { }
+
+            explicit constexpr map_impl(Storage const& xs)
+                : storage(xs)
+            { }
+
+            explicit constexpr map_impl(Storage&& xs)
+                : storage(static_cast<Storage&&>(xs))
+            { }
+
+            constexpr map_impl() = default;
+            constexpr map_impl(map_impl const& other) = default;
+            constexpr map_impl(map_impl&& other) = default;
+        };
+        //! @endcond
+
         template <typename Storage>
         struct KeyAtIndex {
             template <std::size_t i>
@@ -117,12 +122,12 @@ BOOST_HANA_NAMESPACE_BEGIN
             "hana::make_map(pairs...) requires all the 'pairs' to be Products");
 
             static_assert(detail::fast_and<
-                Comparable<decltype(hana::first(pairs))>::value...
+                hana::Comparable<decltype(hana::first(pairs))>::value...
             >::value,
             "hana::make_map(pairs...) requires all the keys to be Comparable");
 
             static_assert(detail::fast_and<
-                Constant<
+                hana::Constant<
                     decltype(hana::equal(hana::first(pairs), hana::first(pairs)))
                 >::value...
             >::value,
@@ -144,9 +149,9 @@ BOOST_HANA_NAMESPACE_BEGIN
                 detail::KeyAtIndex<Storage>::template apply, sizeof...(Pairs)
             >::type;
 
-            return map<HashTable, Storage>(
-                hana::make_basic_tuple(static_cast<Pairs&&>(pairs)...)
-            );
+            return detail::map_impl<HashTable, Storage>{
+                static_cast<Pairs&&>(pairs)...
+            };
         }
     };
 
@@ -189,7 +194,7 @@ BOOST_HANA_NAMESPACE_BEGIN
             using NewStorage = decltype(
                 hana::append(static_cast<Map&&>(map).storage, static_cast<Pair&&>(pair))
             );
-            return hana::map<NewHashTable, NewStorage>(
+            return detail::map_impl<NewHashTable, NewStorage>(
                 hana::append(static_cast<Map&&>(map).storage, static_cast<Pair&&>(pair))
             );
         }
