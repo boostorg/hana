@@ -553,7 +553,7 @@ the most frequently used algorithms and containers, along with a short
 description of what each of them does.
 
 
-@subsection tutorial-quickstart-cheatsheet Cheatsheet
+@section tutorial-cheatsheet Cheatsheet
 
 ### Remarks
 - Most algorithms work on both types and values (see the section on
