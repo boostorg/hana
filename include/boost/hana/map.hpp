@@ -53,6 +53,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/value.hpp>
 
 #include <cstddef>
+#include <type_traits>
 #include <utility>
 
 
@@ -84,13 +85,14 @@ BOOST_HANA_NAMESPACE_BEGIN
 
             using hana_tag = map_tag;
 
-            template <typename ...P>
+            template <typename ...P, typename = typename std::enable_if<
+                std::is_same<
+                    Storage,
+                    hana::basic_tuple<typename detail::decay<P>::type...>
+                >::value
+            >::type>
             explicit constexpr map_impl(P&& ...pairs)
                 : storage{static_cast<P&&>(pairs)...}
-            { }
-
-            explicit constexpr map_impl(Storage const& xs)
-                : storage(xs)
             { }
 
             explicit constexpr map_impl(Storage&& xs)
@@ -150,7 +152,7 @@ BOOST_HANA_NAMESPACE_BEGIN
             >::type;
 
             return detail::map_impl<HashTable, Storage>{
-                static_cast<Pairs&&>(pairs)...
+                hana::make_basic_tuple(static_cast<Pairs&&>(pairs)...)
             };
         }
     };

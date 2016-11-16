@@ -173,6 +173,13 @@ int main() {
             hana::make_pair(TrackedMoveOnly<1>{}, TrackedMoveOnly<10>{}),
             hana::make_pair(TrackedMoveOnly<2>{}, TrackedMoveOnly<20>{})
         };
-        (void)map;
+    }
+
+    // The following used to fail when we did not constrain the
+    // constructor properly:
+    {
+        hana::map<pair<1>> map{};
+        hana::test::_injection<0> f{};
+        auto x = f(map);
     }
 }
