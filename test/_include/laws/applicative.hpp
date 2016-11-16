@@ -38,7 +38,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Applicatives>
         TestApplicative(Applicatives applicatives) {
             hana::for_each(applicatives, [](auto a) {
-                static_assert(Applicative<decltype(a)>::value, "");
+                static_assert(Applicative<decltype(a)>{}, "");
             });
 
             auto functions1 = hana::take_front(

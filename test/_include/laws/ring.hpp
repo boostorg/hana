@@ -36,7 +36,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestRing(Xs xs) {
             hana::for_each(xs, hana::capture(xs)([](auto xs, auto x) {
-                static_assert(Ring<decltype(x)>::value, "");
+                static_assert(Ring<decltype(x)>{}, "");
 
                 foreach2(xs, hana::capture(x)([](auto x, auto y, auto z) {
                     // associativity

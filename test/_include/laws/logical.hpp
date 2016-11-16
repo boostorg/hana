@@ -37,7 +37,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestLogical(Xs xs) {
             hana::for_each(xs, [](auto x) {
-                static_assert(Logical<decltype(x)>::value, "");
+                static_assert(Logical<decltype(x)>{}, "");
             });
 
             foreach3(xs, hana::capture(xs)([](auto xs, auto a, auto b, auto c) {

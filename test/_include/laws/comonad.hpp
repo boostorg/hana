@@ -26,7 +26,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Ws>
         TestComonad(Ws ws) {
             hana::for_each(ws, [](auto w) {
-                static_assert(Comonad<decltype(w)>::value, "");
+                static_assert(Comonad<decltype(w)>{}, "");
 
                 // extract(duplicate(w)) == w
                 BOOST_HANA_CHECK(hana::equal(

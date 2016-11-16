@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/tag_of.hpp>
+#include <boost/hana/detail/integral_constant.hpp>
 #include <boost/hana/duplicate.hpp>
 #include <boost/hana/extend.hpp>
 #include <boost/hana/extract.hpp>
@@ -22,12 +23,13 @@ Distributed under the Boost Software License, Version 1.0.
 
 BOOST_HANA_NAMESPACE_BEGIN
     template <typename W>
-    struct Comonad {
-        using Tag = typename tag_of<W>::type;
-        static constexpr bool value = !is_default<extract_impl<Tag>>::value &&
-                                      (!is_default<duplicate_impl<Tag>>::value ||
-                                       !is_default<extend_impl<Tag>>::value);
-    };
+    struct Comonad
+        : hana::integral_constant<bool,
+            !is_default<extract_impl<typename tag_of<W>::type>>::value &&
+                (!is_default<duplicate_impl<typename tag_of<W>::type>>::value ||
+                 !is_default<extend_impl<typename tag_of<W>::type>>::value)
+        >
+    { };
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_CONCEPT_COMONAD_HPP

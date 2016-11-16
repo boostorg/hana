@@ -15,19 +15,22 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/core/when.hpp>
+#include <boost/hana/detail/integral_constant.hpp>
 
 
 BOOST_HANA_NAMESPACE_BEGIN
     namespace detail {
         template <typename S, typename Tag = typename hana::tag_of<S>::type>
-        struct sequence_dispatch {
-            static constexpr bool value = hana::Sequence<Tag>::value;
-        };
+        struct sequence_dispatch
+            : hana::integral_constant<bool,
+                hana::Sequence<Tag>::value
+            >
+        { };
 
         template <typename S>
-        struct sequence_dispatch<S, S> {
-            static constexpr bool value = false;
-        };
+        struct sequence_dispatch<S, S>
+            : hana::integral_constant<bool, false>
+        { };
     }
 
     //! @cond

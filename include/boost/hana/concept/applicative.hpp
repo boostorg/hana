@@ -16,16 +16,18 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/default.hpp>
 #include <boost/hana/core/tag_of.hpp>
+#include <boost/hana/detail/integral_constant.hpp>
 #include <boost/hana/lift.hpp>
 
 
 BOOST_HANA_NAMESPACE_BEGIN
     template <typename A>
-    struct Applicative {
-        using Tag = typename tag_of<A>::type;
-        static constexpr bool value = !is_default<ap_impl<Tag>>::value &&
-                                      !is_default<lift_impl<Tag>>::value;
-    };
+    struct Applicative
+        : hana::integral_constant<bool,
+            !is_default<ap_impl<typename tag_of<A>::type>>::value &&
+            !is_default<lift_impl<typename tag_of<A>::type>>::value
+        >
+    { };
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_CONCEPT_APPLICATIVE_HPP

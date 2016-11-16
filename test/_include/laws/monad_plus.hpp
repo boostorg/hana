@@ -47,7 +47,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs, typename Predicates, typename Values>
         TestMonadPlus(Xs xs, Predicates predicates, Values values) {
             hana::for_each(xs, [](auto a) {
-                static_assert(MonadPlus<decltype(a)>::value, "");
+                static_assert(MonadPlus<decltype(a)>{}, "");
 
                 // left identity
                 BOOST_HANA_CHECK(hana::equal(

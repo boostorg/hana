@@ -40,7 +40,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs, typename Elements>
         TestFunctor(Xs xs, Elements elements) {
             hana::for_each(xs, hana::capture(elements)([](auto elements, auto x) {
-                static_assert(Functor<decltype(x)>::value, "");
+                static_assert(Functor<decltype(x)>{}, "");
 
                 test::_injection<0> f{};
                 test::_injection<1> g{};

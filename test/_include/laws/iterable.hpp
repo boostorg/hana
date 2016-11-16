@@ -49,7 +49,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestIterable(Xs xs) {
             hana::for_each(xs, [](auto xs) {
-                static_assert(Iterable<decltype(xs)>::value, "");
+                static_assert(Iterable<decltype(xs)>{}, "");
 
                 BOOST_HANA_CONSTANT_CHECK(
                     hana::is_empty(xs) ^iff^ hana::is_empty(hana::to<tuple_tag>(xs))

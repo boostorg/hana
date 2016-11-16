@@ -38,7 +38,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestComparable(Xs xs) {
             hana::for_each(xs, [](auto x) {
-                static_assert(hana::Comparable<decltype(x)>::value, "");
+                static_assert(hana::Comparable<decltype(x)>{}, "");
             });
 
             foreach2(xs, [](auto a, auto b) {

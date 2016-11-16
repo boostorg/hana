@@ -36,7 +36,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestEuclideanRing(Xs xs) {
             hana::for_each(xs, [](auto x) {
-                static_assert(EuclideanRing<decltype(x)>::value, "");
+                static_assert(EuclideanRing<decltype(x)>{}, "");
             });
 
             foreach2(xs, [](auto a, auto b) {

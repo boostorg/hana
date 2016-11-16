@@ -27,7 +27,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Elements>
         TestProduct(Elements elements) {
             foreach2(elements, [](auto x, auto y) {
-                static_assert(Product<decltype(hana::make<P>(x, y))>::value, "");
+                static_assert(Product<decltype(hana::make<P>(x, y))>{}, "");
 
                 BOOST_HANA_CHECK(hana::equal(
                     hana::first(hana::make<P>(x, y)),

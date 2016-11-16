@@ -27,7 +27,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestMonoid(Xs xs) {
             hana::for_each(xs, hana::capture(xs)([](auto xs, auto a) {
-                static_assert(Monoid<decltype(a)>::value, "");
+                static_assert(Monoid<decltype(a)>{}, "");
 
                 // left identity
                 BOOST_HANA_CHECK(hana::equal(

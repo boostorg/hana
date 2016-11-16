@@ -26,7 +26,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestGroup(Xs xs) {
             hana::for_each(xs, [](auto x) {
-                static_assert(Group<decltype(x)>::value, "");
+                static_assert(Group<decltype(x)>{}, "");
             });
 
             foreach2(xs, [](auto x, auto y) {
