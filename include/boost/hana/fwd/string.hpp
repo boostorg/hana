@@ -38,8 +38,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! The representation of `hana::string` is implementation-defined.
     //! In particular, one should not take for granted that the template
     //! parameters are `char`s. The proper way to access the contents of
-    //! a `hana::string` as character constants is to use `hana::unpack`
-    //! or `hana::to<char const*>`, as documented below.
+    //! a `hana::string` as character constants is to use `hana::unpack`,
+    //! `.c_str()` or `hana::to<char const*>`, as documented below.
     //!
     //!
     //! Modeled concepts
@@ -57,23 +57,28 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! lexicographical comparison of strings.
     //! @include example/string/orderable.cpp
     //!
-    //! 3. `Foldable`\n
+    //! 3. `Monoid`\n
+    //! Strings form a monoid under concatenation, with the neutral element
+    //! being the empty string.
+    //! @include example/string/monoid.cpp
+    //!
+    //! 4. `Foldable`\n
     //! Folding a string is equivalent to folding the sequence of its
     //! characters.
     //! @include example/string/foldable.cpp
     //!
-    //! 4. `Iterable`\n
+    //! 5. `Iterable`\n
     //! Iterating over a string is equivalent to iterating over the sequence
     //! of its characters. Also note that `operator[]` can be used instead of
     //! the `at` function.
     //! @include example/string/iterable.cpp
     //!
-    //! 5. `Searchable`\n
+    //! 6. `Searchable`\n
     //! Searching through a string is equivalent to searching through the
     //! sequence of its characters.
     //! @include example/string/searchable.cpp
     //!
-    //! 6. `Hashable`\n
+    //! 7. `Hashable`\n
     //! The hash of a compile-time string is a type uniquely representing
     //! that string.
     //! @include example/string/hashable.cpp
@@ -124,6 +129,10 @@ BOOST_HANA_NAMESPACE_BEGIN
         //! Equivalent to `hana::greater_equal`
         template <typename X, typename Y>
         friend constexpr auto operator>=(X&& x, Y&& y);
+
+        //! Performs concatenation; equivalent to `hana::plus`
+        template <typename X, typename Y>
+        friend constexpr auto operator+(X&& x, Y&& y);
 
         //! Equivalent to `hana::at`
         template <typename N>

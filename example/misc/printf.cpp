@@ -4,10 +4,9 @@
 
 #include <boost/hana/adjust_if.hpp>
 #include <boost/hana/at_key.hpp>
-#include <boost/hana/core/to.hpp>
 #include <boost/hana/core/is_a.hpp>
+#include <boost/hana/core/to.hpp>
 #include <boost/hana/filter.hpp>
-#include <boost/hana/fold_left.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/map.hpp>
@@ -15,6 +14,7 @@
 #include <boost/hana/pair.hpp>
 #include <boost/hana/prepend.hpp>
 #include <boost/hana/string.hpp>
+#include <boost/hana/sum.hpp>
 #include <boost/hana/tuple.hpp>
 #include <boost/hana/type.hpp>
 #include <boost/hana/unpack.hpp>
@@ -28,12 +28,6 @@ constexpr auto formats = hana::make_map(
     hana::make_pair(hana::type_c<float>, hana::string_c<'%', 'f'>),
     hana::make_pair(hana::type_c<char const*>, hana::string_c<'%', 's'>)
 );
-
-struct concat_strings {
-    template <char ...s1, char ...s2>
-    constexpr auto operator()(hana::string<s1...>, hana::string<s2...>) const
-    { return hana::string_c<s1..., s2...>; }
-};
 
 template <typename ...Tokens>
 constexpr auto format(Tokens ...tokens_) {
@@ -50,7 +44,7 @@ constexpr auto format(Tokens ...tokens_) {
         hana::compose(hana::partial(hana::at_key, formats), hana::typeid_)
     );
 
-    auto format_string = hana::fold_left(format_string_tokens, hana::string_c<>, concat_strings{});
+    auto format_string = hana::sum<hana::string_tag>(format_string_tokens);
     auto variables = hana::filter(tokens, hana::compose(hana::not_, hana::is_a<hana::string_tag>));
     return hana::prepend(variables, format_string);
 }

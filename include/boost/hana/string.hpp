@@ -32,7 +32,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
 #include <boost/hana/fwd/less.hpp>
+#include <boost/hana/fwd/plus.hpp>
 #include <boost/hana/fwd/unpack.hpp>
+#include <boost/hana/fwd/zero.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/optional.hpp>
@@ -176,6 +178,30 @@ BOOST_HANA_NAMESPACE_BEGIN
             )>;
         }
     };
+
+    //////////////////////////////////////////////////////////////////////////
+    // Monoid
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct plus_impl<string_tag, string_tag> {
+        template <char ...s1, char ...s2>
+        static constexpr auto
+        apply(string<s1...> const&, string<s2...> const&) {
+            return string<s1..., s2...>{};
+        }
+    };
+
+    template <>
+    struct zero_impl<string_tag> {
+        static constexpr auto apply() {
+            return string<>{};
+        }
+    };
+
+    template <char ...s1, char ...s2>
+    constexpr auto operator+(string<s1...> const&, string<s2...> const&) {
+        return hana::string<s1..., s2...>{};
+    }
 
     //////////////////////////////////////////////////////////////////////////
     // Foldable
