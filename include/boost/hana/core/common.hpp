@@ -16,10 +16,9 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/canonical_constant.hpp>
+#include <boost/hana/detail/integral_constant.hpp>
 #include <boost/hana/detail/std_common_type.hpp>
 #include <boost/hana/detail/void_t.hpp>
-
-#include <type_traits>
 
 
 BOOST_HANA_NAMESPACE_BEGIN
@@ -45,11 +44,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     // has_common
     //////////////////////////////////////////////////////////////////////////
     template <typename T, typename U, typename>
-    struct has_common : std::false_type { };
+    struct has_common : hana::integral_constant<bool, false> { };
 
     template <typename T, typename U>
     struct has_common<T, U, detail::void_t<typename common<T, U>::type>>
-        : std::true_type
+        : hana::integral_constant<bool, true>
     { };
 
     //////////////////////////////////////////////////////////////////////////

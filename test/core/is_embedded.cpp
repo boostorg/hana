@@ -2,12 +2,15 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/core/to.hpp>
 #include <boost/hana/equal.hpp>
 
 #include <climits>
 namespace hana = boost::hana;
 
+
+static_assert(hana::IntegralConstant<hana::is_embedded<float, double>>{}, "");
 
 // This test makes sure that fundamental types are properly embedded in
 // each other, when sensible.

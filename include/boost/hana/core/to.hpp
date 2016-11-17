@@ -19,6 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/common.hpp>
 #include <boost/hana/core/dispatch.hpp>
 #include <boost/hana/core/make.hpp>
+#include <boost/hana/detail/integral_constant.hpp>
 #include <boost/hana/detail/wrong.hpp>
 #include <boost/hana/unpack.hpp>
 #include <boost/hana/value.hpp>
@@ -146,23 +147,23 @@ BOOST_HANA_NAMESPACE_BEGIN
     // is_convertible
     //////////////////////////////////////////////////////////////////////////
     template <typename From, typename To, typename>
-    struct is_convertible : std::true_type { };
+    struct is_convertible : hana::integral_constant<bool, true> { };
 
     template <typename From, typename To>
     struct is_convertible<From, To, decltype((void)
         static_cast<convert_detail::no_conversion>(*(to_impl<To, From>*)0)
-    )> : std::false_type { };
+    )> : hana::integral_constant<bool, false> { };
 
     //////////////////////////////////////////////////////////////////////////
     // is_embedded
     //////////////////////////////////////////////////////////////////////////
     template <typename From, typename To, typename>
-    struct is_embedded : std::false_type { };
+    struct is_embedded : hana::integral_constant<bool, false> { };
 
     template <typename From, typename To>
     struct is_embedded<From, To, decltype((void)
         static_cast<embedding<true>>(*(to_impl<To, From>*)0)
-    )> : std::true_type { };
+    )> : hana::integral_constant<bool, true> { };
 
     //////////////////////////////////////////////////////////////////////////
     // Conversion for Constants
