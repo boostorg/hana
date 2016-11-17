@@ -2,7 +2,7 @@ var group__group_details =
 [
     [ "any_of", "structboost_1_1hana_1_1detail_1_1any__of.html", null ],
     [ "array", "structboost_1_1hana_1_1detail_1_1array.html", null ],
-    [ "CanonicalConstant", "structboost_1_1hana_1_1detail_1_1CanonicalConstant.html", null ],
+    [ "CanonicalConstant", "structboost_1_1hana_1_1detail_1_1_canonical_constant.html", null ],
     [ "create", "structboost_1_1hana_1_1detail_1_1create.html", null ],
     [ "decay", "structboost_1_1hana_1_1detail_1_1decay.html", null ],
     [ "first_unsatisfied_index", "structboost_1_1hana_1_1detail_1_1first__unsatisfied__index.html", null ],
