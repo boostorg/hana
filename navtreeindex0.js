@@ -91,6 +91,7 @@ var NAVTREEINDEX0 =
 "deque_8hpp.html":[3,0,0,4,0,0,1],
 "detail_2any__of_8hpp.html":[3,0,0,2,3],
 "detail_2array_8hpp.html":[3,0,0,2,4],
+"detail_2integral__constant_8hpp.html":[3,0,0,2,17],
 "detail_2operators_2comparable_8hpp.html":[3,0,0,2,0,2],
 "detail_2operators_2iterable_8hpp.html":[3,0,0,2,0,3],
 "detail_2operators_2logical_8hpp.html":[3,0,0,2,0,4],
@@ -248,6 +249,5 @@ var NAVTREEINDEX0 =
 "fwd_2core_2when_8hpp.html":[3,0,0,6,1,6],
 "fwd_2core_2when_8hpp.html#ga0f5d717bbf6646619bb6219b104384dc":[3,0,0,6,1,6,0],
 "fwd_2core_8hpp.html":[3,0,0,6,24],
-"fwd_2count_8hpp.html":[3,0,0,6,25],
-"fwd_2count_8hpp.html#ga3159cfa41be18a396926741b0a3fdefd":[3,0,0,6,25,0]
+"fwd_2count_8hpp.html":[3,0,0,6,25]
 };

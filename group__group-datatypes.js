@@ -1,9 +1,5 @@
 var group__group_datatypes =
 [
-    [ "basic_tuple", "structboost_1_1hana_1_1basic__tuple.html", [
-      [ "make< basic_tuple_tag >", "structboost_1_1hana_1_1basic__tuple.html#a53975be786ae1db16185edab229547cd", null ],
-      [ "make_basic_tuple", "structboost_1_1hana_1_1basic__tuple.html#afe2c3fc2808e83353b7274dddd662c7e", null ]
-    ] ],
     [ "integral_constant", "structboost_1_1hana_1_1integral__constant.html", [
       [ "bool_", "structboost_1_1hana_1_1integral__constant.html#adeaf00ee03ae0daf97d60d5258bd3703", null ],
       [ "true_", "structboost_1_1hana_1_1integral__constant.html#ae0cf9368270efc7fdd2aeec497644892", null ],
@@ -48,6 +44,10 @@ var group__group_datatypes =
       [ "operator<=", "structboost_1_1hana_1_1integral__constant.html#a53817979990da799e659b2576799a79a", null ],
       [ "operator>=", "structboost_1_1hana_1_1integral__constant.html#aa3f0436b623de5208767751e1e9f7e59", null ],
       [ "operator\"\"_c", "structboost_1_1hana_1_1integral__constant.html#a1c078fd00db48686ca9e0aa17f47344e", null ]
+    ] ],
+    [ "basic_tuple", "structboost_1_1hana_1_1basic__tuple.html", [
+      [ "make< basic_tuple_tag >", "structboost_1_1hana_1_1basic__tuple.html#a53975be786ae1db16185edab229547cd", null ],
+      [ "make_basic_tuple", "structboost_1_1hana_1_1basic__tuple.html#afe2c3fc2808e83353b7274dddd662c7e", null ]
     ] ],
     [ "lazy", "structboost_1_1hana_1_1lazy.html", [
       [ "eval", "structboost_1_1hana_1_1lazy.html#aae2998c08f1f80ed52a6acf57c4eec6c", null ],
@@ -150,6 +150,7 @@ var group__group_datatypes =
       [ "operator>", "structboost_1_1hana_1_1string.html#aedd11fddefddbbbb87d3b24c7117528f", null ],
       [ "operator<=", "structboost_1_1hana_1_1string.html#a53817979990da799e659b2576799a79a", null ],
       [ "operator>=", "structboost_1_1hana_1_1string.html#aa3f0436b623de5208767751e1e9f7e59", null ],
+      [ "operator+", "structboost_1_1hana_1_1string.html#a077af435df78fdb178f98b109c8c4297", null ],
       [ "BOOST_HANA_STRING", "structboost_1_1hana_1_1string.html#a7f15faa77e126e1c2b08a2224ceefb84", null ],
       [ "operator\"\"_s", "structboost_1_1hana_1_1string.html#ad77f7afff008c2ce15739ad16a8bf0a8", null ],
       [ "operator[]", "structboost_1_1hana_1_1string.html#a02f56704524481cf919907caf271d2a1", null ]

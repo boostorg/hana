@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"fwd_2count_8hpp.html#ga3159cfa41be18a396926741b0a3fdefd":[3,0,0,6,25,0],
 "fwd_2count__if_8hpp.html":[3,0,0,6,26],
 "fwd_2count__if_8hpp.html#ga39d71be65d5b98e7d035a3e5c607e1b4":[3,0,0,6,26,0],
 "fwd_2cycle_8hpp.html":[3,0,0,6,27],
@@ -70,7 +71,7 @@ var NAVTREEINDEX1 =
 "fwd_2insert__range_8hpp.html":[3,0,0,6,61],
 "fwd_2insert__range_8hpp.html#ga3410ba833cf1ff1d929fcfda4df2eae1":[3,0,0,6,61,0],
 "fwd_2integral__constant_8hpp.html":[3,0,0,6,62],
-"fwd_2integral__constant_8hpp.html#a85ac3c47d02722a334181aab540e732c":[3,0,0,6,62,1],
+"fwd_2integral__constant_8hpp.html#a85ac3c47d02722a334181aab540e732c":[3,0,0,6,62,0],
 "fwd_2intersection_8hpp.html":[3,0,0,6,63],
 "fwd_2intersperse_8hpp.html":[3,0,0,6,64],
 "fwd_2intersperse_8hpp.html#gaa18061cd0f63cfaae89abf43ff92b79e":[3,0,0,6,64,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "group__group-Comonad.html#ga181751278bd19a4bfc3c08bd7ddef399":[1,0,1,0],
 "group__group-Comonad.html#ga307479a91a21b7ab06a2bc746b003dcc":[1,0,1,2],
 "group__group-Comonad.html#gaf44692351fd9fe4e76815dfef6ff4478":[1,0,1,1],
-"group__group-Comparable.html":[1,0,2],
-"group__group-Comparable.html#ga9c2ffe2e51780e57a38d9e7e31b87cdc":[1,0,2,0]
+"group__group-Comparable.html":[1,0,2]
 };
