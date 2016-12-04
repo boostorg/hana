@@ -7,6 +7,7 @@
 #include <boost/hana/pair.hpp>
 #include <boost/hana/second.hpp>
 
+#include <type_traits>
 #include <utility>
 namespace hana = boost::hana;
 
@@ -32,6 +33,21 @@ struct MoveOnlyDerived : MoveOnly {
 template <typename Target>
 struct implicit_to {
     constexpr operator Target() const { return Target{}; }
+};
+
+struct NoMove {
+    NoMove() = default;
+    NoMove(NoMove const&) = delete;
+    NoMove(NoMove&&) = delete;
+};
+
+// Note: It is also useful to check with a non-empty class, because that
+//       triggers different instantiations due to EBO.
+struct NoMove_nonempty {
+    NoMove_nonempty() = default;
+    NoMove_nonempty(NoMove_nonempty const&) = delete;
+    NoMove_nonempty(NoMove_nonempty&&) = delete;
+    int i;
 };
 
 int main() {
@@ -66,5 +82,16 @@ int main() {
         Target p2(hana::make_pair(implicit_to<target1>{}, target2{}));
         Target p3(hana::make_pair(target1{}, implicit_to<target2>{}));
         Target p4(hana::make_pair(implicit_to<target1>{}, implicit_to<target2>{}));
+    }
+
+    // Make sure we don't define the move constructor when it shouldn't be defined.
+    {
+        using Pair1 = hana::pair<NoMove, NoMove>;
+        Pair1 pair1;
+        static_assert(!std::is_move_constructible<Pair1>::value, "");
+
+        using Pair2 = hana::pair<NoMove_nonempty, NoMove_nonempty>;
+        Pair2 pair2;
+        static_assert(!std::is_move_constructible<Pair2>::value, "");
     }
 }

@@ -16,6 +16,19 @@ struct implicit_to {
     constexpr operator Target() const { return Target{}; }
 };
 
+struct NoCopy {
+    NoCopy() = default;
+    NoCopy(NoCopy const&) = delete;
+};
+
+// Note: It is also useful to check with a non-empty class, because that
+//       triggers different instantiations due to EBO.
+struct NoCopy_nonempty {
+    NoCopy_nonempty() = default;
+    NoCopy_nonempty(NoCopy_nonempty const&) = delete;
+    int i;
+};
+
 int main() {
     {
         typedef std::pair<int, short> P1;
@@ -66,5 +79,16 @@ int main() {
         constexpr hana::pair<double, long> p2 = p1;
         static_assert(hana::first(p2) == 3, "");
         static_assert(hana::second(p2) == 4, "");
+    }
+
+    // Make sure we don't define the copy constructor when it shouldn't be defined.
+    {
+        using Pair1 = hana::pair<NoCopy, NoCopy>;
+        Pair1 pair1;
+        static_assert(!std::is_copy_constructible<Pair1>::value, "");
+
+        using Pair2 = hana::pair<NoCopy_nonempty, NoCopy_nonempty>;
+        Pair2 pair2;
+        static_assert(!std::is_copy_constructible<Pair2>::value, "");
     }
 }
