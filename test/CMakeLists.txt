@@ -48,6 +48,7 @@ if (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     list(APPEND EXCLUDED_UNIT_TESTS
         "tuple/empty_member.cpp"
         "issues/github_202.cpp"
+        "detail/ebo.cpp"
     )
 endif()
 
