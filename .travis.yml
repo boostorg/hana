@@ -312,7 +312,7 @@ before_script:
   # Set the git identity (for pushing the documentation and the benchmarks)
   ############################################################################
   - git config --global user.name "Travis bot"
-  - git config --global user.email "ldionne.2@gmail.com"
+  - git config --global user.email "<>"
 
   ############################################################################
   # Go back to the root of the project and setup the build directory
