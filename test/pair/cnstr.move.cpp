@@ -29,6 +29,10 @@ struct MoveOnlyDerived : MoveOnly {
     MoveOnlyDerived(int data = 1) : MoveOnly(data) { }
 };
 
+template <typename Target>
+struct implicit_to {
+    constexpr operator Target() const { return Target{}; }
+};
 
 int main() {
     {
@@ -44,5 +48,23 @@ int main() {
         hana::pair<MoveOnly, long> p2 = std::move(p1);
         BOOST_HANA_RUNTIME_CHECK(hana::first(p2) == MoveOnly{3});
         BOOST_HANA_RUNTIME_CHECK(hana::second(p2) == 4);
+    }
+    {
+        struct target1 {
+            target1() = default;
+            target1(target1 const&) = delete;
+            target1(target1&&) = default;
+        };
+
+        struct target2 {
+            target2() = default;
+            target2(target2 const&) = delete;
+            target2(target2&&) = default;
+        };
+        using Target = hana::pair<target1, target2>;
+        Target p1(hana::make_pair(target1{}, target2{})); (void)p1;
+        Target p2(hana::make_pair(implicit_to<target1>{}, target2{}));
+        Target p3(hana::make_pair(target1{}, implicit_to<target2>{}));
+        Target p4(hana::make_pair(implicit_to<target1>{}, implicit_to<target2>{}));
     }
 }
