@@ -103,8 +103,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     >> {
         template <typename X, typename Y>
         static constexpr auto apply(X const&, Y const&) {
-            constexpr auto less = hana::less(hana::value<X>(), hana::value<Y>());
-            constexpr bool truth_value = hana::if_(less, true, false);
+            constexpr auto is_less = hana::less(hana::value<X>(), hana::value<Y>());
+            constexpr bool truth_value = hana::if_(is_less, true, false);
             return hana::bool_c<truth_value>;
         }
     };

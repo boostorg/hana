@@ -252,9 +252,9 @@ BOOST_HANA_NAMESPACE_BEGIN
 
         template <typename Map, typename Key>
         static constexpr auto apply(Map&& map, Key const& key) {
-            constexpr bool contains = hana::value<decltype(hana::contains(map, key))>();
+            constexpr bool contains_key = hana::value<decltype(hana::contains(map, key))>();
             return erase_key_helper(static_cast<Map&&>(map), key,
-                                    hana::bool_c<contains>);
+                                    hana::bool_c<contains_key>);
         }
     };
 

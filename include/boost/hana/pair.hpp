@@ -46,8 +46,8 @@ BOOST_HANA_NAMESPACE_BEGIN
             BOOST_HANA_TT_IS_CONSTRUCTIBLE(First, First const&, dummy...) &&
             BOOST_HANA_TT_IS_CONSTRUCTIBLE(Second, Second const&, dummy...)
         >::type>
-        constexpr pair(First const& first, Second const& second)
-            : storage_{first, second}
+        constexpr pair(First const& fst, Second const& snd)
+            : storage_{fst, snd}
         { }
 
         template <typename T, typename U, typename = typename std::enable_if<

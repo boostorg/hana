@@ -52,9 +52,10 @@ BOOST_HANA_NAMESPACE_BEGIN
             constexpr std::size_t lengths[] = {
                 decltype(hana::length(xs))::value...
             };
-            constexpr std::size_t min = *detail::min_element(lengths, lengths + sizeof...(xs));
+            constexpr std::size_t min_len =
+                *detail::min_element(lengths, lengths + sizeof...(xs));
             return hana::zip_with(static_cast<F&&>(f),
-                hana::take_front(static_cast<Xs&&>(xs), hana::size_c<min>)...
+                hana::take_front(static_cast<Xs&&>(xs), hana::size_c<min_len>)...
             );
         }
     };

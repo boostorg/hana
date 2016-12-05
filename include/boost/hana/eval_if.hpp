@@ -26,7 +26,7 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
     template <typename Cond, typename Then, typename Else>
-    constexpr decltype(auto) eval_if_t::operator()(Cond&& cond, Then&& then, Else&& else_) const {
+    constexpr decltype(auto) eval_if_t::operator()(Cond&& cond, Then&& then_, Else&& else_) const {
         using Bool = typename hana::tag_of<Cond>::type;
         using EvalIf = BOOST_HANA_DISPATCH_IF(eval_if_impl<Bool>,
             hana::Logical<Bool>::value
@@ -38,7 +38,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     #endif
 
         return EvalIf::apply(static_cast<Cond&&>(cond),
-                             static_cast<Then&&>(then),
+                             static_cast<Then&&>(then_),
                              static_cast<Else&&>(else_));
     }
     //! @endcond

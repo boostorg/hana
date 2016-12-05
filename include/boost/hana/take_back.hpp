@@ -57,10 +57,10 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N const&) {
             constexpr std::size_t n = N::value;
-            constexpr std::size_t size = decltype(hana::length(xs))::value;
-            constexpr std::size_t start = n < size ? size - n : 0;
+            constexpr std::size_t len = decltype(hana::length(xs))::value;
+            constexpr std::size_t start = n < len ? len - n : 0;
             return take_back_helper<start>(static_cast<Xs&&>(xs),
-                        std::make_index_sequence<(n < size ? n : size)>{});
+                        std::make_index_sequence<(n < len ? n : len)>{});
         }
     };
 BOOST_HANA_NAMESPACE_END
