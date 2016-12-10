@@ -92,7 +92,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
         template <typename F, typename Xs, std::size_t ...i>
         constexpr decltype(auto) invoke_impl(F&& f, Xs&& xs, std::index_sequence<i...>) {
-            return static_cast<F&&>(f)(hana::get_impl<i>(static_cast<Xs&&>(xs).storage_)...);
+            return static_cast<F&&>(f)(hana::at_c<i>(static_cast<Xs&&>(xs).storage_)...);
         }
 
         template <typename ...X>

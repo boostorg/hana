@@ -264,6 +264,22 @@ BOOST_HANA_NAMESPACE_BEGIN
         { return {}; }
     };
 
+    // compile-time optimizations (to reduce the # of function instantiations)
+    template <std::size_t n, typename ...Xs>
+    constexpr decltype(auto) at_c(basic_tuple<Xs...> const& xs) {
+        return hana::get_impl<n>(xs);
+    }
+
+    template <std::size_t n, typename ...Xs>
+    constexpr decltype(auto) at_c(basic_tuple<Xs...>& xs) {
+        return hana::get_impl<n>(xs);
+    }
+
+    template <std::size_t n, typename ...Xs>
+    constexpr decltype(auto) at_c(basic_tuple<Xs...>&& xs) {
+        return hana::get_impl<n>(static_cast<basic_tuple<Xs...>&&>(xs));
+    }
+
     //////////////////////////////////////////////////////////////////////////
     // Sequence
     //////////////////////////////////////////////////////////////////////////

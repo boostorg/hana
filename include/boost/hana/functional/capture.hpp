@@ -54,7 +54,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename F, typename Closure, std::size_t ...i>
         constexpr auto apply_capture(F&& f, Closure&& closure, std::index_sequence<i...>) {
             return hana::partial(static_cast<F&&>(f),
-                hana::get_impl<i>(static_cast<Closure&&>(closure).storage_)...
+                hana::at_c<i>(static_cast<Closure&&>(closure).storage_)...
             );
         }
     }

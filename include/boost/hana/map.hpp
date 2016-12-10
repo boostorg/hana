@@ -108,7 +108,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename Storage>
         struct KeyAtIndex {
             template <std::size_t i>
-            using apply = decltype(hana::first(hana::get_impl<i>(std::declval<Storage>())));
+            using apply = decltype(hana::first(hana::at_c<i>(std::declval<Storage>())));
         };
     }
 
