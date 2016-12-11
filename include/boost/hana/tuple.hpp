@@ -51,18 +51,23 @@ BOOST_HANA_NAMESPACE_BEGIN
 
         struct from_index_sequence_t { };
 
-        template <bool, typename Tuple, typename ...Yn>
+        template <typename Tuple, typename ...Yn>
+        struct is_same_tuple : std::false_type { };
+
+        template <typename Tuple>
+        struct is_same_tuple<typename detail::decay<Tuple>::type, Tuple>
+            : std::true_type
+        { };
+
+        template <bool SameTuple, bool SameNumberOfElements, typename Tuple, typename ...Yn>
         struct enable_tuple_variadic_ctor;
 
         template <typename ...Xn, typename ...Yn>
-        struct enable_tuple_variadic_ctor<true, hana::tuple<Xn...>, Yn...>
+        struct enable_tuple_variadic_ctor<false, true, hana::tuple<Xn...>, Yn...>
             : std::enable_if<
                 detail::fast_and<BOOST_HANA_TT_IS_CONSTRUCTIBLE(Xn, Yn&&)...>::value
             >
         { };
-
-        template <bool b, typename Yn>
-        struct enable_tuple_variadic_ctor<b, typename detail::decay<Yn>::type, Yn> { };
     }
 
     //////////////////////////////////////////////////////////////////////////
@@ -107,6 +112,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         { }
 
         template <typename ...Yn, typename = typename detail::enable_tuple_variadic_ctor<
+            detail::is_same_tuple<tuple, Yn...>::value,
             sizeof...(Xn) == sizeof...(Yn), tuple, Yn...
         >::type>
         constexpr tuple(Yn&& ...yn)
