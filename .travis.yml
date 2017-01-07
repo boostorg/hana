@@ -356,7 +356,7 @@ script:
 
         pushd doc/html
         git add --all .
-        git commit --allow-empty -m "Update to ${TRAVIS_COMMIT:0:7}"
+        git commit --allow-empty -m "Update documentation to ${TRAVIS_COMMIT:0:7}"
         # Suppress output to avoid leaking the token
         travis_retry git push origin gh-pages &>/dev/null
         popd
