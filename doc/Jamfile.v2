@@ -30,5 +30,5 @@ actions make-hana-doc {
 # [1]: http://www.boost.org/development/requirements.html#Requirements
 alias boostdoc ;
 explicit boostdoc ;
-alias boostrelease ;
+alias boostrelease : hana-doc ;
 explicit boostrelease ;

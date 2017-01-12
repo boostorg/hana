@@ -367,6 +367,7 @@ script:
     if [[ "${DOCUMENTATION}" == "true" && "${BOOST_BUILD}" == "true" ]]; then
       touch Jamroot
       (cd doc && b2)
+      if [[ ! -d doc/html ]]; then exit 1; fi
     fi
 
   ############################################################################
