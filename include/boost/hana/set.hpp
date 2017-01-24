@@ -72,6 +72,7 @@ BOOST_HANA_NAMESPACE_BEGIN
             : storage(static_cast<tuple<Xs...>&&>(xs))
         { }
 
+        constexpr set() = default;
         constexpr set(set const& other) = default;
         constexpr set(set&& other) = default;
     };
