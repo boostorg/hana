@@ -251,10 +251,20 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
 
         template <typename Map, typename Key>
-        static constexpr auto apply(Map&& map, Key const& key) {
-            constexpr bool contains_key = hana::value<decltype(hana::contains(map, key))>();
+        static constexpr auto apply_impl(Map&& map, Key const& key, hana::false_) {
             return erase_key_helper(static_cast<Map&&>(map), key,
-                                    hana::bool_c<contains_key>);
+                                    hana::contains(map, key));
+        }
+
+        template <typename Map, typename Key>
+        static constexpr auto apply_impl(Map&& map, Key const&, hana::true_) {
+            return static_cast<Map&&>(map);
+        }
+
+        template <typename Map, typename Key>
+        static constexpr auto apply(Map&& map, Key const& key) {
+            constexpr bool is_empty = decltype(hana::length(map))::value == 0;
+            return apply_impl(static_cast<Map&&>(map), key, hana::bool_<is_empty>{});
         }
     };
 
@@ -322,6 +332,20 @@ BOOST_HANA_NAMESPACE_BEGIN
                     hana::compose(static_cast<Pred&&>(pred), hana::first)),
                 hana::second
             );
+        }
+    };
+
+    template <>
+    struct contains_impl<map_tag> {
+        template <typename Map, typename Key>
+        static constexpr auto apply(Map const&, Key const&) {
+            using RawMap = typename std::remove_reference<Map>::type;
+            using HashTable = typename RawMap::hash_table_type;
+            using Storage = typename RawMap::storage_type;
+            using MaybeIndex = typename detail::find_index<
+                HashTable, Key, detail::KeyAtIndex<Storage>::template apply
+            >::type;
+            return hana::bool_<!decltype(hana::is_nothing(MaybeIndex{}))::value>{};
         }
     };
 
