@@ -17,8 +17,6 @@ if (NOT Boost_FOUND)
     list(APPEND EXCLUDED_PUBLIC_HEADERS
         "boost/hana/ext/boost/.+.hpp"
         "boost/hana/ext/boost.hpp"
-        "boost/hana/fwd/ext/boost/.+.hpp"
-        "boost/hana/fwd/ext/boost.hpp"
         "boost/hana/experimental/printable.hpp")
 endif()
 
