@@ -243,16 +243,18 @@ install:
     fi
 
   ############################################################################
-  # Install a recent CMake (unless already installed on OS X)
+  # Install a recent CMake
   ############################################################################
   - |
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
-      CMAKE_URL="http://www.cmake.org/files/v3.5/cmake-3.5.2-Linux-x86_64.tar.gz"
+      CMAKE_URL="https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.tar.gz"
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
     else
-      if ! brew ls --version cmake &>/dev/null; then brew install cmake; fi
+      brew install cmake
+      brew upgrade cmake
     fi
+  - cmake --version
 
   ############################################################################
   # Install Boost.Build
@@ -290,6 +292,7 @@ install:
       export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${LLVM_DIR}/install/lib"
       export PATH="${LLVM_DIR}/clang/bin:${PATH}"
     fi
+  - ${CXX} --version
 
   ############################################################################
   # Install a recent Doxygen
@@ -299,6 +302,7 @@ install:
       DOXYGEN_URL="http://ftp.stack.nl/pub/users/dimitri/doxygen-1.8.11.linux.bin.tar.gz"
       mkdir doxygen && travis_retry wget --quiet -O - ${DOXYGEN_URL} | tar --strip-components=1 -xz -C doxygen
       export PATH=${DEPS_DIR}/doxygen/bin:${PATH}
+      doxygen --version
     fi
 
   ############################################################################
@@ -324,7 +328,7 @@ before_script:
   # Go back to the root of the project and setup the build directory
   ############################################################################
   - cd ${TRAVIS_BUILD_DIR}
-  - (mkdir build && cd build && cmake .. -DBOOST_HANA_ENABLE_WERROR=ON ${CMAKE_OPTIONS})
+  - (mkdir build && cd build && cmake .. ${CMAKE_OPTIONS})
 
 
 script:

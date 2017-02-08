@@ -38,12 +38,16 @@ list(REMOVE_ITEM EXAMPLES "" ${EXCLUDED_EXAMPLES})
 # are useful for illustration, even if the implementation is not actually
 # presented. We don't want to generate warnings for that or need to comment
 # out all unused parameter names.
-boost_hana_append_flag(BOOST_HANA_HAS_WNO_UNUSED_PARAMETER -Wno-unused-parameter)
+include(CheckCXXCompilerFlag)
+check_cxx_compiler_flag(-Wno-unused-parameter BOOST_HANA_HAS_WNO_UNUSED_PARAMETER)
 
 foreach(_file IN LISTS EXAMPLES)
     boost_hana_target_name_for(_target "${_file}")
     add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
-    target_link_libraries(${_target} hana)
     add_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
+    boost_hana_set_test_properties(${_target})
+    if (BOOST_HANA_HAS_WNO_UNUSED_PARAMETER)
+        target_compile_options(${_target} PRIVATE -Wno-unused-parameter)
+    endif()
     add_dependencies(examples ${_target})
 endforeach()
