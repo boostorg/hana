@@ -15,13 +15,13 @@ namespace hana = boost::hana;
 
 int main() {
     auto m = hana::make_map(
-        hana::make_pair(hana::type_c<int>, std::string{"int"}),
-        hana::make_pair(hana::int_c<3>, std::string{"3"})
+        hana::make_pair(hana::type<int>{}, std::string{"int"}),
+        hana::make_pair(hana::int_<3>{}, std::string{"3"})
     );
 
-    BOOST_HANA_RUNTIME_CHECK(hana::at_key(m, hana::type_c<int>) == "int");
+    BOOST_HANA_RUNTIME_CHECK(hana::at_key(m, hana::type<int>{}) == "int");
 
     // usage as operator[]
-    BOOST_HANA_RUNTIME_CHECK(m[hana::type_c<int>] == "int");
-    BOOST_HANA_RUNTIME_CHECK(m[hana::int_c<3>] == "3");
+    BOOST_HANA_RUNTIME_CHECK(m[hana::type<int>{}] == "int");
+    BOOST_HANA_RUNTIME_CHECK(m[hana::int_<3>{}] == "3");
 }

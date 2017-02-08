@@ -83,7 +83,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr decltype(auto) apply(Cond const&, Then&& t, Else&& e) {
             constexpr auto cond = hana::value<Cond>();
             constexpr bool truth_value = hana::if_(cond, true, false);
-            return eval_if_helper(hana::bool_c<truth_value>,
+            return eval_if_helper(hana::bool_<truth_value>{},
                                   static_cast<Then&&>(t),
                                   static_cast<Else&&>(e));
         }
