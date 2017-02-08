@@ -38,7 +38,6 @@ target_include_directories(hana INTERFACE include)
 # Setup CMake options
 ##############################################################################
 option(BOOST_HANA_ENABLE_WERROR   "Fail and stop if a warning is triggered." OFF)
-option(BOOST_HANA_ENABLE_MEMCHECK "Run the unit tests and examples under Valgrind if it is found." OFF)
 option(BOOST_HANA_ENABLE_CONCEPT_CHECKS "Enable concept checking in the interface methods." ON)
 option(BOOST_HANA_ENABLE_DEBUG_MODE "Enable Hana's debug mode." OFF)
 
@@ -143,22 +142,6 @@ function(boost_hana_target_name_for out file)
     set(${out} "${_name}" PARENT_SCOPE)
 endfunction()
 
-#   boost_hana_add_test(<name> <command> [<arg>...])
-#
-# Creates a test called `name`, which runs the given `command` with the given
-# `arg`uments. However, if `BOOST_HANA_ENABLE_MEMCHECK` is set to `ON`, the
-# test will run the provided command under the memory checker.
-if (BOOST_HANA_ENABLE_MEMCHECK)
-    find_package(Valgrind REQUIRED)
-    function(boost_hana_add_test name)
-        add_test(${name} ${Valgrind_EXECUTABLE} --leak-check=full --error-exitcode=1 ${ARGN})
-    endfunction()
-else()
-    function(boost_hana_add_test name)
-        add_test(${name} ${ARGN})
-    endfunction()
-endif()
-
 
 ##############################################################################
 # Setup the `check` target to build and then run all the tests and examples.
@@ -170,9 +153,18 @@ add_custom_target(check
 
 
 ##############################################################################
-# Setup subdirectories
+# Setup subdirectories and testing
 ##############################################################################
 enable_testing()
+find_program(MEMORYCHECK_COMMAND valgrind)
+if (MEMORYCHECK_COMMAND)
+    message(STATUS "Found Valgrind: ${MEMORYCHECK_COMMAND}")
+    set(MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --error-exitcode=1")
+else()
+    message("Valgrind not found")
+endif()
+include(CTest)
+
 add_subdirectory(benchmark)
 add_subdirectory(doc)
 add_subdirectory(example)

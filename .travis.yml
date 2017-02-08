@@ -65,31 +65,31 @@ matrix:
     ##########################################################################
     # Clang 3.5
     # TODO: Find out why this fails to compile the test suite.
-    # - env: UNIT_TESTS=true LLVM_VERSION=3.5.2 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
+    # - env: UNIT_TESTS=true LLVM_VERSION=3.5.2 BOOST_VERSION=default ENABLE_MEMCHECK=true
 
     # Clang 3.6
     - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=3.6.2 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
+      env: UNIT_TESTS=true LLVM_VERSION=3.6.2 BOOST_VERSION=default ENABLE_MEMCHECK=true
       compiler: clang
 
     # Clang 3.7
     - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=3.7.1 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
+      env: UNIT_TESTS=true LLVM_VERSION=3.7.1 BOOST_VERSION=default ENABLE_MEMCHECK=true
       compiler: clang
 
     # Clang 3.8
     - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=3.8.0 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
+      env: UNIT_TESTS=true LLVM_VERSION=3.8.0 BOOST_VERSION=default ENABLE_MEMCHECK=true
       compiler: clang
 
     # Clang 3.9
     - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=3.9.0 BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
+      env: UNIT_TESTS=true LLVM_VERSION=3.9.0 BOOST_VERSION=default ENABLE_MEMCHECK=true
       compiler: clang
 
     # GCC 6
     - os: linux
-      env: UNIT_TESTS=true COMPILER=g++-6     BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_MEMCHECK=ON"
+      env: UNIT_TESTS=true COMPILER=g++-6     BOOST_VERSION=default ENABLE_MEMCHECK=true
       compiler: gcc
 
     # Xcode 6.4
@@ -416,8 +416,12 @@ script:
   ############################################################################
   - |
     if [[ "${UNIT_TESTS}" == "true" && "${BOOST_BUILD}" != "true" ]]; then
-      export CTEST_PARALLEL_LEVEL=2 # Run unit tests on two cores
-      (cd build && make check -j2 -k)
+      (cd build && make tests examples experimental -j2 -k) &&
+      if [[ "${ENABLE_MEMCHECK}" == "true" ]]; then
+        (cd build && ctest --output-on-failure -j2 -D ExperimentalMemCheck)
+      else
+        (cd build && ctest --output-on-failure -j2)
+      fi
     fi
 
   - |
