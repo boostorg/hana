@@ -185,7 +185,8 @@ new version of the library. This is only relevant to Hana's developers. To
 release a new version of the library, create an annotated tag using `git tag -a`.
 Then, push the tag and create a new GitHub release pointing to that tag.
 Once that is done, bump the version number in `include/boost/hana/version.hpp`
-so that it matches the next planned release.
+so that it matches the next planned release. Finally, do not forget to update
+the [Homebrew formula][] to point to the latest version.
 
 
 <!-- Links -->
@@ -201,4 +202,5 @@ so that it matches the next planned release.
 [eRuby]: http://en.wikipedia.org/wiki/ERuby
 [Hana.docs]: http://boostorg.github.io/hana
 [Hana.wiki]: https://github.com/boostorg/hana/wiki
+[Homebrew formula]: https://github.com/Homebrew/homebrew-core/blob/master/Formula/hana.rb
 [MPL11]: http://github.com/ldionne/mpl11
