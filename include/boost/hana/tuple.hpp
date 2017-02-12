@@ -44,7 +44,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename Xs, typename Ys, std::size_t ...n>
         constexpr void assign(Xs& xs, Ys&& ys, std::index_sequence<n...>) {
             int sequence[] = {int{}, ((void)(
-                hana::get_impl<n>(xs) = hana::get_impl<n>(static_cast<Ys&&>(ys))
+                hana::at_c<n>(xs) = hana::at_c<n>(static_cast<Ys&&>(ys))
             ), int{})...};
             (void)sequence;
         }
@@ -93,7 +93,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     private:
         template <typename Other, std::size_t ...n>
         explicit constexpr tuple(detail::from_index_sequence_t, std::index_sequence<n...>, Other&& other)
-            : storage_(hana::get_impl<n>(static_cast<Other&&>(other))...)
+            : storage_(hana::at_c<n>(static_cast<Other&&>(other))...)
         { }
 
     public:
@@ -240,7 +240,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const&) {
             constexpr std::size_t index = N::value;
-            return hana::get_impl<index>(static_cast<Xs&&>(xs).storage_);
+            return hana::at_c<index>(static_cast<Xs&&>(xs).storage_);
         }
     };
 
@@ -270,17 +270,17 @@ BOOST_HANA_NAMESPACE_BEGIN
     // compile-time optimizations (to reduce the # of function instantiations)
     template <std::size_t n, typename ...Xs>
     constexpr decltype(auto) at_c(tuple<Xs...> const& xs) {
-        return hana::get_impl<n>(xs.storage_);
+        return hana::at_c<n>(xs.storage_);
     }
 
     template <std::size_t n, typename ...Xs>
     constexpr decltype(auto) at_c(tuple<Xs...>& xs) {
-        return hana::get_impl<n>(xs.storage_);
+        return hana::at_c<n>(xs.storage_);
     }
 
     template <std::size_t n, typename ...Xs>
     constexpr decltype(auto) at_c(tuple<Xs...>&& xs) {
-        return hana::get_impl<n>(static_cast<tuple<Xs...>&&>(xs).storage_);
+        return hana::at_c<n>(static_cast<tuple<Xs...>&&>(xs).storage_);
     }
 
     //////////////////////////////////////////////////////////////////////////

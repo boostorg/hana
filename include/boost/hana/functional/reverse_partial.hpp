@@ -73,25 +73,25 @@ BOOST_HANA_NAMESPACE_BEGIN
 
         template <typename ...Y>
         constexpr decltype(auto) operator()(Y&& ...y) const& {
-            return hana::get_impl<0>(storage_)(
+            return hana::at_c<0>(storage_)(
                 static_cast<Y&&>(y)...,
-                hana::get_impl<n+1>(storage_)...
+                hana::at_c<n+1>(storage_)...
             );
         }
 
         template <typename ...Y>
         constexpr decltype(auto) operator()(Y&& ...y) & {
-            return hana::get_impl<0>(storage_)(
+            return hana::at_c<0>(storage_)(
                 static_cast<Y&&>(y)...,
-                hana::get_impl<n+1>(storage_)...
+                hana::at_c<n+1>(storage_)...
             );
         }
 
         template <typename ...Y>
         constexpr decltype(auto) operator()(Y&& ...y) && {
-            return static_cast<F&&>(hana::get_impl<0>(storage_))(
+            return static_cast<F&&>(hana::at_c<0>(storage_))(
                 static_cast<Y&&>(y)...,
-                static_cast<X&&>(hana::get_impl<n+1>(storage_))...
+                static_cast<X&&>(hana::at_c<n+1>(storage_))...
             );
         }
     };

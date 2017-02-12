@@ -27,6 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/fast_and.hpp>
 #include <boost/hana/detail/has_duplicates.hpp>
 #include <boost/hana/detail/hash_table.hpp>
+#include <boost/hana/detail/intrinsics.hpp>
 #include <boost/hana/detail/operators/adl.hpp>
 #include <boost/hana/detail/operators/comparable.hpp>
 #include <boost/hana/detail/operators/searchable.hpp>
@@ -73,6 +74,33 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     namespace detail {
+        template <typename ...>
+        struct storage_is_default_constructible;
+        template <typename ...T>
+        struct storage_is_default_constructible<hana::basic_tuple<T...>> {
+            static constexpr bool value = detail::fast_and<
+                BOOST_HANA_TT_IS_CONSTRUCTIBLE(T)...
+            >::value;
+        };
+
+        template <typename ...>
+        struct storage_is_copy_constructible;
+        template <typename ...T>
+        struct storage_is_copy_constructible<hana::basic_tuple<T...>> {
+            static constexpr bool value = detail::fast_and<
+                BOOST_HANA_TT_IS_CONSTRUCTIBLE(T, T const&)...
+            >::value;
+        };
+
+        template <typename ...>
+        struct storage_is_move_constructible;
+        template <typename ...T>
+        struct storage_is_move_constructible<hana::basic_tuple<T...>> {
+            static constexpr bool value = detail::fast_and<
+                BOOST_HANA_TT_IS_CONSTRUCTIBLE(T, T&&)...
+            >::value;
+        };
+
         template <typename HashTable, typename Storage>
         struct map_impl
             : detail::searchable_operators<map_impl<HashTable, Storage>>
@@ -99,16 +127,46 @@ BOOST_HANA_NAMESPACE_BEGIN
                 : storage(static_cast<Storage&&>(xs))
             { }
 
-            constexpr map_impl() = default;
-            constexpr map_impl(map_impl const& other) = default;
-            constexpr map_impl(map_impl&& other) = default;
+            template <typename ...Dummy, typename = typename std::enable_if<
+                detail::storage_is_default_constructible<Storage, Dummy...>::value
+            >::type>
+            constexpr map_impl()
+                : storage()
+            { }
+
+            template <typename ...Dummy, typename = typename std::enable_if<
+                detail::storage_is_copy_constructible<Storage, Dummy...>::value
+            >::type>
+            constexpr map_impl(map_impl const& other)
+                : storage(other.storage)
+            { }
+
+            template <typename ...Dummy, typename = typename std::enable_if<
+                detail::storage_is_move_constructible<Storage, Dummy...>::value
+            >::type>
+            constexpr map_impl(map_impl&& other)
+                : storage(static_cast<Storage&&>(other.storage))
+            { }
+
+            // Prevent the compiler from defining the default copy and move
+            // constructors, which interfere with the SFINAE above.
+            ~map_impl() = default;
         };
         //! @endcond
 
         template <typename Storage>
         struct KeyAtIndex {
             template <std::size_t i>
-            using apply = decltype(hana::first(hana::get_impl<i>(std::declval<Storage>())));
+            using apply = decltype(hana::first(hana::at_c<i>(std::declval<Storage>())));
+        };
+
+        template <typename ...Pairs>
+        struct make_map_type {
+            using Storage = hana::basic_tuple<Pairs...>;
+            using HashTable = typename detail::make_hash_table<
+                detail::KeyAtIndex<Storage>::template apply, sizeof...(Pairs)
+            >::type;
+            using type = detail::map_impl<HashTable, Storage>;
         };
     }
 
@@ -146,14 +204,8 @@ BOOST_HANA_NAMESPACE_BEGIN
             "hana::make_map({keys, values}...) requires all the keys to have different hashes");
 #endif
 
-            using Storage = hana::basic_tuple<typename detail::decay<Pairs>::type...>;
-            using HashTable = typename detail::make_hash_table<
-                detail::KeyAtIndex<Storage>::template apply, sizeof...(Pairs)
-            >::type;
-
-            return detail::map_impl<HashTable, Storage>{
-                hana::make_basic_tuple(static_cast<Pairs&&>(pairs)...)
-            };
+            using Map = typename detail::make_map_type<typename detail::decay<Pairs>::type...>::type;
+            return Map{hana::make_basic_tuple(static_cast<Pairs&&>(pairs)...)};
         }
     };
 

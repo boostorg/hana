@@ -46,8 +46,10 @@ endif()
 # properly. We disable the tests that check for EBO.
 if (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     list(APPEND EXCLUDED_UNIT_TESTS
-        "tuple/empty_member.cpp"
+        "detail/ebo.cpp"
         "issues/github_202.cpp"
+        "pair/empty_storage.cpp"
+        "tuple/empty_member.cpp"
     )
 endif()
 

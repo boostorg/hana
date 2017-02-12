@@ -17,13 +17,16 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/insert.hpp>
 #include <boost/hana/fwd/keys.hpp>
 
-#include <utility>
-
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! Tag representing `hana::map`s.
     //! @relates hana::map
     struct map_tag { };
+
+    namespace detail {
+        template <typename ...Pairs>
+        struct make_map_type;
+    }
 
     //! @ingroup group-datatypes
     //! Basic associative container requiring unique, `Comparable` and
@@ -42,7 +45,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! - the fact that `hana::map<Pairs...>` is, or is not, a dependent type
     //!
     //! In particular, the last point is very important; `hana::map<Pairs...>`
-    //! is only a shortcut for
+    //! is basically equivalent to
     //! @code
     //!     decltype(hana::make_pair(std::declval<Pairs>()...))
     //! @endcode
@@ -120,7 +123,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 #else
     template <typename ...Pairs>
-    using map = decltype(hana::make<map_tag>(std::declval<Pairs>()...));
+    using map = typename detail::make_map_type<Pairs...>::type;
 #endif
 
     //! Function object for creating a `hana::map`.
