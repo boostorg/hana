@@ -4074,7 +4074,7 @@ modified as little as possible to work with this reimplementation.
 
 
 <!-- Links -->
-[Boost.Devel]: http://news.gmane.org/gmane.comp.lib.boost.devel
+[Boost.Devel]: http://lists.boost.org/Archives/boost
 [Boost.Fusion]: http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html
 [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
 [Boost.Steering]: https://sites.google.com/a/boost.org/steering/home
@@ -4105,7 +4105,7 @@ modified as little as possible to work with this reimplementation.
 [Hana.wiki]: https://github.com/boostorg/hana/wiki
 [Homebrew]: http://brew.sh
 [lie-to-children]: http://en.wikipedia.org/wiki/Lie-to-children
-[Metabench]: https://ldionne.github.io/metabench
+[Metabench]: http://metaben.ch
 [MPL.arithmetic]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html
 [MPL.metafunction]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction.html
 [MPL.mfc]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction-class.html
