@@ -44,43 +44,54 @@ and the standard library.
 ------------------------------------------------------------------------------
 Hana is a header-only library without external dependencies (not even the rest
 of Boost). Hence, using Hana in your own project is very easy. Basically, just
-add the `include/` directory to your compiler's header search path and you are
-done. However, if you want to cleanly install Hana on your system, you have a
-couple of options. First, you can install Boost 1.61.0 or later, since Hana is
-included in Boost starting with that release. If you do not want to install all
-of Boost, it is also possible to install Hana only. To do so, you can download
-the code from the official GitHub [repository][Hana.repository] and install the
-library manually by issuing the following commands from the root of the project
-(requires [CMake][]):
+download the project and add the `include/` directory to your compiler's header
+search path and you are done. However, if you want to cleanly install Hana, you
+have a couple of options:
 
+1. __Install Boost__\n
+Hana is included in the [Boost][] distribution starting from Boost 1.61.0, so
+installing that will give you access to Hana.
+
+2. __Install locally for CMake projects__\n
+If you use CMake in a project, you can use the provided [FindHana.cmake][Hana.findmodule]
+module to setup Hana as an external CMake project. The module allows using an
+already-installed version of Hana, or installing Hana locally to your CMake
+project, without needing a system-wide installation.
+
+3. __Use Homebrew__\n
+On Mac OS, Hana can be installed with [Homebrew][]:
+@code{.sh}
+brew install hana
+@endcode
+
+4. __Install manually__\n
+You can download the code from the official GitHub [repository][Hana.repository]
+and install the library manually by issuing the following commands from the root
+of the project (requires [CMake][]):
 @code{.sh}
 mkdir build && cd build
 cmake ..
 cmake --build . --target install
 @endcode
-
 This will install Hana to the default install-directory for your platform
 (`/usr/local` for Unix, `C:/Program Files` for Windows). If you want to
 install Hana in a custom location, you can use
-
 @code{.sh}
 cmake .. -DCMAKE_INSTALL_PREFIX=/custom/install/prefix
 @endcode
 
 @note
-- The manual installation will also install a `hana.pc` file for use
-with [pkg-config][].
+- Both the manual installation and the Homebrew installation will also install
+a `hana.pc` file for use with [pkg-config][].
 
-- Do not install Hana as shown above if you already have an installation of
-Boost, because the new installation will overwrite the one that comes with
-Boost.
+- Do not mix a system-wide installation of Hana with a system-wide installation
+of Boost, because both installations will clash. You won't know which version of
+Hana is being used, and that could break libraries that depend on the version of
+Hana provided with Boost (or vice-versa). Generally speaking, you should favor
+local installations whenever possible.
 
-If you use CMake in a project, you can use the provided [FindHana.cmake][Hana.findmodule]
-module to setup Hana as an external CMake project. The module also allows
-installing Hana locally to that project, without needing to install Hana on
-the system per the above instructions. Finally, if you want to contribute to
-Hana, you can see how to best setup your environment for development in the
-[README][Hana.hacking].
+Finally, if you want to contribute to Hana, you can see how to best setup your
+environment for development in the [README][Hana.hacking].
 
 @subsection tutorial-installation-requirements Compiler requirements
 
@@ -4067,6 +4078,7 @@ modified as little as possible to work with this reimplementation.
 [Boost.Fusion]: http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html
 [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
 [Boost.Steering]: https://sites.google.com/a/boost.org/steering/home
+[Boost]: http://www.boost.org
 [Brigand]: https://github.com/edouarda/brigand
 [C++14.auto_rt]: http://en.wikipedia.org/wiki/C%2B%2B14#Function_return_type_deduction
 [C++14.gconstexpr]: http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions
