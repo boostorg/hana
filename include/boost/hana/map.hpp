@@ -101,6 +101,24 @@ BOOST_HANA_NAMESPACE_BEGIN
             >::value;
         };
 
+        template <typename ...>
+        struct storage_is_copy_assignable;
+        template <typename ...T>
+        struct storage_is_copy_assignable<hana::basic_tuple<T...>> {
+            static constexpr bool value = detail::fast_and<
+                BOOST_HANA_TT_IS_ASSIGNABLE(T, T const&)...
+            >::value;
+        };
+
+        template <typename ...>
+        struct storage_is_move_assignable;
+        template <typename ...T>
+        struct storage_is_move_assignable<hana::basic_tuple<T...>> {
+            static constexpr bool value = detail::fast_and<
+                BOOST_HANA_TT_IS_ASSIGNABLE(T, T&&)...
+            >::value;
+        };
+
         template <typename HashTable, typename Storage>
         struct map_impl
             : detail::searchable_operators<map_impl<HashTable, Storage>>
@@ -147,6 +165,22 @@ BOOST_HANA_NAMESPACE_BEGIN
             constexpr map_impl(map_impl&& other)
                 : storage(static_cast<Storage&&>(other.storage))
             { }
+
+            template <typename ...Dummy, typename = typename std::enable_if<
+                detail::storage_is_move_assignable<Storage, Dummy...>::value
+            >::type>
+            constexpr map_impl& operator=(map_impl&& other) {
+                storage = static_cast<Storage&&>(other.storage);
+                return *this;
+            }
+
+            template <typename ...Dummy, typename = typename std::enable_if<
+                detail::storage_is_copy_assignable<Storage, Dummy...>::value
+            >::type>
+            constexpr map_impl& operator=(map_impl const& other) {
+                storage = other.storage;
+                return *this;
+            }
 
             // Prevent the compiler from defining the default copy and move
             // constructors, which interfere with the SFINAE above.

@@ -109,6 +109,14 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename ...P>
         explicit constexpr map(P&& ...pairs);
 
+        //! Assign a map to another map __with the exact same type__. Only
+        //! exists when all the elements of the map are copy-assignable.
+        constexpr map& operator=(map const& other);
+
+        //! Move-assign a map to another map __with the exact same type__.
+        //! Only exists when all the elements of the map are move-assignable.
+        constexpr map& operator=(map&& other);
+
         //! Equivalent to `hana::equal`
         template <typename X, typename Y>
         friend constexpr auto operator==(X&& x, Y&& y);
