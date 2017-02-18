@@ -23,6 +23,10 @@
 namespace hana = boost::hana;
 
 
+// A naive implementation of a lazy compile-time list, i.e. a tuple that can
+// potentially have an infinite number of elements (but that infinity must be
+// determinable at compile-time).
+
 struct LazyList;
 
 template <typename X, typename Xs>

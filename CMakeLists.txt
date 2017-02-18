@@ -174,7 +174,6 @@ include(CTest)
 add_subdirectory(benchmark)
 add_subdirectory(doc)
 add_subdirectory(example)
-add_subdirectory(experimental)
 add_subdirectory(test)
 
 

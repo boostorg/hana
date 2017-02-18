@@ -12,14 +12,21 @@
 #include <boost/hana/tuple.hpp>
 
 #include <cstddef>
+#include <functional>
 namespace hana = boost::hana;
 
+
+// A tuple that holds reference_wrappers to its elements, instead of the
+// elements themselves.
 
 struct RefTuple { };
 
 template <typename ...T>
-struct ref_tuple {
-    hana::tuple<T&...> storage_;
+struct ref_tuple;
+
+template <typename ...T>
+struct ref_tuple<T&...> {
+    hana::tuple<std::reference_wrapper<T>...> storage_;
 };
 
 
@@ -32,8 +39,8 @@ namespace boost { namespace hana {
     template <>
     struct make_impl<RefTuple> {
         template <typename ...T>
-        static constexpr auto apply(T&& ...t) {
-            return ref_tuple<T...>{{t...}};
+        static constexpr auto apply(T& ...t) {
+            return ref_tuple<T&...>{{std::ref(t)...}};
         }
     };
 
@@ -41,7 +48,7 @@ namespace boost { namespace hana {
     struct at_impl<RefTuple> {
         template <typename Xs, typename N>
         static constexpr decltype(auto) apply(Xs&& xs, N const& n) {
-            return hana::at(static_cast<Xs&&>(xs).storage_, n);
+            return hana::at(static_cast<Xs&&>(xs).storage_, n).get();
         }
     };
 
@@ -57,7 +64,7 @@ namespace boost { namespace hana {
     struct drop_front_impl<RefTuple> {
         template <std::size_t n, typename T, typename ...U, std::size_t ...i>
         static constexpr auto helper(ref_tuple<T, U...> xs, std::index_sequence<i...>) {
-            return hana::make<RefTuple>(hana::at_c<n + i>(xs.storage_)...);
+            return hana::make<RefTuple>(hana::at_c<n + i>(xs.storage_).get()...);
         }
 
         template <typename ...T, typename N>
@@ -67,13 +74,13 @@ namespace boost { namespace hana {
             )>{});
         }
     };
-}}
+}} // end namespace boost::hana
 
 
 int main() {
     int i = 0, j = 1, k = 2;
 
-    auto refs = hana::make<RefTuple>(i, j, k);
+    ref_tuple<int&, int&, int&> refs = hana::make<RefTuple>(i, j, k);
     hana::at_c<0>(refs) = 3;
     BOOST_HANA_RUNTIME_CHECK(i == 3);
 

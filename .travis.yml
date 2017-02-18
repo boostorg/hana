@@ -339,7 +339,7 @@ script:
     if [[ "${CHECK_FORMATTING}" == "true" ]]; then
       # Find non-ASCII characters in headers
       hpps=$(find include doc -name \*\.hpp)
-      cpps=$(find test example experimental -name \*\.cpp)
+      cpps=$(find test example -name \*\.cpp)
       pcregrep --color='auto' -n "[\x80-\xFF]" ${hpps} ${cpps}
       if [[ $? -ne 1 ]]; then exit 1; fi
 
@@ -420,7 +420,7 @@ script:
   ############################################################################
   - |
     if [[ "${UNIT_TESTS}" == "true" && "${BOOST_BUILD}" != "true" ]]; then
-      (cd build && make tests examples experimental -j2 -k) &&
+      (cd build && make tests examples -j2 -k) &&
       if [[ "${ENABLE_MEMCHECK}" == "true" ]]; then
         (cd build && ctest --output-on-failure -j2 -D ExperimentalMemCheck)
       else
