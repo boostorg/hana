@@ -1,4 +1,4 @@
-// Copyright Louis Dionne 2013-2016
+// Copyright Louis Dionne 2013-2017
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
@@ -36,6 +36,8 @@
 namespace hana = boost::hana;
 
 
+// An interesting way of implementing tuple using lambda captures.
+
 struct lambda_tuple_tag { };
 
 template <typename Storage>
@@ -48,7 +50,7 @@ struct lambda_tuple_t {
     Storage storage;
 };
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto lambda_tuple = [](auto ...xs) -> decltype(auto) {
+auto lambda_tuple = [](auto ...xs) {
     auto storage = [=](auto f) -> decltype(auto) { return f(xs...); };
     return lambda_tuple_t<decltype(storage)>{std::move(storage)};
 };
@@ -61,8 +63,7 @@ namespace boost { namespace hana {
     struct unpack_impl<lambda_tuple_tag> {
         template <typename Xs, typename F>
         static constexpr decltype(auto) apply(Xs&& xs, F&& f) {
-            return static_cast<Xs&&>(xs)
-                    .storage(static_cast<F&&>(f));
+            return static_cast<Xs&&>(xs).storage(static_cast<F&&>(f));
         }
     };
 

@@ -1,4 +1,4 @@
-// Copyright Louis Dionne 2013-2016
+// Copyright Louis Dionne 2013-2017
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
@@ -44,43 +44,54 @@ and the standard library.
 ------------------------------------------------------------------------------
 Hana is a header-only library without external dependencies (not even the rest
 of Boost). Hence, using Hana in your own project is very easy. Basically, just
-add the `include/` directory to your compiler's header search path and you are
-done. However, if you want to cleanly install Hana on your system, you have a
-couple of options. First, you can install Boost 1.61.0 or later, since Hana is
-included in Boost starting with that release. If you do not want to install all
-of Boost, it is also possible to install Hana only. To do so, you can download
-the code from the official GitHub [repository][Hana.repository] and install the
-library manually by issuing the following commands from the root of the project
-(requires [CMake][]):
+download the project and add the `include/` directory to your compiler's header
+search path and you are done. However, if you want to cleanly install Hana, you
+have a couple of options:
 
+1. __Install Boost__\n
+Hana is included in the [Boost][] distribution starting from Boost 1.61.0, so
+installing that will give you access to Hana.
+
+2. __Install locally for CMake projects__\n
+If you use CMake in a project, you can use the provided [FindHana.cmake][Hana.findmodule]
+module to setup Hana as an external CMake project. The module allows using an
+already-installed version of Hana, or installing Hana locally to your CMake
+project, without needing a system-wide installation.
+
+3. __Use Homebrew__\n
+On Mac OS, Hana can be installed with [Homebrew][]:
+@code{.sh}
+brew install hana
+@endcode
+
+4. __Install manually__\n
+You can download the code from the official GitHub [repository][Hana.repository]
+and install the library manually by issuing the following commands from the root
+of the project (requires [CMake][]):
 @code{.sh}
 mkdir build && cd build
 cmake ..
 cmake --build . --target install
 @endcode
-
 This will install Hana to the default install-directory for your platform
 (`/usr/local` for Unix, `C:/Program Files` for Windows). If you want to
 install Hana in a custom location, you can use
-
 @code{.sh}
 cmake .. -DCMAKE_INSTALL_PREFIX=/custom/install/prefix
 @endcode
 
 @note
-- The manual installation will also install a `hana.pc` file for use
-with [pkg-config][].
+- Both the manual installation and the Homebrew installation will also install
+a `hana.pc` file for use with [pkg-config][].
 
-- Do not install Hana as shown above if you already have an installation of
-Boost, because the new installation will overwrite the one that comes with
-Boost.
+- Do not mix a system-wide installation of Hana with a system-wide installation
+of Boost, because both installations will clash. You won't know which version of
+Hana is being used, and that could break libraries that depend on the version of
+Hana provided with Boost (or vice-versa). Generally speaking, you should favor
+local installations whenever possible.
 
-If you use CMake in a project, you can use the provided [FindHana.cmake][Hana.findmodule]
-module to setup Hana as an external CMake project. The module also allows
-installing Hana locally to that project, without needing to install Hana on
-the system per the above instructions. Finally, if you want to contribute to
-Hana, you can see how to best setup your environment for development in the
-[README][Hana.hacking].
+Finally, if you want to contribute to Hana, you can see how to best setup your
+environment for development in the [README][Hana.hacking].
 
 @subsection tutorial-installation-requirements Compiler requirements
 
@@ -3283,6 +3294,25 @@ The reference attempts to make these concepts approachable by using intuition
 whenever possible, but bear in mind that the highest rewards are usually the
 fruit of some effort.
 
+@subsection tutorial-conclusion-related_material Related material
+
+Through the years, I have produced some material about Hana and metaprogramming
+more generally. You may find some of it useful:
+
+- Keynote on metaprogramming at [Meeting C++][] 2016 ([slides](http://ldionne.com/meetingcpp-2016)/[video](https://youtu.be/X_p9X5RzBJE))
+- Talk on advanced metaprogramming techniques used in Hana at [C++Now][] 2016 ([slides](http://ldionne.com/cppnow-2016-metaprogramming-for-the-brave)/[video](https://youtu.be/UXwWXHrvTug))
+- Introduction to metaprogramming with Hana at [C++Now][] 2016 ([slides](http://ldionne.com/cppnow-2016-metaprogramming-for-dummies)/[video](https://youtu.be/a1doqFAumCk))
+- Talk on metaprogramming and Hana at [CppCon][] 2015 ([slides](http://ldionne.com/hana-cppcon-2015)/[video](https://youtu.be/cg1wOINjV9U))
+- Talk on metaprogramming and Hana at [C++Now][] 2015 ([slides](http://ldionne.com/hana-cppnow-2015)/[video](https://youtu.be/Z2ABRaQiFHs))
+- Talk on Hana at [CppCon][] 2014 ([slides](http://ldionne.com/hana-cppcon-2014)/[video](https://youtu.be/L2SktfaJPuU))
+- The [MPL11][] library, which is how Hana started out
+- Talk on the MPL11 at [C++Now][] 2014 ([slides](http://ldionne.com/mpl11-cppnow-2014)/[video](https://youtu.be/8c0aWLuEO0Y))
+- My bachelor's thesis was a formalization of C++ metaprogramming using category
+  theory. The thesis is available [here](https://github.com/ldionne/hana-thesis/blob/gh-pages/main.pdf),
+  and the slides of a related presentation are available [here](http://ldionne.com/hana-thesis).
+  Unfortunately, both are in french only.
+
+
 This finishes the tutorial part of the documentation. I hope you enjoy using
 the library, and please consider [contributing][Hana.contributing] to make it
 even better!
@@ -4063,10 +4093,11 @@ modified as little as possible to work with this reimplementation.
 
 
 <!-- Links -->
-[Boost.Devel]: http://news.gmane.org/gmane.comp.lib.boost.devel
+[Boost.Devel]: http://lists.boost.org/Archives/boost
 [Boost.Fusion]: http://www.boost.org/doc/libs/release/libs/fusion/doc/html/index.html
 [Boost.MPL]: http://www.boost.org/doc/libs/release/libs/mpl/doc/index.html
 [Boost.Steering]: https://sites.google.com/a/boost.org/steering/home
+[Boost]: http://www.boost.org
 [Brigand]: https://github.com/edouarda/brigand
 [C++14.auto_rt]: http://en.wikipedia.org/wiki/C%2B%2B14#Function_return_type_deduction
 [C++14.gconstexpr]: http://en.wikipedia.org/wiki/C%2B%2B11#constexpr_.E2.80.93_Generalized_constant_expressions
@@ -4081,6 +4112,7 @@ modified as little as possible to work with this reimplementation.
 [CMake]: http://www.cmake.org
 [constexpr_throw]: http://stackoverflow.com/a/8626450/627587
 [CopyConstructible]: http://en.cppreference.com/w/cpp/concept/CopyConstructible
+[CppCon]: http://cppcon.org
 [GOTW]: http://www.gotw.ca/gotw/index.htm
 [GSoC]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014
 [Hana.chat]: https://gitter.im/boostorg/hana
@@ -4093,7 +4125,8 @@ modified as little as possible to work with this reimplementation.
 [Hana.wiki]: https://github.com/boostorg/hana/wiki
 [Homebrew]: http://brew.sh
 [lie-to-children]: http://en.wikipedia.org/wiki/Lie-to-children
-[Metabench]: https://ldionne.github.io/metabench
+[Meeting C++]: https://meetingcpp.com
+[Metabench]: http://metaben.ch
 [MPL.arithmetic]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/arithmetic-operations.html
 [MPL.metafunction]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction.html
 [MPL.mfc]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction-class.html

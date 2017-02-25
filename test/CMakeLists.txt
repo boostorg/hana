@@ -1,4 +1,4 @@
-# Copyright Louis Dionne 2013-2016
+# Copyright Louis Dionne 2013-2017
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
@@ -17,8 +17,6 @@ if (NOT Boost_FOUND)
     list(APPEND EXCLUDED_PUBLIC_HEADERS
         "boost/hana/ext/boost/.+.hpp"
         "boost/hana/ext/boost.hpp"
-        "boost/hana/fwd/ext/boost/.+.hpp"
-        "boost/hana/fwd/ext/boost.hpp"
         "boost/hana/experimental/printable.hpp")
 endif()
 
@@ -48,8 +46,10 @@ endif()
 # properly. We disable the tests that check for EBO.
 if (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
     list(APPEND EXCLUDED_UNIT_TESTS
-        "tuple/empty_member.cpp"
+        "detail/ebo.cpp"
         "issues/github_202.cpp"
+        "pair/empty_storage.cpp"
+        "tuple/empty_member.cpp"
     )
 endif()
 
@@ -84,8 +84,8 @@ generate_standalone_header_tests(
 list(APPEND EXCLUDED_UNIT_TESTS "issues/github_75/*.cpp")
 boost_hana_target_name_for(github_75 "${CMAKE_CURRENT_LIST_DIR}/issues/github_75")
 add_executable(${github_75} EXCLUDE_FROM_ALL "issues/github_75/tu1.cpp" "issues/github_75/tu2.cpp")
-target_link_libraries(${github_75} hana)
-boost_hana_add_test(${github_75} ${CMAKE_CURRENT_BINARY_DIR}/${github_75})
+boost_hana_set_test_properties(${github_75})
+add_test(${github_75} ${CMAKE_CURRENT_BINARY_DIR}/${github_75})
 add_dependencies(tests ${github_75})
 
 
@@ -99,8 +99,8 @@ list(REMOVE_ITEM UNIT_TESTS ${EXCLUDED_UNIT_TESTS})
 foreach(_file IN LISTS UNIT_TESTS)
     boost_hana_target_name_for(_target "${_file}")
     add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
-    target_link_libraries(${_target} hana)
+    boost_hana_set_test_properties(${_target})
     target_include_directories(${_target} PRIVATE _include)
-    boost_hana_add_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
+    add_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
     add_dependencies(tests ${_target})
 endforeach()

@@ -2,7 +2,7 @@
 @file
 Defines `boost::hana::equal`.
 
-@copyright Louis Dionne 2013-2016
+@copyright Louis Dionne 2013-2017
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
@@ -29,7 +29,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/core/when.hpp>
 #include <boost/hana/detail/concepts.hpp>
-#include <boost/hana/detail/dependent_on.hpp>
 #include <boost/hana/detail/has_common_embedding.hpp>
 #include <boost/hana/detail/nested_to.hpp> // required by fwd decl
 #include <boost/hana/first.hpp>
@@ -56,7 +55,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct equal_impl<T, U, when<condition>> : default_ {
         template <typename X, typename Y>
         static constexpr auto apply(X const&, Y const&) {
-            using T_ = detail::dependent_on_t<sizeof(X) == 1, T>;
+            // Delay the static_assert by ensuring T_ is dependent.
+            using T_ = typename hana::tag_of<X>::type;
             static_assert(!hana::is_convertible<T_, U>::value &&
                           !hana::is_convertible<U, T_>::value,
             "No default implementation of hana::equal is provided for related "

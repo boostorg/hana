@@ -1,4 +1,4 @@
-# Copyright Louis Dionne 2013-2016
+# Copyright Louis Dionne 2013-2017
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 #
@@ -81,7 +81,7 @@
 #   `target_link_libraries`.
 #
 # [EXCLUDE_FROM_ALL]:
-#   If set to true, the generated targets are excluded from the 'all' target.
+#   If provided, the generated targets are excluded from the 'all' target.
 #
 function(generate_standalone_header_tests)
     cmake_parse_arguments(ARGS "EXCLUDE_FROM_ALL"             # options

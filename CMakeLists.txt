@@ -1,8 +1,8 @@
-# Copyright Louis Dionne 2013-2016
+# Copyright Louis Dionne 2013-2017
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.7)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 
@@ -33,12 +33,23 @@ include(CheckCxxCompilerSupport)
 add_library(hana INTERFACE)
 target_include_directories(hana INTERFACE include)
 
+include(CheckCXXCompilerFlag)
+# On Clang for Windows, -std=c++14 is not known, but -std=c++1y appears to work.
+if (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
+    check_cxx_compiler_flag(-std=c++1y BOOST_HANA_HAS_STD_CPP1Y)
+    if (BOOST_HANA_HAS_STD_CPP1Y)
+        target_add_compile_options(hana INTERFACE -std=c++1y)
+    endif()
+else()
+    # TODO: Set these as interface properties when supported
+    set(CMAKE_CXX_STANDARD 14)
+    set(CMAKE_CXX_STANDARD_REQUIRED YES)
+endif()
+
 
 ##############################################################################
 # Setup CMake options
 ##############################################################################
-option(BOOST_HANA_ENABLE_WERROR   "Fail and stop if a warning is triggered." OFF)
-option(BOOST_HANA_ENABLE_MEMCHECK "Run the unit tests and examples under Valgrind if it is found." OFF)
 option(BOOST_HANA_ENABLE_CONCEPT_CHECKS "Enable concept checking in the interface methods." ON)
 option(BOOST_HANA_ENABLE_DEBUG_MODE "Enable Hana's debug mode." OFF)
 
@@ -53,55 +64,49 @@ option(BOOST_HANA_ENABLE_EXCEPTIONS
 
 
 ##############################################################################
-# Setup compiler flags (more can be set on a per-target basis or in subdirectories)
+# Function to setup common compiler flags on tests and examples
 ##############################################################################
-include(CheckCXXCompilerFlag)
-macro(boost_hana_append_flag testname flag)
-    check_cxx_compiler_flag(${flag} ${testname})
-    if (${testname})
-        add_compile_options(${flag})
+function(boost_hana_set_test_properties target)
+    target_link_libraries(${target} PRIVATE hana)
+    set_target_properties(${target} PROPERTIES CXX_EXTENSIONS NO)
+
+    macro(setflag testname flag)
+        check_cxx_compiler_flag(${flag} ${testname})
+        if (${testname})
+            target_compile_options(${target} PRIVATE ${flag})
+        endif()
+    endmacro()
+
+    setflag(BOOST_HANA_HAS_FDIAGNOSTICS_COLOR        -fdiagnostics-color)
+    setflag(BOOST_HANA_HAS_FTEMPLATE_BACKTRACE_LIMIT -ftemplate-backtrace-limit=0)
+    setflag(BOOST_HANA_HAS_PEDANTIC                  -pedantic)
+    setflag(BOOST_HANA_HAS_WALL                      -Wall)
+    setflag(BOOST_HANA_HAS_WERROR                    -Werror)
+    setflag(BOOST_HANA_HAS_WEXTRA                    -Wextra)
+    setflag(BOOST_HANA_HAS_WNO_UNUSED_LOCAL_TYPEDEFS -Wno-unused-local-typedefs)
+    setflag(BOOST_HANA_HAS_WWRITE_STRINGS            -Wwrite-strings)
+
+    if (NOT BOOST_HANA_ENABLE_EXCEPTIONS)
+        setflag(BOOST_HANA_HAS_FNO_EXCEPTIONS -fno-exceptions)
     endif()
-endmacro()
 
-# Compiler flags controlled by CMake options above
-if (BOOST_HANA_ENABLE_WERROR)
-    boost_hana_append_flag(BOOST_HANA_HAS_WERROR -Werror)
-    boost_hana_append_flag(BOOST_HANA_HAS_WX -WX)
-endif()
-
-if (NOT BOOST_HANA_ENABLE_CONCEPT_CHECKS)
-    add_definitions(-DBOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS)
-endif()
-
-if (BOOST_HANA_ENABLE_DEBUG_MODE)
-    add_definitions(-DBOOST_HANA_CONFIG_ENABLE_DEBUG_MODE)
-endif()
-
-if (BOOST_HANA_ENABLE_STRING_UDL)
-    add_definitions(-DBOOST_HANA_CONFIG_ENABLE_STRING_UDL)
-    # GCC pretends to have the flag, but produces a "unrecognized command line option"
-    # warning when we use it.
-    if (NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
-        boost_hana_append_flag(BOOST_HANA_HAS_WNO_GNU_STRING_UDL
-                               -Wno-gnu-string-literal-operator-template)
+    if (NOT BOOST_HANA_ENABLE_CONCEPT_CHECKS)
+        target_compile_definitions(${target} PRIVATE -DBOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS)
     endif()
-endif()
 
-if (NOT BOOST_HANA_ENABLE_EXCEPTIONS)
-    boost_hana_append_flag(BOOST_HANA_HAS_FNO_EXCEPTIONS -fno-exceptions)
-endif()
+    if (BOOST_HANA_ENABLE_DEBUG_MODE)
+        target_compile_definitions(${target} PRIVATE -DBOOST_HANA_CONFIG_ENABLE_DEBUG_MODE)
+    endif()
 
-# Other compiler flags
-boost_hana_append_flag(BOOST_HANA_HAS_FDIAGNOSTICS_COLOR         -fdiagnostics-color)
-boost_hana_append_flag(BOOST_HANA_HAS_FTEMPLATE_BACKTRACE_LIMIT  -ftemplate-backtrace-limit=0)
-boost_hana_append_flag(BOOST_HANA_HAS_PEDANTIC                   -pedantic)
-boost_hana_append_flag(BOOST_HANA_HAS_STDCXX1Y                   -std=c++1y)
-boost_hana_append_flag(BOOST_HANA_HAS_QUNUSED_ARGUMENTS          -Qunused-arguments)
-boost_hana_append_flag(BOOST_HANA_HAS_W                          -W)
-boost_hana_append_flag(BOOST_HANA_HAS_WALL                       -Wall)
-boost_hana_append_flag(BOOST_HANA_HAS_WEXTRA                     -Wextra)
-boost_hana_append_flag(BOOST_HANA_HAS_WNO_UNUSED_LOCAL_TYPEDEFS  -Wno-unused-local-typedefs)
-boost_hana_append_flag(BOOST_HANA_HAS_WWRITE_STRINGS             -Wwrite-strings)
+    if (BOOST_HANA_ENABLE_STRING_UDL)
+        target_compile_definitions(${target} PRIVATE -DBOOST_HANA_CONFIG_ENABLE_STRING_UDL)
+        # GCC pretends to have the flag, but produces a "unrecognized command line option"
+        # warning when we use it.
+        if (NOT ${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU")
+            setflag(BOOST_HANA_HAS_WNO_GNU_STRING_UDL -Wno-gnu-string-literal-operator-template)
+        endif()
+    endif()
+endfunction()
 
 
 ##############################################################################
@@ -143,22 +148,6 @@ function(boost_hana_target_name_for out file)
     set(${out} "${_name}" PARENT_SCOPE)
 endfunction()
 
-#   boost_hana_add_test(<name> <command> [<arg>...])
-#
-# Creates a test called `name`, which runs the given `command` with the given
-# `arg`uments. However, if `BOOST_HANA_ENABLE_MEMCHECK` is set to `ON`, the
-# test will run the provided command under the memory checker.
-if (BOOST_HANA_ENABLE_MEMCHECK)
-    find_package(Valgrind REQUIRED)
-    function(boost_hana_add_test name)
-        add_test(${name} ${Valgrind_EXECUTABLE} --leak-check=full --error-exitcode=1 ${ARGN})
-    endfunction()
-else()
-    function(boost_hana_add_test name)
-        add_test(${name} ${ARGN})
-    endfunction()
-endif()
-
 
 ##############################################################################
 # Setup the `check` target to build and then run all the tests and examples.
@@ -170,13 +159,21 @@ add_custom_target(check
 
 
 ##############################################################################
-# Setup subdirectories
+# Setup subdirectories and testing
 ##############################################################################
 enable_testing()
+find_program(MEMORYCHECK_COMMAND valgrind)
+if (MEMORYCHECK_COMMAND)
+    message(STATUS "Found Valgrind: ${MEMORYCHECK_COMMAND}")
+    set(MEMORYCHECK_COMMAND_OPTIONS "--leak-check=full --error-exitcode=1")
+else()
+    message("Valgrind not found")
+endif()
+include(CTest)
+
 add_subdirectory(benchmark)
 add_subdirectory(doc)
 add_subdirectory(example)
-add_subdirectory(experimental)
 add_subdirectory(test)
 
 
