@@ -1,5 +1,5 @@
 <!--
-Copyright Louis Dionne 2013-2016
+Copyright Louis Dionne 2013-2017
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->
@@ -34,7 +34,7 @@ Distributed under the Boost Software License, Version 1.0.
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-// Copyright Louis Dionne 2013-2016
+// Copyright Louis Dionne 2013-2017
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 MathJax.Hub.Config({
@@ -63,7 +63,7 @@ MathJax.Hub.Config({
   <td id="projectlogo"><img alt="Logo" src="Boost.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Boost.Hana
-   &#160;<span id="projectnumber">1.0.2</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
    <div id="projectbrief">Your standard library for metaprogramming</div>
   </td>
@@ -799,13 +799,13 @@ Given a MonadPlus <code>M</code>, the signature is \( \mathtt{empty}_M : \emptys
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="repeat_8hpp.html">boost/hana/repeat.hpp</a>&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() {</div><div class="line">    std::string s;</div><div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">char</span> letter = <span class="charliteral">&#39;a&#39;</span>; letter &lt;= <span class="charliteral">&#39;g&#39;</span>; ++letter)</div><div class="line">        <a class="code" href="namespaceboost_1_1hana.html#a405f3dd84fc6f5003e64f8da104a1b54">hana::repeat</a>(hana::int_c&lt;3&gt;, [&amp;] { s += letter; });</div><div class="line"></div><div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(s == <span class="stringliteral">&quot;aaabbbcccdddeeefffggg&quot;</span>);</div><div class="line">}</div></div><!-- fragment --> 
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="repeat_8hpp.html">boost/hana/repeat.hpp</a>&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;string&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() {</div><div class="line">    std::string s;</div><div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">char</span> letter = <span class="charliteral">&#39;a&#39;</span>; letter &lt;= <span class="charliteral">&#39;g&#39;</span>; ++letter)</div><div class="line">        <a class="code" href="namespaceboost_1_1hana.html#a405f3dd84fc6f5003e64f8da104a1b54">hana::repeat</a>(hana::int_c&lt;3&gt;, [&amp;] { s += letter; });</div><div class="line"></div><div class="line">    <a class="code" href="group__group-assertions.html#ga29b2b21ffa5513e5b706c50ffee980af">BOOST_HANA_RUNTIME_CHECK</a>(s == <span class="stringliteral">&quot;aaabbbcccdddeeefffggg&quot;</span>);</div><div class="line">}</div></div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!--
-Copyright Louis Dionne 2013-2016
+Copyright Louis Dionne 2013-2017
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->

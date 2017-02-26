@@ -65,7 +65,8 @@ var NAVTREE =
       ] ],
       [ "Header organization", "index.html#tutorial-header_organization", null ],
       [ "Conclusion", "index.html#tutorial-conclusion", [
-        [ "Fair warning: functional programming ahead", "index.html#tutorial-conclusion-warning", null ]
+        [ "Fair warning: functional programming ahead", "index.html#tutorial-conclusion-warning", null ],
+        [ "Related material", "index.html#tutorial-conclusion-related_material", null ]
       ] ],
       [ "Using the reference", "index.html#tutorial-reference", [
         [ "Function signatures", "index.html#tutorial-reference-signatures", null ]
@@ -106,7 +107,7 @@ var NAVTREEINDEX =
 "fwd_2count_8hpp.html#ga3159cfa41be18a396926741b0a3fdefd",
 "group__group-Comparable.html#ga9c2ffe2e51780e57a38d9e7e31b87cdc",
 "group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b",
-"structboost_1_1hana_1_1integral__constant.html#aa301b96de91d665fdc846bde4659b0d3"
+"structboost_1_1hana_1_1integral__constant.html#a96c109b048f822be0ca7578c93694405"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

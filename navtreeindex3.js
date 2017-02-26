@@ -33,6 +33,7 @@ var NAVTREEINDEX3 =
 "index.html#tutorial-assert":[0,6],
 "index.html#tutorial-cheatsheet":[0,5],
 "index.html#tutorial-conclusion":[0,16],
+"index.html#tutorial-conclusion-related_material":[0,16,1],
 "index.html#tutorial-conclusion-warning":[0,16,0],
 "index.html#tutorial-containers":[0,10],
 "index.html#tutorial-containers-creating":[0,10,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "structboost_1_1hana_1_1integral__constant.html#a84a8b7c3f824b4f0421d6a834601a0c4":[1,1,0,2],
 "structboost_1_1hana_1_1integral__constant.html#a8669179fa3d068951014b3be07a7d673":[1,1,0,20],
 "structboost_1_1hana_1_1integral__constant.html#a883a869b5e96e32744ebf75d63c763ae":[1,1,0,35],
-"structboost_1_1hana_1_1integral__constant.html#a8e52c0f4a65a852dc88f97259a05ff17":[1,1,0,13],
-"structboost_1_1hana_1_1integral__constant.html#a96c109b048f822be0ca7578c93694405":[1,1,0,15]
+"structboost_1_1hana_1_1integral__constant.html#a8e52c0f4a65a852dc88f97259a05ff17":[1,1,0,13]
 };

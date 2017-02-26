@@ -1,5 +1,5 @@
 <!--
-Copyright Louis Dionne 2013-2016
+Copyright Louis Dionne 2013-2017
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->
@@ -34,7 +34,7 @@ Distributed under the Boost Software License, Version 1.0.
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-// Copyright Louis Dionne 2013-2016
+// Copyright Louis Dionne 2013-2017
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 MathJax.Hub.Config({
@@ -63,7 +63,7 @@ MathJax.Hub.Config({
   <td id="projectlogo"><img alt="Logo" src="Boost.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Boost.Hana
-   &#160;<span id="projectnumber">1.0.2</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
    <div id="projectbrief">Your standard library for metaprogramming</div>
   </td>
@@ -141,10 +141,10 @@ If compile-time performance is a serious concern, consider specializing the <cod
 Consider using <code>tag_of_t</code> alias instead of <code><a class="el" href="structboost_1_1hana_1_1tag__of.html" title="Metafunction returning the tag associated to T. ">tag_of</a></code>, which reduces the amount of typing in dependent contexts. </p>
 </blockquote>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2tag__of_8hpp.html">boost/hana/core/tag_of.hpp</a>&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line">static_assert(std::is_same&lt;hana::tag_of&lt;int&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line">static_assert(std::is_same&lt;hana::tag_of&lt;int&amp;&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line">static_assert(std::is_same&lt;hana::tag_of&lt;int const&amp;&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line"></div><div class="line"><span class="keyword">struct </span>PersonTag;</div><div class="line"><span class="keyword">struct </span>Person { <span class="keyword">using</span> hana_tag = PersonTag; };</div><div class="line">static_assert(std::is_same&lt;hana::tag_of&lt;Person&gt;::type, PersonTag&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line">static_assert(std::is_same&lt;hana::tag_of&lt;Person volatile&amp;&amp;&gt;::type, PersonTag&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() { }</div></div><!-- fragment --> </div></div><!-- contents -->
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2tag__of_8hpp.html">boost/hana/core/tag_of.hpp</a>&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line">static_assert(std::is_same&lt;hana::tag_of&lt;int&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line">static_assert(std::is_same&lt;hana::tag_of&lt;int&amp;&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line">static_assert(std::is_same&lt;hana::tag_of&lt;int const&amp;&gt;::type, <span class="keywordtype">int</span>&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line"></div><div class="line"><span class="keyword">struct </span>PersonTag;</div><div class="line"><span class="keyword">struct </span>Person { <span class="keyword">using</span> hana_tag = PersonTag; };</div><div class="line">static_assert(std::is_same&lt;hana::tag_of&lt;Person&gt;::type, PersonTag&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line">static_assert(std::is_same&lt;hana::tag_of&lt;Person volatile&amp;&amp;&gt;::type, PersonTag&gt;{}, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() { }</div></div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!--
-Copyright Louis Dionne 2013-2016
+Copyright Louis Dionne 2013-2017
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->

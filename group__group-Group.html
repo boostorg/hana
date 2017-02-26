@@ -1,5 +1,5 @@
 <!--
-Copyright Louis Dionne 2013-2016
+Copyright Louis Dionne 2013-2017
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->
@@ -34,7 +34,7 @@ Distributed under the Boost Software License, Version 1.0.
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-// Copyright Louis Dionne 2013-2016
+// Copyright Louis Dionne 2013-2017
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 MathJax.Hub.Config({
@@ -63,7 +63,7 @@ MathJax.Hub.Config({
   <td id="projectlogo"><img alt="Logo" src="Boost.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Boost.Hana
-   &#160;<span id="projectnumber">1.0.2</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
    <div id="projectbrief">Your standard library for metaprogramming</div>
   </td>
@@ -177,7 +177,7 @@ Variables</h2></td></tr>
 <li><code>to&lt;C&gt; : A -&gt; B</code> and <code>to&lt;C&gt; : B -&gt; C</code> are <code>Group</code>-embeddings, as determined by the <code>is_embedding</code> metafunction.</li>
 </ol>
 <p>The definition of <code>minus</code> for data types satisfying the above properties is obtained by setting </p><div class="fragment"><div class="line"><a class="code" href="group__group-Group.html#ga2020c526324f361a2b990fe8d1b07c20">minus</a>(x, y) = <a class="code" href="group__group-Group.html#ga2020c526324f361a2b990fe8d1b07c20">minus</a>(to&lt;C&gt;(x), to&lt;C&gt;(y))</div></div><!-- fragment --><h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="minus_8hpp.html">boost/hana/minus.hpp</a>&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() {</div><div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Group.html#ga2020c526324f361a2b990fe8d1b07c20">hana::minus</a>(hana::int_c&lt;3&gt;, hana::int_c&lt;5&gt;) == hana::int_c&lt;-2&gt;);</div><div class="line">    static_assert(<a class="code" href="group__group-Group.html#ga2020c526324f361a2b990fe8d1b07c20">hana::minus</a>(1, 2) == -1, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line">}</div></div><!-- fragment --> 
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="minus_8hpp.html">boost/hana/minus.hpp</a>&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() {</div><div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Group.html#ga2020c526324f361a2b990fe8d1b07c20">hana::minus</a>(hana::int_c&lt;3&gt;, hana::int_c&lt;5&gt;) == hana::int_c&lt;-2&gt;);</div><div class="line">    static_assert(<a class="code" href="group__group-Group.html#ga2020c526324f361a2b990fe8d1b07c20">hana::minus</a>(1, 2) == -1, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line">}</div></div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="ga02e81002f40ba52eac4cf1974c7e0cdb"></a>
@@ -194,13 +194,13 @@ Variables</h2></td></tr>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; x) -&gt; decltype(<span class="keyword">auto</span>) {</div><div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div><div class="line">    }</div></div><!-- fragment -->
 <p>Return the inverse of an element of a group. </p>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="negate_8hpp.html">boost/hana/negate.hpp</a>&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() {</div><div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Group.html#ga02e81002f40ba52eac4cf1974c7e0cdb">hana::negate</a>(hana::int_c&lt;3&gt;) == hana::int_c&lt;-3&gt;);</div><div class="line">    static_assert(<a class="code" href="group__group-Group.html#ga02e81002f40ba52eac4cf1974c7e0cdb">hana::negate</a>(2) == -2, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line">}</div></div><!-- fragment --> 
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="negate_8hpp.html">boost/hana/negate.hpp</a>&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() {</div><div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(<a class="code" href="group__group-Group.html#ga02e81002f40ba52eac4cf1974c7e0cdb">hana::negate</a>(hana::int_c&lt;3&gt;) == hana::int_c&lt;-3&gt;);</div><div class="line">    static_assert(<a class="code" href="group__group-Group.html#ga02e81002f40ba52eac4cf1974c7e0cdb">hana::negate</a>(2) == -2, <span class="stringliteral">&quot;&quot;</span>);</div><div class="line">}</div></div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!--
-Copyright Louis Dionne 2013-2016
+Copyright Louis Dionne 2013-2017
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->

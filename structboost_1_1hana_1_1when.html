@@ -1,5 +1,5 @@
 <!--
-Copyright Louis Dionne 2013-2016
+Copyright Louis Dionne 2013-2017
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->
@@ -34,7 +34,7 @@ Distributed under the Boost Software License, Version 1.0.
     extensions: ["tex2jax.js"],
     jax: ["input/TeX","output/HTML-CSS"],
 });
-// Copyright Louis Dionne 2013-2016
+// Copyright Louis Dionne 2013-2017
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 MathJax.Hub.Config({
@@ -63,7 +63,7 @@ MathJax.Hub.Config({
   <td id="projectlogo"><img alt="Logo" src="Boost.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Boost.Hana
-   &#160;<span id="projectnumber">1.0.2</span>
+   &#160;<span id="projectnumber">1.1.0</span>
    </div>
    <div id="projectbrief">Your standard library for metaprogramming</div>
   </td>
@@ -136,10 +136,10 @@ struct boost::hana::when&lt; condition &gt;</h3>
 <p><code>when</code> is used to control the priority of partial specializations in a finer grained manner than what can be achieved with the usual <code>typename Enable = void</code> and <code>std::enable_if</code> pattern. For example, a partially specialized tag-dispatched method will have a higher priority than an equivalent specialization that uses <code>when</code>. For more details, see the tutorial section on <a class="el" href="index.html#tutorial-core-tag_dispatching">tag-dispatching</a>. </p>
 </blockquote>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2016</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2when_8hpp.html">boost/hana/core/when.hpp</a>&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = hana::when&lt;true&gt;&gt;</div><div class="line"><span class="keyword">struct </span>base_template;</div><div class="line"></div><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="keyword">struct </span>base_template&lt;T, hana::when&lt;std::is_integral&lt;T&gt;::value&gt;&gt; {</div><div class="line">    <span class="comment">// something useful...</span></div><div class="line">};</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() { }</div></div><!-- fragment --> </div></div><!-- contents -->
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2when_8hpp.html">boost/hana/core/when.hpp</a>&gt;</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;type_traits&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T, <span class="keyword">typename</span> = hana::when&lt;true&gt;&gt;</div><div class="line"><span class="keyword">struct </span>base_template;</div><div class="line"></div><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div><div class="line"><span class="keyword">struct </span>base_template&lt;T, hana::when&lt;std::is_integral&lt;T&gt;::value&gt;&gt; {</div><div class="line">    <span class="comment">// something useful...</span></div><div class="line">};</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() { }</div></div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!--
-Copyright Louis Dionne 2013-2016
+Copyright Louis Dionne 2013-2017
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 -->

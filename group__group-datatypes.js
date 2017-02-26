@@ -65,6 +65,8 @@ var group__group_datatypes =
       [ "erase_key", "structboost_1_1hana_1_1map.html#af856f7bf77f69cdf1b8fd4e566eaef9b", null ],
       [ "operator==", "structboost_1_1hana_1_1map.html#a27607958295e6da8a0ba602a2db468f1", null ],
       [ "operator!=", "structboost_1_1hana_1_1map.html#a0cae3af55edb3eb05bfa184bda633f7d", null ],
+      [ "operator=", "structboost_1_1hana_1_1map.html#ae18123925b628b5cfcb1adaef5c83ac7", null ],
+      [ "operator=", "structboost_1_1hana_1_1map.html#a9a6635ea36edc582518d278238defa0d", null ],
       [ "operator[]", "structboost_1_1hana_1_1map.html#a4881a1810986e678959af8ccb58f5666", null ],
       [ "map", "structboost_1_1hana_1_1map.html#a1ee432be0bd10f08a637a437e311e4e2", null ],
       [ "map", "structboost_1_1hana_1_1map.html#a943219d1c9692938167639d8ad2525b8", null ],
@@ -137,6 +139,7 @@ var group__group_datatypes =
       [ "operator==", "structboost_1_1hana_1_1set.html#a27607958295e6da8a0ba602a2db468f1", null ],
       [ "operator!=", "structboost_1_1hana_1_1set.html#a0cae3af55edb3eb05bfa184bda633f7d", null ],
       [ "operator[]", "structboost_1_1hana_1_1set.html#a00f6165e7a2db4218c67d80929c457d2", null ],
+      [ "set", "structboost_1_1hana_1_1set.html#a51bdb213a03abc126668c4c3b14fc50b", null ],
       [ "set", "structboost_1_1hana_1_1set.html#a937a7d47238690b571e7dd524278f6d5", null ],
       [ "set", "structboost_1_1hana_1_1set.html#ac5b7025edfb0c6c28f31d84598e130f0", null ]
     ] ],
