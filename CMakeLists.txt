@@ -34,13 +34,8 @@ add_library(hana INTERFACE)
 target_include_directories(hana INTERFACE include)
 
 include(CheckCXXCompilerFlag)
-# On Clang for Windows, -std=c++14 is not known, but -std=c++1y appears to work.
-if (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    check_cxx_compiler_flag(-std=c++1y BOOST_HANA_HAS_STD_CPP1Y)
-    if (BOOST_HANA_HAS_STD_CPP1Y)
-        target_add_compile_options(hana INTERFACE -std=c++1y)
-    endif()
-else()
+# On Clang for Windows, -std=c++14 is not needed (and does not work).
+if (NOT (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang"))
     # TODO: Set these as interface properties when supported
     set(CMAKE_CXX_STANDARD 14)
     set(CMAKE_CXX_STANDARD_REQUIRED YES)
