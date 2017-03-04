@@ -26,7 +26,7 @@ static_assert(
 
 
 
-// Example pf computing a tuple of all the common types of several tuples:
+// Example of computing a tuple of all the common types of several tuples:
 template<typename... Ts>
 using common_tuple_t = typename decltype(
     hana::unpack(
