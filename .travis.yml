@@ -251,8 +251,7 @@ install:
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
     else
-      brew install cmake
-      brew upgrade cmake
+      brew upgrade cmake || brew install cmake
     fi
   - cmake --version
 
@@ -314,7 +313,11 @@ install:
   ############################################################################
   # Install tools to check for code formatting errors (run on OS X only)
   ############################################################################
-  - if [[ "${CHECK_FORMATTING}" == "true" ]]; then brew install pcre vera++; fi
+  - |
+    if [[ "${CHECK_FORMATTING}" == "true" ]]; then
+      brew upgrade pcre || brew install pcre || exit 1
+      brew upgrade vera++ || brew install vera++ || exit 1
+    fi
 
 
 before_script:
