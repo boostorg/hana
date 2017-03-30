@@ -17,7 +17,7 @@ namespace hana = boost::hana;
 //
 
 
-// base dimensions                              M  L  T  I  Θ  J  N
+// base dimensions                              M  L  T  I  K  J  N
 using mass        = decltype(hana::tuple_c<int, 1, 0, 0, 0, 0, 0, 0>);
 using length      = decltype(hana::tuple_c<int, 0, 1, 0, 0, 0, 0, 0>);
 using time_       = decltype(hana::tuple_c<int, 0, 0, 1, 0, 0, 0, 0>);
@@ -28,8 +28,8 @@ using amount      = decltype(hana::tuple_c<int, 0, 0, 0, 0, 0, 0, 1>);
 
 // composite dimensions
 using velocity     = decltype(hana::tuple_c<int, 0, 1, -1, 0, 0, 0, 0>); // M/T
-using acceleration = decltype(hana::tuple_c<int, 0, 1, -2, 0, 0, 0, 0>); // M/T²
-using force        = decltype(hana::tuple_c<int, 1, 1, -2, 0, 0, 0, 0>); // ML/T²
+using acceleration = decltype(hana::tuple_c<int, 0, 1, -2, 0, 0, 0, 0>); // M/T^2
+using force        = decltype(hana::tuple_c<int, 1, 1, -2, 0, 0, 0, 0>); // ML/T^2
 
 
 template <typename Dimensions>
