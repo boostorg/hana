@@ -26,6 +26,7 @@ if (NOT Boost_FOUND)
     )
 endif()
 
+list(APPEND EXCLUDED_EXAMPLES "cmake_integration/main.cpp")
 
 ##############################################################################
 # Add all the examples

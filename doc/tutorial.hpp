@@ -52,19 +52,13 @@ have a couple of options:
 Hana is included in the [Boost][] distribution starting from Boost 1.61.0, so
 installing that will give you access to Hana.
 
-2. __Install locally for CMake projects__\n
-If you use CMake in a project, you can use the provided [FindHana.cmake][Hana.findmodule]
-module to setup Hana as an external CMake project. The module allows using an
-already-installed version of Hana, or installing Hana locally to your CMake
-project, without needing a system-wide installation.
-
-3. __Use Homebrew__\n
+2. __Use Homebrew__\n
 On Mac OS, Hana can be installed with [Homebrew][]:
 @code{.sh}
 brew install hana
 @endcode
 
-4. __Install manually__\n
+3. __Install manually__\n
 You can download the code from the official GitHub [repository][Hana.repository]
 and install the library manually by issuing the following commands from the root
 of the project (requires [CMake][]):
@@ -80,9 +74,13 @@ install Hana in a custom location, you can use
 cmake .. -DCMAKE_INSTALL_PREFIX=/custom/install/prefix
 @endcode
 
+If you just want to contribute to Hana, you can see how to best setup your
+environment for development in the [README][Hana.hacking].
+
 @note
 - Both the manual installation and the Homebrew installation will also install
-a `hana.pc` file for use with [pkg-config][].
+a `HanaConfig.cmake` file for use with CMake and a `hana.pc` file for use with
+[pkg-config][].
 
 - Do not mix a system-wide installation of Hana with a system-wide installation
 of Boost, because both installations will clash. You won't know which version of
@@ -90,8 +88,28 @@ Hana is being used, and that could break libraries that depend on the version of
 Hana provided with Boost (or vice-versa). Generally speaking, you should favor
 local installations whenever possible.
 
-Finally, if you want to contribute to Hana, you can see how to best setup your
-environment for development in the [README][Hana.hacking].
+@subsection tutorial-installation-cmake Note for CMake users
+
+If you use [CMake][], depending on Hana has never been so easy. When installed,
+Hana creates a `HanaConfig.cmake` file that exports the `hana` interface library
+target with all the required settings. All you need is to install Hana (through
+Homebrew or manually), use `find_package(Hana)`, and then link your own targets
+against the `hana` target. Here is a minimal example of doing this:
+
+@snippet example/cmake_integration/CMakeLists.txt snip
+
+If you have installed Hana in a non-standard place, which can be the case if
+you're trying to keep all your dependencies local, you might need to play with
+`CMAKE_PREFIX_PATH`. For example, this can happen if you "manually" install
+Hana locally to another project. In this case, you'll need to tell CMake where
+to find the `HanaConfig.cmake` file by using
+
+@code{cmake}
+list(APPEND CMAKE_PREFIX_PATH "${INSTALLATION_PREFIX_FOR_HANA}/lib/cmake")
+@endcode
+
+where `INSTALLATION_PREFIX_FOR_HANA` is the path to the place where Hana was
+installed.
 
 @subsection tutorial-installation-requirements Compiler requirements
 
@@ -4117,7 +4135,6 @@ modified as little as possible to work with this reimplementation.
 [GSoC]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014
 [Hana.chat]: https://gitter.im/boostorg/hana
 [Hana.contributing]: https://github.com/boostorg/hana/blob/master/CONTRIBUTING.md#how-to-contribute
-[Hana.findmodule]: https://github.com/boostorg/hana/blob/master/cmake/FindHana.cmake
 [Hana.hacking]: https://github.com/boostorg/hana/blob/master/README.md#hacking-on-hana
 [Hana.issues]: https://github.com/boostorg/hana/issues
 [Hana.repository]: https://github.com/boostorg/hana

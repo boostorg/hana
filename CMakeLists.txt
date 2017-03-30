@@ -28,10 +28,12 @@ include(CheckCxxCompilerSupport)
 
 
 ##############################################################################
-# Setup the 'hana' header-only library target.
+# Setup the 'hana' header-only library target, along with its install target
+# and exports.
 ##############################################################################
 add_library(hana INTERFACE)
-target_include_directories(hana INTERFACE include)
+target_include_directories(hana INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+                                          $<INSTALL_INTERFACE:include>)
 
 include(CheckCXXCompilerFlag)
 # On Clang for Windows, -std=c++14 is not needed (and does not work).
@@ -40,6 +42,14 @@ if (NOT (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang"))
     set(CMAKE_CXX_STANDARD 14)
     set(CMAKE_CXX_STANDARD_REQUIRED YES)
 endif()
+
+install(TARGETS hana EXPORT HanaConfig)
+install(EXPORT HanaConfig       DESTINATION lib/cmake)
+install(DIRECTORY include/boost DESTINATION include FILES_MATCHING PATTERN "*.hpp")
+
+# Also install an optional pkg-config file.
+configure_file(cmake/hana.pc.in hana.pc @ONLY)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/hana.pc" DESTINATION lib/pkgconfig)
 
 
 ##############################################################################
@@ -170,15 +180,3 @@ add_subdirectory(benchmark)
 add_subdirectory(doc)
 add_subdirectory(example)
 add_subdirectory(test)
-
-
-##############################################################################
-# Setup the 'install' target.
-# This copies the whole content of include/ to ${CMAKE_INSTALL_PREFIX}.
-##############################################################################
-install(DIRECTORY include/boost DESTINATION include
-        PATTERN ".DS_Store" EXCLUDE)
-
-# We also install an optional pkg-config file.
-configure_file(cmake/hana.pc.in hana.pc @ONLY)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/hana.pc DESTINATION lib/pkgconfig)
