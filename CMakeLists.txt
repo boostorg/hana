@@ -115,17 +115,11 @@ endfunction()
 
 
 ##############################################################################
-# Setup include paths. More include paths can be added in subdirectories.
+# Look for the rest of Boost, which is an optional dependency of some tests.
 ##############################################################################
-include_directories(${Boost.Hana_SOURCE_DIR}/include)
-
 find_package(Boost 1.59)
-if (Boost_FOUND)
-    include_directories(${Boost_INCLUDE_DIRS})
-else()
-    message(WARNING
-        "The Boost library headers were not found; targets depending "
-        "on Boost won't be available.")
+if (NOT Boost_FOUND)
+    message(WARNING "The rest of Boost was not found; some tests and examples will be disabled.")
 endif()
 
 

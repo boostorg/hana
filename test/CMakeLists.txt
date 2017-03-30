@@ -7,13 +7,18 @@ add_dependencies(check tests)
 
 
 ##############################################################################
+# Take note of files that depend on Boost
+##############################################################################
+list(APPEND TESTS_REQUIRING_BOOST "ext/boost/*.cpp"
+                                  "experimental/printable/*.cpp")
+file(GLOB_RECURSE TESTS_REQUIRING_BOOST ${TESTS_REQUIRING_BOOST})
+
+
+##############################################################################
 # Caveats: Take note of public headers and tests that are not supported.
 ##############################################################################
 if (NOT Boost_FOUND)
-    list(APPEND EXCLUDED_UNIT_TESTS
-        "ext/boost/*.cpp"
-        "experimental/printable/*.cpp")
-
+    list(APPEND EXCLUDED_UNIT_TESTS ${TESTS_REQUIRING_BOOST})
     list(APPEND EXCLUDED_PUBLIC_HEADERS
         "boost/hana/ext/boost/.+.hpp"
         "boost/hana/ext/boost.hpp"
@@ -100,6 +105,9 @@ foreach(_file IN LISTS UNIT_TESTS)
     boost_hana_target_name_for(_target "${_file}")
     add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
     boost_hana_set_test_properties(${_target})
+    if (_file IN_LIST TESTS_REQUIRING_BOOST)
+        target_link_libraries(${_target} PRIVATE Boost::boost)
+    endif()
     target_include_directories(${_target} PRIVATE _include)
     add_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
     add_dependencies(tests ${_target})
