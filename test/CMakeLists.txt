@@ -9,9 +9,15 @@ add_dependencies(check tests)
 ##############################################################################
 # Take note of files that depend on Boost
 ##############################################################################
-list(APPEND TESTS_REQUIRING_BOOST "ext/boost/*.cpp"
-                                  "experimental/printable/*.cpp")
-file(GLOB_RECURSE TESTS_REQUIRING_BOOST ${TESTS_REQUIRING_BOOST})
+file(GLOB_RECURSE TESTS_REQUIRING_BOOST "ext/boost/*.cpp"
+                                        "experimental/printable/*.cpp")
+
+file(GLOB_RECURSE PUBLIC_HEADERS_REQUIRING_BOOST
+    RELATIVE "${Boost.Hana_SOURCE_DIR}/include"
+    "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost/*.hpp"
+    "${Boost.Hana_SOURCE_DIR}/include/boost/hana/ext/boost.hpp"
+    "${Boost.Hana_SOURCE_DIR}/include/boost/hana/experimental/printable.hpp"
+)
 
 
 ##############################################################################
@@ -19,10 +25,7 @@ file(GLOB_RECURSE TESTS_REQUIRING_BOOST ${TESTS_REQUIRING_BOOST})
 ##############################################################################
 if (NOT Boost_FOUND)
     list(APPEND EXCLUDED_UNIT_TESTS ${TESTS_REQUIRING_BOOST})
-    list(APPEND EXCLUDED_PUBLIC_HEADERS
-        "boost/hana/ext/boost/.+.hpp"
-        "boost/hana/ext/boost.hpp"
-        "boost/hana/experimental/printable.hpp")
+    list(APPEND EXCLUDED_PUBLIC_HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST})
 endif()
 
 # The std::tuple adapter is not supported with Clang < 3.7.0
@@ -67,6 +70,7 @@ file(GLOB_RECURSE PUBLIC_HEADERS
     RELATIVE "${Boost.Hana_SOURCE_DIR}/include"
     "${Boost.Hana_SOURCE_DIR}/include/*.hpp"
 )
+list(REMOVE_ITEM PUBLIC_HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST})
 
 add_custom_target(test.headers COMMENT "Build all the header-inclusion unit tests.")
 add_dependencies(tests test.headers)
@@ -74,9 +78,14 @@ include(TestHeaders)
 generate_standalone_header_tests(
     HEADERS ${PUBLIC_HEADERS}
     EXCLUDE ${EXCLUDED_PUBLIC_HEADERS}
-            "boost/hana/detail/.+.hpp"
-            "boost/hana/ext/boost/fusion/detail/.+.hpp"
     LINK_LIBRARIES hana
+    MASTER_TARGET test.headers
+    EXCLUDE_FROM_ALL
+)
+generate_standalone_header_tests(
+    HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST}
+    EXCLUDE ${EXCLUDED_PUBLIC_HEADERS}
+    LINK_LIBRARIES hana Boost::boost
     MASTER_TARGET test.headers
     EXCLUDE_FROM_ALL
 )

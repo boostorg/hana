@@ -84,9 +84,9 @@
 #   If provided, the generated targets are excluded from the 'all' target.
 #
 function(generate_standalone_header_tests)
-    cmake_parse_arguments(ARGS "EXCLUDE_FROM_ALL"             # options
-                               "MASTER_TARGET;LINK_LIBRARIES" # 1 value args
-                               "HEADERS;EXCLUDE"              # multivalued args
+    cmake_parse_arguments(ARGS "EXCLUDE_FROM_ALL"               # options
+                               "MASTER_TARGET"                  # 1 value args
+                               "HEADERS;EXCLUDE;LINK_LIBRARIES" # multivalued args
                                ${ARGN})
 
     if (NOT ARGS_HEADERS)
