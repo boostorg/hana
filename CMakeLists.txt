@@ -44,7 +44,7 @@ if (NOT (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang"))
 endif()
 
 install(TARGETS hana EXPORT HanaConfig)
-install(EXPORT HanaConfig       DESTINATION lib/cmake)
+install(EXPORT HanaConfig       DESTINATION lib/cmake/hana)
 install(DIRECTORY include/boost DESTINATION include FILES_MATCHING PATTERN "*.hpp")
 
 # Also install an optional pkg-config file.

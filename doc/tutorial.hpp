@@ -98,14 +98,15 @@ against the `hana` target. Here is a minimal example of doing this:
 
 @snippet example/cmake_integration/CMakeLists.txt snip
 
-If you have installed Hana in a non-standard place, which can be the case if
-you're trying to keep all your dependencies local, you might need to play with
+If you have installed Hana in a non-standard place, you might need to play with
 `CMAKE_PREFIX_PATH`. For example, this can happen if you "manually" install
 Hana locally to another project. In this case, you'll need to tell CMake where
 to find the `HanaConfig.cmake` file by using
 
 @code{cmake}
-list(APPEND CMAKE_PREFIX_PATH "${INSTALLATION_PREFIX_FOR_HANA}/lib/cmake")
+list(APPEND CMAKE_PREFIX_PATH "${INSTALLATION_PREFIX_FOR_HANA}")
+or
+cmake ... -DCMAKE_PREFIX_PATH=${INSTALLATION_PREFIX_FOR_HANA}
 @endcode
 
 where `INSTALLATION_PREFIX_FOR_HANA` is the path to the place where Hana was
