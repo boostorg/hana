@@ -114,6 +114,7 @@ namespace boost {
 #include <boost/hana/greater.hpp>
 #include <boost/hana/greater_equal.hpp>
 #include <boost/hana/group.hpp>
+#include <boost/hana/index_if.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/insert.hpp>
 #include <boost/hana/insert_range.hpp>
