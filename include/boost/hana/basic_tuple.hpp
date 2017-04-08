@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/ebo.hpp>
+#include <boost/hana/detail/type_at.hpp>
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/bool.hpp>
 #include <boost/hana/fwd/concept/sequence.hpp>
@@ -72,7 +73,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     template <typename ...Xn>
-    struct basic_tuple final
+    struct basic_tuple
         : detail::basic_tuple_impl<std::make_index_sequence<sizeof...(Xn)>, Xn...>
     {
         using Base = detail::basic_tuple_impl<std::make_index_sequence<sizeof...(Xn)>, Xn...>;
@@ -176,28 +177,75 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     template <>
     struct at_impl<basic_tuple_tag> {
-        template <typename Xs, typename N>
-        static constexpr decltype(auto) apply(Xs&& xs, N const&) {
+        template <typename ...T, typename N>
+        static constexpr decltype(auto) apply(hana::basic_tuple<T...>& xs, N const&) {
             constexpr std::size_t index = N::value;
-            return detail::ebo_get<detail::bti<index>>(static_cast<Xs&&>(xs));
+            using Nth = typename detail::type_at<index, T...>::type;
+            return detail::ebo_get<detail::bti<index>>(
+                static_cast<detail::ebo<detail::bti<index>, Nth>&>(xs)
+            );
+        }
+
+        template <typename ...T, typename N>
+        static constexpr decltype(auto) apply(hana::basic_tuple<T...>&& xs, N const&) {
+            constexpr std::size_t index = N::value;
+            using Nth = typename detail::type_at<index, T...>::type;
+            return detail::ebo_get<detail::bti<index>>(
+                static_cast<detail::ebo<detail::bti<index>, Nth>&&>(xs)
+            );
+        }
+
+        template <typename ...T, typename N>
+        static constexpr decltype(auto) apply(hana::basic_tuple<T...> const& xs, N const&) {
+            constexpr std::size_t index = N::value;
+            using Nth = typename detail::type_at<index, T...>::type;
+            return detail::ebo_get<detail::bti<index>>(
+                static_cast<detail::ebo<detail::bti<index>, Nth> const&>(xs)
+            );
         }
     };
 
     template <>
     struct drop_front_impl<basic_tuple_tag> {
-        template <std::size_t N, typename Xs, std::size_t ...i>
-        static constexpr auto drop_front_helper(Xs&& xs, std::index_sequence<i...>) {
+        template <std::size_t N, typename ...Xs, std::size_t ...i>
+        static constexpr auto
+        drop_front_helper(hana::basic_tuple<Xs...>&& xs, std::index_sequence<i...>) {
             return hana::make_basic_tuple(
-                detail::ebo_get<detail::bti<i+N>>(static_cast<Xs&&>(xs))...
+                detail::ebo_get<detail::bti<i+N>>(
+                    static_cast<detail::ebo<
+                        detail::bti<i+N>, typename detail::type_at<i+N, Xs...>::type
+                    >&&>(xs)
+                )...
+            );
+        }
+        template <std::size_t N, typename ...Xs, std::size_t ...i>
+        static constexpr auto
+        drop_front_helper(hana::basic_tuple<Xs...>& xs, std::index_sequence<i...>) {
+            return hana::make_basic_tuple(
+                detail::ebo_get<detail::bti<i+N>>(
+                    static_cast<detail::ebo<
+                        detail::bti<i+N>, typename detail::type_at<i+N, Xs...>::type
+                    >&>(xs)
+                )...
+            );
+        }
+        template <std::size_t N, typename ...Xs, std::size_t ...i>
+        static constexpr auto
+        drop_front_helper(hana::basic_tuple<Xs...> const& xs, std::index_sequence<i...>) {
+            return hana::make_basic_tuple(
+                detail::ebo_get<detail::bti<i+N>>(
+                    static_cast<detail::ebo<
+                        detail::bti<i+N>, typename detail::type_at<i+N, Xs...>::type
+                    > const&>(xs)
+                )...
             );
         }
 
         template <typename Xs, typename N>
         static constexpr auto apply(Xs&& xs, N const&) {
             constexpr std::size_t len = detail::decay<Xs>::type::size_;
-            return drop_front_helper<N::value>(static_cast<Xs&&>(xs), std::make_index_sequence<
-                N::value < len ? len - N::value : 0
-            >{});
+            using Indices = std::make_index_sequence<N::value < len ? len - N::value : 0>;
+            return drop_front_helper<N::value>(static_cast<Xs&&>(xs), Indices{});
         }
     };
 
@@ -212,17 +260,26 @@ BOOST_HANA_NAMESPACE_BEGIN
     // compile-time optimizations (to reduce the # of function instantiations)
     template <std::size_t n, typename ...Xs>
     constexpr decltype(auto) at_c(basic_tuple<Xs...> const& xs) {
-        return detail::ebo_get<detail::bti<n>>(xs);
+        using Nth = typename detail::type_at<n, Xs...>::type;
+        return detail::ebo_get<detail::bti<n>>(
+            static_cast<detail::ebo<detail::bti<n>, Nth> const&>(xs)
+        );
     }
 
     template <std::size_t n, typename ...Xs>
     constexpr decltype(auto) at_c(basic_tuple<Xs...>& xs) {
-        return detail::ebo_get<detail::bti<n>>(xs);
+        using Nth = typename detail::type_at<n, Xs...>::type;
+        return detail::ebo_get<detail::bti<n>>(
+            static_cast<detail::ebo<detail::bti<n>, Nth>&>(xs)
+        );
     }
 
     template <std::size_t n, typename ...Xs>
     constexpr decltype(auto) at_c(basic_tuple<Xs...>&& xs) {
-        return detail::ebo_get<detail::bti<n>>(static_cast<basic_tuple<Xs...>&&>(xs));
+        using Nth = typename detail::type_at<n, Xs...>::type;
+        return detail::ebo_get<detail::bti<n>>(
+            static_cast<detail::ebo<detail::bti<n>, Nth>&&>(xs)
+        );
     }
 
     //////////////////////////////////////////////////////////////////////////
