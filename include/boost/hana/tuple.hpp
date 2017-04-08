@@ -141,7 +141,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         // The three following constructors are required to make sure that
         // the tuple(Yn&&...) constructor is _not_ preferred over the copy
         // constructor for unary tuples containing a type that is constructible
-        // from tuple<...>. See test/tuple/trap_construct.cpp
+        // from tuple<...>. See test/tuple/cnstr.trap.cpp
         template <typename ...dummy, typename = typename std::enable_if<
             detail::fast_and<BOOST_HANA_TT_IS_CONSTRUCTIBLE(Xn, Xn const&, dummy...)...>::value
         >::type>
