@@ -43,6 +43,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/erase_key.hpp>
 #include <boost/hana/fwd/is_subset.hpp>
 #include <boost/hana/fwd/keys.hpp>
+#include <boost/hana/fwd/union.hpp>
 #include <boost/hana/insert.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/keys.hpp>
@@ -476,6 +477,18 @@ BOOST_HANA_NAMESPACE_BEGIN
                 "hana::at_key(map, key) requires the 'key' to be present in the 'map'");
             constexpr std::size_t index = decltype(*MaybeIndex{}){}();
             return hana::second(hana::at_c<index>(static_cast<Map&&>(map).storage));
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // union_
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct union_impl<map_tag> {
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs&& xs, Ys&& ys) {
+            return hana::fold_left(static_cast<Xs&&>(xs), static_cast<Ys&&>(ys),
+                                   hana::insert);
         }
     };
 
