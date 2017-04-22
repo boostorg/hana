@@ -255,6 +255,31 @@ BOOST_HANA_NAMESPACE_BEGIN
         return tag-dispatched;
     };
 #endif
+
+    //! Returns the union of two maps.
+    //! @relates hana::map
+    //!
+    //! Given two maps `xs` and `ys`, `hana::union_(xs, ys)` is a new map
+    //! containing all the elements of `xs` and all the elements of `ys`,
+    //! without duplicates. If both `xs` and `ys` contain an element with the
+    //! same `key`, the one in `ys` is taken. Functionally,
+    //! `hana::union_(xs, ys)` is equivalent to
+    //! @code
+    //! hana::fold_left(xs, ys, hana::insert)
+    //! @endcode
+    //!
+    //! @param xs, ys
+    //! The two maps to compute the union of.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/map/union.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto union_ = [](auto&& xs, auto&& ys) {
+        return tag-dispatched;
+    };
+#endif
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_MAP_HPP

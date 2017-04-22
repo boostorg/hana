@@ -10,7 +10,7 @@
 #include <laws/base.hpp>
 #include <support/minimal_product.hpp>
 namespace hana = boost::hana;
-using hana::test::ct_eq;
+
 
 template <int i>
 auto key() { return hana::test::ct_eq<i>{}; }

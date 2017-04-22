@@ -6,22 +6,14 @@
 #include <boost/hana/equal.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/string.hpp>
-#include <boost/hana/set.hpp>
 #include <boost/hana/map.hpp>
 #include <boost/hana/type.hpp>
 #include <boost/hana/union.hpp>
 
 #include <string>
 namespace hana = boost::hana;
-
 using namespace hana::literals;
 
-constexpr auto xs = hana::make_set(hana::int_c<1>, hana::type_c<void>, hana::int_c<2>);
-constexpr auto ys = hana::make_set(hana::int_c<2>, hana::type_c<int>, hana::int_c<3>);
-
-BOOST_HANA_CONSTANT_CHECK(hana::union_(xs, ys) == hana::make_set(
-    hana::int_c<1>, hana::int_c<2>, hana::int_c<3>, hana::type_c<void>, hana::type_c<int>
-));
 
 constexpr auto m1 = hana::make_map(
     hana::make_pair("key1"_s, hana::type_c<std::string>),
@@ -57,6 +49,5 @@ BOOST_HANA_CONSTANT_CHECK(hana::union_(m3, m4) == hana::make_map(
        hana::make_pair(hana::type_c<bool>, hana::bool_c<false>),
        hana::make_pair(hana::type_c<char>, hana::char_c<'c'>)
 ));
-
 
 int main() { }

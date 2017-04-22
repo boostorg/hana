@@ -182,6 +182,28 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 #endif
 
+    //! Returns the union of two sets.
+    //! @relates hana::set
+    //!
+    //! Given two sets `xs` and `ys`, `union_(xs, ys)` is a new set containing
+    //! all the elements of `xs` and all the elements of `ys`, without
+    //! duplicates. For any object `x`, the following holds: `x` is in
+    //! `hana::union_(xs, ys)` if and only if `x` is in `xs` or `x` is in `ys`.
+    //!
+    //!
+    //! @param xs, ys
+    //! Two sets to compute the union of.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/set/union.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto union_ = [](auto&& xs, auto&& ys) {
+        return tag-dispatched;
+    };
+#endif
+
     //! Equivalent to `to<set_tag>`; provided for convenience.
     //! @relates hana::set
     constexpr auto to_set = to<set_tag>;

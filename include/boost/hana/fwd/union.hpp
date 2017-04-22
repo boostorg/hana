@@ -15,39 +15,18 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 BOOST_HANA_NAMESPACE_BEGIN
-    //! Returns the union of two sets.
-    //! @relates hana::set
-    //!
-    //! Given two sets `xs` and `ys`, `union_(xs, ys)` is a new set containing
-    //! all the elements of `xs` and all the elements of `ys`, without
-    //! duplicates. For any object `x`, the following holds:
-    //! @code
-    //!     x ^in^ union_(xs, ys) if and only if x ^in^ xs || x ^in^ ys
-    //! @endcode
-    //!
-    //!
-    //! @param xs, ys
-    //! Two sets to compute the union of.
-    //!
-    //!
-    //! Example
-    //! -------
-    //! @include example/union.cpp
-#ifdef BOOST_HANA_DOXYGEN_INVOKED
-    constexpr auto union_ = [](auto&& xs, auto&& ys) {
-        return tag-dispatched;
-    };
-#else
-    template <typename S, typename = void>
-    struct union_impl : union_impl<S, when<true>> { };
+    // Note: This function is documented per datatype/concept only.
+    //! @cond
+    template <typename T, typename = void>
+    struct union_impl : union_impl<T, when<true>> { };
+    //! @endcond
 
     struct union_t {
         template <typename Xs, typename Ys>
-        constexpr auto operator()(Xs&& xs, Ys&& ys) const;
+        constexpr auto operator()(Xs&&, Ys&&) const;
     };
 
     constexpr union_t union_{};
-#endif
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_UNION_HPP
