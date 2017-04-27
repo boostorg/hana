@@ -32,7 +32,7 @@ include(CheckCxxCompilerSupport)
 # and exports.
 ##############################################################################
 add_library(hana INTERFACE)
-target_include_directories(hana INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+target_include_directories(hana INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
                                           $<INSTALL_INTERFACE:include>)
 target_compile_features(hana INTERFACE cxx_std_14)
 
@@ -136,9 +136,9 @@ function(boost_hana_target_name_for out file)
         set(_extension "${ARGV2}")
     endif()
 
-    file(RELATIVE_PATH _relative ${Boost.Hana_SOURCE_DIR} ${file})
-    string(REPLACE "${_extension}" "" _name ${_relative})
-    string(REGEX REPLACE "/" "." _name ${_name})
+    file(RELATIVE_PATH _relative "${Boost.Hana_SOURCE_DIR}" "${file}")
+    string(REPLACE "${_extension}" "" _name "${_relative}")
+    string(REGEX REPLACE "/" "." _name "${_name}")
     set(${out} "${_name}" PARENT_SCOPE)
 endfunction()
 
@@ -148,7 +148,7 @@ endfunction()
 ##############################################################################
 add_custom_target(check
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
     COMMENT "Build and then run all the tests and examples.")
 
 
