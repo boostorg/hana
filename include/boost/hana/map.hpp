@@ -41,6 +41,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/any_of.hpp>
 #include <boost/hana/fwd/at_key.hpp>
 #include <boost/hana/fwd/erase_key.hpp>
+#include <boost/hana/fwd/intersection.hpp>
 #include <boost/hana/fwd/is_subset.hpp>
 #include <boost/hana/fwd/keys.hpp>
 #include <boost/hana/fwd/union.hpp>
@@ -489,6 +490,45 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr auto apply(Xs&& xs, Ys&& ys) {
             return hana::fold_left(static_cast<Xs&&>(xs), static_cast<Ys&&>(ys),
                                    hana::insert);
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // intersection_
+    //////////////////////////////////////////////////////////////////////////
+    namespace detail {
+        template <typename Ys>
+        struct map_insert_if_contains {
+            Ys const& ys;
+
+            // Second template param will be pair
+            // Get its key and check if it exists, if it does, insert key, value pair.
+            template <typename Result, typename Pair>
+            static constexpr auto helper(Result&& result, Pair&& pair, hana::true_) {
+                return hana::insert(static_cast<Result&&>(result), static_cast<Pair&&>(pair));
+            }
+
+            template <typename Result, typename Pair>
+            static constexpr auto helper(Result&& result, Pair&&, hana::false_) {
+                return static_cast<Result&&>(result);
+            }
+
+            template <typename Result, typename Pair>
+            constexpr auto operator()(Result&& result, Pair&& pair) const {
+                constexpr bool keep = hana::value<decltype(hana::contains(ys, hana::first(pair)))>();
+                return map_insert_if_contains::helper(static_cast<Result&&>(result),
+                                                      static_cast<Pair&&>(pair),
+                                                      hana::bool_c<keep>);
+            }
+        };
+    }
+
+    template <>
+    struct intersection_impl<map_tag> {
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs&& xs, Ys const& ys) {
+            return hana::fold_left(static_cast<Xs&&>(xs), hana::make_map(),
+                                   detail::map_insert_if_contains<Ys>{ys});
         }
     };
 
