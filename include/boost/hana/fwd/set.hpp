@@ -204,6 +204,29 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 #endif
 
+    //! Returns the intersection of two sets.
+    //! @relates hana::set
+    //!
+    //! Given two sets `xs` and `ys`, `intersection(xs, ys)` is a new set
+    //! containing exactly those elements that are present both in `xs` and
+    //! in `ys`. In other words, the following holds for any object `x`:
+    //! @code
+    //!     x ^in^ intersection(xs, ys) if and only if x ^in^ xs && x ^in^ ys
+    //! @endcode
+    //!
+    //!
+    //! @param xs, ys
+    //! Two sets to intersect.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/set/intersection.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto intersection = [](auto&& xs, auto&& ys) {
+        return tag-dispatched;
+    };
+#endif
     //! Equivalent to `to<set_tag>`; provided for convenience.
     //! @relates hana::set
     constexpr auto to_set = to<set_tag>;

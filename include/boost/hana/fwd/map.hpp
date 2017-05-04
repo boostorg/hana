@@ -280,6 +280,41 @@ BOOST_HANA_NAMESPACE_BEGIN
         return tag-dispatched;
     };
 #endif
+
+    //! Returns the intersection of two maps.
+    //! @relates hana::map
+    //!
+    //! Given two maps `xs` and `ys`, `intersection(xs, ys)` is a new map
+    //! containing exactly those (key, value) pairs from xs, for which key
+    //! is present in `ys`.
+    //! In other words, the following holds for any object `pair(k, v)`:
+    //! @code
+    //!     pair(k, v) ^in^ intersection(xs, ys) if and only if (k, v) ^in^ xs && k ^in^ keys(ys)
+    //! @endcode
+    //!
+    //!
+    //! @note
+    //! This function is not commutative, i.e. `intersection(xs, ys)` is not
+    //! necessarily the same as `intersection(ys, xs)`. Indeed, the set of keys
+    //! in `intersection(xs, ys)` is always the same as the set of keys in
+    //! `intersection(ys, xs)`, but the value associated to each key may be
+    //! different. `intersection(xs, ys)` contains values present in `xs`, and
+    //! `intersection(ys, xs)` contains values present in `ys`.
+    //!
+    //!
+    //! @param xs, ys
+    //! Two maps to intersect.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/map/intersection.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto intersection = [](auto&& xs, auto&& ys) {
+        return tag-dispatched;
+    };
+#endif
+
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_MAP_HPP
