@@ -315,6 +315,40 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 #endif
 
+    //! Returns the difference of two maps.
+    //! @relates hana::map
+    //!
+    //! Given two maps `xs` and `ys`, `difference(xs, ys)` is a new map
+    //! containing exactly those (key, value) pairs from xs, for which key
+    //! is not present in `keys(ys)`.
+    //! In other words, the following holds for any object `pair(k, v)`:
+    //! @code
+    //!     pair(k, v) ^in^ difference(xs, ys) if and only if (k, v) ^in^ xs && k ^not in^ keys(ys)
+    //! @endcode
+    //!
+    //!
+    //! @note
+    //! This function is not commutative, i.e. `difference(xs, ys)` is not
+    //! necessarily the same as `difference(ys, xs)`.
+    //! Indeed, consider the case where `xs` is empty and `ys` isn't.
+    //! In that case, `difference(xs, ys)` is empty, but `difference(ys, xs)`
+    //! is equal to `ys`.
+    //! For symmetric version of this operation, see `symmetric_difference`.
+    //!
+    //!
+    //! @param xs, ys
+    //! Two maps to compute the difference of.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/map/intersection.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto difference = [](auto&& xs, auto&& ys) {
+        return tag-dispatched;
+    };
+#endif
+
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_MAP_HPP

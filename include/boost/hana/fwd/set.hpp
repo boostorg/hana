@@ -209,7 +209,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!
     //! Given two sets `xs` and `ys`, `intersection(xs, ys)` is a new set
     //! containing exactly those elements that are present both in `xs` and
-    //! in `ys`. In other words, the following holds for any object `x`:
+    //! in `ys`.
+    //! In other words, the following holds for any object `x`:
     //! @code
     //!     x ^in^ intersection(xs, ys) if and only if x ^in^ xs && x ^in^ ys
     //! @endcode
@@ -230,6 +231,42 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Equivalent to `to<set_tag>`; provided for convenience.
     //! @relates hana::set
     constexpr auto to_set = to<set_tag>;
+
+    //! Returns the set-theoretic difference of two sets.
+    //! @relates hana::set
+    //!
+    //! Given two sets `xs` and `ys`, `difference(xs, ys)` is a new set
+    //! containing all the elements of `xs` that are _not_ contained in `ys`.
+    //! For any object `x`, the following holds:
+    //! @code
+    //!     x ^in^ difference(xs, ys) if and only if x ^in^ xs && !(x ^in^ ys)
+    //! @endcode
+    //!
+    //!
+    //! This operation is not commutative, i.e. `difference(xs, ys)` is not
+    //! necessarily the same as `difference(ys, xs)`. Indeed, consider the
+    //! case where `xs` is empty and `ys` isn't. Then, `difference(xs, ys)`
+    //! is empty but `difference(ys, xs)` is equal to `ys`. For the symmetric
+    //! version of this operation, see `symmetric_difference`.
+    //!
+    //!
+    //! @param xs
+    //! A set param to remove values from.
+    //!
+    //! @param ys
+    //! The set whose values are removed from `xs`.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/set/difference.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    constexpr auto difference = [](auto&& xs, auto&& ys) {
+        return tag-dispatched;
+};
+#endif
+
+
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_SET_HPP
