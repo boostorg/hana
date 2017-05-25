@@ -57,7 +57,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!             std::is_same<
     //!                 typename fusion::traits::tag_of<T>::type,
     //!                 fusion::traits::tag_of<fusion::vector<>>::type
-    //!             >{}
+    //!             >::value
     //!         >> {
     //!             using type = BoostFusionVector;
     //!         };
