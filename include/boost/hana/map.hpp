@@ -40,6 +40,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/fwd/any_of.hpp>
 #include <boost/hana/fwd/at_key.hpp>
+#include <boost/hana/fwd/difference.hpp>
 #include <boost/hana/fwd/erase_key.hpp>
 #include <boost/hana/fwd/intersection.hpp>
 #include <boost/hana/fwd/is_subset.hpp>
@@ -54,6 +55,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/second.hpp>
 #include <boost/hana/unpack.hpp>
 #include <boost/hana/value.hpp>
+
 
 #include <cstddef>
 #include <type_traits>
@@ -529,6 +531,20 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr auto apply(Xs&& xs, Ys const& ys) {
             return hana::fold_left(static_cast<Xs&&>(xs), hana::make_map(),
                                    detail::map_insert_if_contains<Ys>{ys});
+        }
+    };
+
+    //////////////////////////////////////////////////////////////////////////
+    // difference
+    //////////////////////////////////////////////////////////////////////////
+    template <>
+    struct difference_impl<map_tag> {
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs&& xs, Ys&& ys) {
+            return hana::fold_left(
+                    hana::keys(static_cast<Ys&&>(ys)),
+                    static_cast<Xs&&>(xs),
+                    hana::erase_key);
         }
     };
 
