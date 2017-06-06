@@ -3,6 +3,7 @@
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 #include <boost/hana/at.hpp>
+#include <boost/hana/bool.hpp>
 #include <boost/hana/first.hpp>
 #include <boost/hana/integral_constant.hpp>
 #include <boost/hana/pair.hpp>
@@ -10,6 +11,7 @@
 #include <boost/hana/tuple.hpp>
 
 #include <type_traits>
+#include <utility>
 namespace hana = boost::hana;
 
 
@@ -41,5 +43,15 @@ int main() {
 
         auto b = hana::at_c<1>(tuple);
         static_assert(std::is_same<decltype(b), Nested>{}, "");
+    }
+
+    // Original test case submitted by Vittorio Romeo
+    {
+        hana::pair<hana::int_<1>, hana::bool_<false>> p{};
+        auto copy = hana::make_pair(hana::int_c<0>, p);
+        auto move = hana::make_pair(hana::int_c<0>, std::move(p));
+
+        copy = move; // copy assign
+        copy = std::move(move); // move assign
     }
 }
