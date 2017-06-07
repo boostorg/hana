@@ -637,6 +637,7 @@ function                                                                        
 <code>[for_each](@ref ::boost::hana::for_each)(sequence, f)</code>                        | Call a function on each element of a sequence. Returns `void`.
 <code>[front](@ref ::boost::hana::front)(sequence)</code>                                 | Returns the first element of a non-empty sequence.
 <code>[group](@ref ::boost::hana::group)(sequence[, predicate])</code>                    | %Group adjacent elements of a sequence which all satisfy (or all do not satisfy) some predicate. The predicate defaults to equality, in which case the elements must be `Comparable`.
+<code>[index_if](@ref ::boost::hana::index_if)(sequence, predicate)</code>                | Find the index of the first element in a sequence satisfying the predicate and return `just` it, or return `nothing`. See `hana::optional`.
 <code>[insert](@ref ::boost::hana::insert)(sequence, index, element)</code>               | Insert an element at a given index. The index must be an `IntegralConstant`.
 <code>[insert_range](@ref ::boost::hana::insert_range)(sequence, index, elements)</code>  | Insert a sequence of elements at a given index. The index must be an `IntegralConstant`.
 <code>[is_empty](@ref ::boost::hana::is_empty)(sequence)</code>                           | Returns whether a sequence is empty as an `IntegralConstant`.
