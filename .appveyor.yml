@@ -5,7 +5,7 @@
 shallow_clone: true
 
 os:
-  - Visual Studio 2015 Update 2
+  - Visual Studio 2015
 
 build:
   verbosity: detailed
@@ -58,5 +58,5 @@ before_build:
 build_script:
   - mkdir build
   - cd build
-  - cmake .. -GNinja -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_CXX_FLAGS="-fms-compatibility-version=19"
+  - cmake .. -GNinja -DCMAKE_CXX_COMPILER=clang-cl
   - cmake --build . --target check
