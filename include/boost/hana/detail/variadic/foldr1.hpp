@@ -15,6 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 BOOST_HANA_NAMESPACE_BEGIN namespace detail { namespace variadic {
+    //! @cond
     template <unsigned int n, typename = when<true>>
     struct foldr1_impl;
 
@@ -181,6 +182,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail { namespace variadic {
                      foldr1_impl<sizeof...(xn) + 1>::apply(f, static_cast<X56&&>(x56), static_cast<Xn&&>(xn)...))))))))))))))))))))))))))))))))))))))))))))))))))))))));
         }
     };
+    //! @endcond
 
     struct foldr1_t {
         template <typename F, typename X1, typename ...Xn>
