@@ -3,11 +3,9 @@
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 #include <boost/hana/assert.hpp>
-#include <boost/hana/equal.hpp>
-#include <boost/hana/integral_constant.hpp>
 #include <boost/hana/set.hpp>
 #include <boost/hana/symmetric_difference.hpp>
-#include <boost/hana/type.hpp>
+
 namespace hana = boost::hana;
 
 
