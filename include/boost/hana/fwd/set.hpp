@@ -266,6 +266,31 @@ BOOST_HANA_NAMESPACE_BEGIN
 };
 #endif
 
+    //! Returns the symmetric set-theoretic difference of two sets.
+    //! @relates hana::set
+    //!
+    //! Given two sets `xs` and `ys`, `symmetric_difference(xs, ys)` is a new
+    //! set containing all the elements of `xs` that are not contained in `ys`,
+    //! and all the elements of `ys` that are not contained in `xs`. The
+    //! symmetric difference of two sets satisfies the following:
+    //! @code
+    //!     symmetric_difference(xs, ys) == union_(difference(xs, ys), difference(ys, xs))
+    //! @endcode
+    //!
+    //!
+    //! @param xs, ys
+    //! Two sets to compute the symmetric difference of.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/set/symmetric_difference.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+constexpr auto symmetric_difference = [](auto&& xs, auto&& ys) {
+        return tag-dispatched;
+    };
+#endif
+
 
 BOOST_HANA_NAMESPACE_END
 

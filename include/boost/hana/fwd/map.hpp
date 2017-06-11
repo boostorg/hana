@@ -349,6 +349,32 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 #endif
 
+    //! Returns the symmetric set-theoretic difference of two maps.
+    //! @relates hana::map
+    //!
+    //! Given two sets `xs` and `ys`, `symmetric_difference(xs, ys)` is a new
+    //! map containing all the elements of `xs` whose keys are not contained in `keys(ys)`,
+    //! and all the elements of `ys` whose keys are not contained in `keys(xs)`. The
+    //! symmetric difference of two maps satisfies the following:
+    //! @code
+    //!     symmetric_difference(xs, ys) == union_(difference(xs, ys), difference(ys, xs))
+    //! @endcode
+    //!
+    //!
+    //! @param xs, ys
+    //! Two maps to compute the symmetric difference of.
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/map/symmetric_difference.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+constexpr auto symmetric_difference = [](auto&& xs, auto&& ys) {
+        return tag-dispatched;
+    };
+#endif
+
+
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_MAP_HPP
