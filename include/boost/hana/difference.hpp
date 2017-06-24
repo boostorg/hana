@@ -14,6 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
+#include <boost/hana/erase_key.hpp>
 
 
 BOOST_HANA_NAMESPACE_BEGIN
