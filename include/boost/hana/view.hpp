@@ -22,6 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/unpack_flatten.hpp>
 #include <boost/hana/fold_left.hpp>
 #include <boost/hana/functional/compose.hpp>
+#include <boost/hana/functional/on.hpp>
 #include <boost/hana/fwd/ap.hpp>
 #include <boost/hana/fwd/concat.hpp>
 #include <boost/hana/fwd/core/make.hpp>
