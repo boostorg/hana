@@ -2,7 +2,7 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.8)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 
@@ -32,22 +32,21 @@ include(CheckCxxCompilerSupport)
 # and exports.
 ##############################################################################
 add_library(hana INTERFACE)
-target_include_directories(hana INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+target_include_directories(hana INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
                                           $<INSTALL_INTERFACE:include>)
-
-include(CheckCXXCompilerFlag)
-# On Clang for Windows, -std=c++14 is not needed (and does not work).
+# With Clang on Windows, the -std=c++14 flag is incorrectly set and the compiler
+# complains about the unkown option. TODO: Remove this workaround once the
+# underlying bug is fixed in CMake: https://gitlab.kitware.com/cmake/cmake/issues/17015
 if (NOT (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang"))
-    # TODO: Set these as interface properties when supported
-    set(CMAKE_CXX_STANDARD 14)
-    set(CMAKE_CXX_STANDARD_REQUIRED YES)
+    target_compile_features(hana INTERFACE cxx_std_14)
 endif()
 
+# Export the `hana` library into a HanaConfig.cmake file
 install(TARGETS hana EXPORT HanaConfig)
 install(EXPORT HanaConfig       DESTINATION lib/cmake/hana)
 install(DIRECTORY include/boost DESTINATION include FILES_MATCHING PATTERN "*.hpp")
 
-# Also install an optional pkg-config file.
+# Also install an optional pkg-config file
 configure_file(cmake/hana.pc.in hana.pc @ONLY)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/hana.pc" DESTINATION lib/pkgconfig)
 
@@ -71,6 +70,7 @@ option(BOOST_HANA_ENABLE_EXCEPTIONS
 ##############################################################################
 # Function to setup common compiler flags on tests and examples
 ##############################################################################
+include(CheckCXXCompilerFlag)
 function(boost_hana_set_test_properties target)
     target_link_libraries(${target} PRIVATE hana)
     set_target_properties(${target} PROPERTIES CXX_EXTENSIONS NO)
@@ -141,9 +141,9 @@ function(boost_hana_target_name_for out file)
         set(_extension "${ARGV2}")
     endif()
 
-    file(RELATIVE_PATH _relative ${Boost.Hana_SOURCE_DIR} ${file})
-    string(REPLACE "${_extension}" "" _name ${_relative})
-    string(REGEX REPLACE "/" "." _name ${_name})
+    file(RELATIVE_PATH _relative "${Boost.Hana_SOURCE_DIR}" "${file}")
+    string(REPLACE "${_extension}" "" _name "${_relative}")
+    string(REGEX REPLACE "/" "." _name "${_name}")
     set(${out} "${_name}" PARENT_SCOPE)
 endfunction()
 
@@ -153,7 +153,7 @@ endfunction()
 ##############################################################################
 add_custom_target(check
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
-    WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+    WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
     COMMENT "Build and then run all the tests and examples.")
 
 

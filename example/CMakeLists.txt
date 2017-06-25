@@ -52,7 +52,7 @@ check_cxx_compiler_flag(-Wno-unused-parameter BOOST_HANA_HAS_WNO_UNUSED_PARAMETE
 foreach(_file IN LISTS EXAMPLES)
     boost_hana_target_name_for(_target "${_file}")
     add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
-    add_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
+    add_test(${_target} "${CMAKE_CURRENT_BINARY_DIR}/${_target}")
     boost_hana_set_test_properties(${_target})
     if (_file IN_LIST EXAMPLES_REQUIRING_BOOST)
         target_link_libraries(${_target} PRIVATE Boost::boost)
