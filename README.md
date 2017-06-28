@@ -173,10 +173,18 @@ Please see [LICENSE.md](LICENSE.md).
 ## Releasing
 This section acts as a reminder of the few simple steps required to release a
 new version of the library. This is only relevant to Hana's developers. To
-release a new version of the library, create an annotated tag using `git tag -a`.
+release a new version of the library, make sure the current version in
+`include/boost/hana/version.hpp` matches the release you're about to publish.
+Then, create an annotated tag with:
+```sh
+git tag -a --file=- v<version> <<EOM
+...your message here...
+EOM
+```
+
 Then, push the tag and create a new GitHub release pointing to that tag.
 Once that is done, bump the version number in `include/boost/hana/version.hpp`
-so that it matches the next planned release. Finally, do not forget to update
+so that it matches the next _planned_ release. Finally, do not forget to update
 the [Homebrew formula][] to point to the latest version.
 
 
