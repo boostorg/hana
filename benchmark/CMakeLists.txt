@@ -51,17 +51,20 @@ file(GLOB_RECURSE BOOST_HANA_BENCHMARKS *.erb.json)
 foreach(benchmark IN LISTS BOOST_HANA_BENCHMARKS)
     boost_hana_target_name_for(target ${benchmark} ".erb.json")
     get_filename_component(directory "${benchmark}" DIRECTORY)
-    file(GLOB cpp_files ${directory}/*.erb.cpp)
+    file(GLOB cpp_files "${directory}/*.erb.cpp")
     configure_file("${benchmark}" "${CMAKE_CURRENT_BINARY_DIR}/${target}.erb.json" @ONLY)
 
-    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/${target}.measure.cpp "")
-    add_executable(${target}.measure EXCLUDE_FROM_ALL ${CMAKE_CURRENT_BINARY_DIR}/${target}.measure.cpp)
-    target_include_directories(${target}.measure PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+    file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/${target}.measure.cpp" "")
+    add_executable(${target}.measure EXCLUDE_FROM_ALL "${CMAKE_CURRENT_BINARY_DIR}/${target}.measure.cpp")
+    target_include_directories(${target}.measure PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}")
     if (MPL11_FOUND)
-        target_include_directories(${target}.measure PRIVATE ${MPL11_INCLUDE_DIR})
+        target_include_directories(${target}.measure PRIVATE "${MPL11_INCLUDE_DIR}")
     endif()
     if (Meta_FOUND)
-        target_include_directories(${target}.measure PRIVATE ${Meta_INCLUDE_DIR})
+        target_include_directories(${target}.measure PRIVATE "${Meta_INCLUDE_DIR}")
+    endif()
+    if (Boost_FOUND)
+        target_link_libraries(${target}.measure PRIVATE Boost::boost)
     endif()
     boost_hana_set_test_properties(${target}.measure)
     if (BOOST_HANA_HAS_FTEMPLATE_DEPTH)
@@ -72,13 +75,13 @@ foreach(benchmark IN LISTS BOOST_HANA_BENCHMARKS)
     add_custom_target(${target}.measure.run COMMAND ${target}.measure)
 
     add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/${target}.json"
-        COMMAND ${RUBY_EXECUTABLE} -r tilt -r ${CMAKE_CURRENT_BINARY_DIR}/measure.rb
+        COMMAND ${RUBY_EXECUTABLE} -r tilt -r "${CMAKE_CURRENT_BINARY_DIR}/measure.rb"
             -e "MEASURE_FILE = '${CMAKE_CURRENT_BINARY_DIR}/${target}.measure.cpp'"
             -e "MEASURE_TARGET = '${target}.measure'"
             -e "json = Tilt::ERBTemplate.new('${CMAKE_CURRENT_BINARY_DIR}/${target}.erb.json').render"
             -e "File.open('${CMAKE_CURRENT_BINARY_DIR}/${target}.json', 'w') { |f| f.write(json) } "
         WORKING_DIRECTORY ${directory}
-        DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/${target}.erb.json ${cpp_files}
+        DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/${target}.erb.json" ${cpp_files}
         VERBATIM USES_TERMINAL
         COMMENT "Generating dataset for ${target}"
     )

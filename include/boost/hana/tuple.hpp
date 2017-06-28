@@ -3,6 +3,7 @@
 Defines `boost::hana::tuple`.
 
 @copyright Louis Dionne 2013-2017
+@copyright Jason Rice 2017
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
@@ -27,7 +28,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/at.hpp>
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/drop_front.hpp>
-#include <boost/hana/fwd/find_if.hpp>
+#include <boost/hana/fwd/index_if.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/length.hpp>
 #include <boost/hana/fwd/optional.hpp>
@@ -140,7 +141,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         // The three following constructors are required to make sure that
         // the tuple(Yn&&...) constructor is _not_ preferred over the copy
         // constructor for unary tuples containing a type that is constructible
-        // from tuple<...>. See test/tuple/trap_construct.cpp
+        // from tuple<...>. See test/tuple/cnstr.trap.cpp
         template <typename ...dummy, typename = typename std::enable_if<
             detail::fast_and<BOOST_HANA_TT_IS_CONSTRUCTIBLE(Xn, Xn const&, dummy...)...>::value
         >::type>
@@ -283,6 +284,14 @@ BOOST_HANA_NAMESPACE_BEGIN
         return hana::at_c<n>(static_cast<tuple<Xs...>&&>(xs).storage_);
     }
 
+    template <>
+    struct index_if_impl<tuple_tag> {
+        template <typename ...Xs, typename Pred>
+        static constexpr auto apply(tuple<Xs...> const&, Pred const&)
+            -> typename detail::index_if<Pred, Xs...>::type
+        { return {}; }
+    };
+
     //////////////////////////////////////////////////////////////////////////
     // Sequence
     //////////////////////////////////////////////////////////////////////////
@@ -297,27 +306,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr
         tuple<typename detail::decay<Xs>::type...> apply(Xs&& ...xs)
         { return {static_cast<Xs&&>(xs)...}; }
-    };
-
-    template <>
-    struct find_if_impl<tuple_tag> {
-        template <std::size_t index, typename Xs>
-        static constexpr auto helper(Xs&&, hana::true_) {
-            return hana::nothing;
-        }
-
-        template <std::size_t index, typename Xs>
-        static constexpr auto helper(Xs&& xs, hana::false_) {
-            return hana::just(hana::at_c<index>(static_cast<Xs&&>(xs)));
-        }
-
-        template <typename Xs, typename Pred>
-        static constexpr auto apply(Xs&& xs, Pred&&) {
-            using Pack = typename detail::make_pack<Xs>::type;
-            constexpr std::size_t index = detail::index_if<Pred&&, Pack>::value;
-            constexpr std::size_t len = Pack::length;
-            return helper<index>(static_cast<Xs&&>(xs), hana::bool_c<index == len>);
-        }
     };
 BOOST_HANA_NAMESPACE_END
 

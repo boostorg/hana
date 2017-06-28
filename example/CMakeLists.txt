@@ -7,10 +7,9 @@ add_dependencies(check examples)
 
 
 ##############################################################################
-# Caveats: Take note of examples that are not supported.
+# Take note of files that depend on Boost
 ##############################################################################
-if (NOT Boost_FOUND)
-    list(APPEND EXCLUDED_EXAMPLES
+list(APPEND EXAMPLES_REQUIRING_BOOST
         "ext/boost/*.cpp"
         "tutorial/appendix_mpl.cpp"
         "tutorial/ext/fusion_to_hana.cpp"
@@ -22,9 +21,18 @@ if (NOT Boost_FOUND)
         "tutorial/quickstart.switchAny.cpp"
         "tutorial/rationale.container.cpp"
         "tutorial/type.cpp"
-        "type/basic_type.cpp"
-    )
+        "type/basic_type.cpp")
+file(GLOB_RECURSE EXAMPLES_REQUIRING_BOOST ${EXAMPLES_REQUIRING_BOOST})
+
+
+##############################################################################
+# Caveats: Take note of examples that are not supported.
+##############################################################################
+if (NOT Boost_FOUND)
+    list(APPEND EXCLUDED_EXAMPLES ${EXAMPLES_REQUIRING_BOOST})
 endif()
+
+list(APPEND EXCLUDED_EXAMPLES "cmake_integration/main.cpp")
 
 
 ##############################################################################
@@ -44,8 +52,11 @@ check_cxx_compiler_flag(-Wno-unused-parameter BOOST_HANA_HAS_WNO_UNUSED_PARAMETE
 foreach(_file IN LISTS EXAMPLES)
     boost_hana_target_name_for(_target "${_file}")
     add_executable(${_target} EXCLUDE_FROM_ALL "${_file}")
-    add_test(${_target} ${CMAKE_CURRENT_BINARY_DIR}/${_target})
+    add_test(${_target} "${CMAKE_CURRENT_BINARY_DIR}/${_target}")
     boost_hana_set_test_properties(${_target})
+    if (_file IN_LIST EXAMPLES_REQUIRING_BOOST)
+        target_link_libraries(${_target} PRIVATE Boost::boost)
+    endif()
     if (BOOST_HANA_HAS_WNO_UNUSED_PARAMETER)
         target_compile_options(${_target} PRIVATE -Wno-unused-parameter)
     endif()

@@ -24,7 +24,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! ---------
     //! Given `F` a Functor and `Bool` a Logical, the signature is
     //! \f$
-    //!     \mathtt{replace_if} : F(T) \times (T \to Bool) \times T \to F(T)
+    //!     \mathtt{replace\_if} : F(T) \times (T \to Bool) \times T \to F(T)
     //! \f$
     //!
     //! @param xs
