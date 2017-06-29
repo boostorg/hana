@@ -61,7 +61,7 @@ var searchData=
   ['sum',['sum',['../group__group-Foldable.html#ga650def4b2e98f4273d8b9b7aa5a2fc28',1,'boost::hana']]],
   ['sum_2ehpp',['sum.hpp',['../sum_8hpp.html',1,'']]],
   ['sum_2ehpp',['sum.hpp',['../fwd_2sum_8hpp.html',1,'']]],
-  ['symmetric_5fdifference',['symmetric_difference',['../structboost_1_1hana_1_1set.html#a8bcb2455eb9f7074185d8fb61a99801e',1,'boost::hana::set']]],
+  ['symmetric_5fdifference',['symmetric_difference',['../structboost_1_1hana_1_1map.html#a8bcb2455eb9f7074185d8fb61a99801e',1,'boost::hana::map::symmetric_difference()'],['../structboost_1_1hana_1_1set.html#a8bcb2455eb9f7074185d8fb61a99801e',1,'boost::hana::set::symmetric_difference()']]],
   ['symmetric_5fdifference_2ehpp',['symmetric_difference.hpp',['../fwd_2symmetric__difference_8hpp.html',1,'']]],
   ['symmetric_5fdifference_2ehpp',['symmetric_difference.hpp',['../symmetric__difference_8hpp.html',1,'']]]
 ];

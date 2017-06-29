@@ -63,7 +63,7 @@ MathJax.Hub.Config({
   <td id="projectlogo"><img alt="Logo" src="Boost.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Boost.Hana
-   &#160;<span id="projectnumber">1.1.0</span>
+   &#160;<span id="projectnumber">1.2.0</span>
    </div>
    <div id="projectbrief">Your standard library for metaprogramming</div>
   </td>
@@ -150,12 +150,6 @@ The elements in a set act as both its keys and its values. Since the elements of
 <p>Any <code>Foldable</code> structure can be converted into a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring unique, Comparable and Hashable keys. ">hana::set</a></code> with <code>to&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code>. The elements of the structure must all be compile-time <code>Comparable</code>. If the structure contains duplicate elements, only the first occurence will appear in the resulting set. More specifically, conversion from a <code>Foldable</code> is equivalent to </p><div class="fragment"><div class="line">to&lt;set_tag&gt;(xs) == <a class="code" href="group__group-Foldable.html#ga38c6b3f6b1cbadb9b8432a05ff16b7d2">fold_left</a>(xs, <a class="code" href="structboost_1_1hana_1_1set.html#af38c23fb98d8eec68c1491a8bca9ce43">make_set</a>(), <a class="code" href="structboost_1_1hana_1_1set.html#a5791e6dc0e27d8e3a113e4d94482550f">insert</a>)</div></div><!-- fragment --><p><b>Example</b> </p><div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="core_2to_8hpp.html">boost/hana/core/to.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="tuple_8hpp.html">boost/hana/tuple.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() {</div><div class="line">    constexpr <span class="keyword">auto</span> xs = hana::make_tuple(</div><div class="line">        hana::int_c&lt;1&gt;,</div><div class="line">        hana::int_c&lt;3&gt;,</div><div class="line">        hana::type_c&lt;int&gt;,</div><div class="line">        hana::long_c&lt;1&gt;</div><div class="line">    );</div><div class="line"></div><div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div><div class="line">        hana::to&lt;hana::set_tag&gt;(xs)</div><div class="line">            ==</div><div class="line">        hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;3&gt;, hana::type_c&lt;int&gt;)</div><div class="line">    );</div><div class="line">}</div></div><!-- fragment --> </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="related"></a>
 Synopsis of associated functions</h2></td></tr>
-<tr class="memitem:a718ddfe86437adbbca1e1a5db651d139"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a718ddfe86437adbbca1e1a5db651d139">difference</a></td></tr>
-<tr class="memdesc:a718ddfe86437adbbca1e1a5db651d139"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the set-theoretic difference of two sets.  <a href="#a718ddfe86437adbbca1e1a5db651d139">More...</a><br /></td></tr>
-<tr class="separator:a718ddfe86437adbbca1e1a5db651d139"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3b3430482d4e88052e621f63a234f3eb"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a3b3430482d4e88052e621f63a234f3eb">intersection</a></td></tr>
-<tr class="memdesc:a3b3430482d4e88052e621f63a234f3eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the intersection of two sets.  <a href="#a3b3430482d4e88052e621f63a234f3eb">More...</a><br /></td></tr>
-<tr class="separator:a3b3430482d4e88052e621f63a234f3eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa337857e80b8a8c91880b0184aaf7534"><td class="memTemplParams" colspan="2">template&lt;&gt; </td></tr>
 <tr class="memitem:aa337857e80b8a8c91880b0184aaf7534"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#aa337857e80b8a8c91880b0184aaf7534">make&lt; set_tag &gt;</a></td></tr>
 <tr class="memdesc:aa337857e80b8a8c91880b0184aaf7534"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function object for creating a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring unique, Comparable and Hashable keys. ">hana::set</a></code>.  <a href="#aa337857e80b8a8c91880b0184aaf7534">More...</a><br /></td></tr>
@@ -169,15 +163,21 @@ Synopsis of associated functions</h2></td></tr>
 <tr class="memitem:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#af856f7bf77f69cdf1b8fd4e566eaef9b">erase_key</a></td></tr>
 <tr class="memdesc:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Remove an element from a <code><a class="el" href="structboost_1_1hana_1_1set.html" title="Basic unordered container requiring unique, Comparable and Hashable keys. ">hana::set</a></code>.  <a href="#af856f7bf77f69cdf1b8fd4e566eaef9b">More...</a><br /></td></tr>
 <tr class="separator:af856f7bf77f69cdf1b8fd4e566eaef9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:accbea694d32b341e860dac724c0c6933"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#accbea694d32b341e860dac724c0c6933">to_set</a> = <a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html">set_tag</a>&gt;</td></tr>
-<tr class="memdesc:accbea694d32b341e860dac724c0c6933"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>to&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code>; provided for convenience.  <a href="#accbea694d32b341e860dac724c0c6933">More...</a><br /></td></tr>
-<tr class="separator:accbea694d32b341e860dac724c0c6933"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8bcb2455eb9f7074185d8fb61a99801e"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a8bcb2455eb9f7074185d8fb61a99801e">symmetric_difference</a></td></tr>
-<tr class="memdesc:a8bcb2455eb9f7074185d8fb61a99801e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the symmetric set-theoretic difference of two sets.  <a href="#a8bcb2455eb9f7074185d8fb61a99801e">More...</a><br /></td></tr>
-<tr class="separator:a8bcb2455eb9f7074185d8fb61a99801e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acd511f2c01f38405bfba0b6d5b2922e8"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#acd511f2c01f38405bfba0b6d5b2922e8">union_</a></td></tr>
 <tr class="memdesc:acd511f2c01f38405bfba0b6d5b2922e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the union of two sets.  <a href="#acd511f2c01f38405bfba0b6d5b2922e8">More...</a><br /></td></tr>
 <tr class="separator:acd511f2c01f38405bfba0b6d5b2922e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b3430482d4e88052e621f63a234f3eb"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a3b3430482d4e88052e621f63a234f3eb">intersection</a></td></tr>
+<tr class="memdesc:a3b3430482d4e88052e621f63a234f3eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the intersection of two sets.  <a href="#a3b3430482d4e88052e621f63a234f3eb">More...</a><br /></td></tr>
+<tr class="separator:a3b3430482d4e88052e621f63a234f3eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:accbea694d32b341e860dac724c0c6933"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#accbea694d32b341e860dac724c0c6933">to_set</a> = <a class="el" href="group__group-core.html#gadc70755c1d059139297814fb3bfeb91e">to</a>&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html">set_tag</a>&gt;</td></tr>
+<tr class="memdesc:accbea694d32b341e860dac724c0c6933"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to <code>to&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code>; provided for convenience.  <a href="#accbea694d32b341e860dac724c0c6933">More...</a><br /></td></tr>
+<tr class="separator:accbea694d32b341e860dac724c0c6933"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a718ddfe86437adbbca1e1a5db651d139"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a718ddfe86437adbbca1e1a5db651d139">difference</a></td></tr>
+<tr class="memdesc:a718ddfe86437adbbca1e1a5db651d139"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the set-theoretic difference of two sets.  <a href="#a718ddfe86437adbbca1e1a5db651d139">More...</a><br /></td></tr>
+<tr class="separator:a718ddfe86437adbbca1e1a5db651d139"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8bcb2455eb9f7074185d8fb61a99801e"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structboost_1_1hana_1_1set.html#a8bcb2455eb9f7074185d8fb61a99801e">symmetric_difference</a></td></tr>
+<tr class="memdesc:a8bcb2455eb9f7074185d8fb61a99801e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Returns the symmetric set-theoretic difference of two sets.  <a href="#a8bcb2455eb9f7074185d8fb61a99801e">More...</a><br /></td></tr>
+<tr class="separator:a8bcb2455eb9f7074185d8fb61a99801e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
@@ -213,70 +213,6 @@ template&lt;typename Key &gt; </td></tr>
 <tr class="separator:a00f6165e7a2db4218c67d80929c457d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Associated functions</h2>
-<a class="anchor" id="a718ddfe86437adbbca1e1a5db651d139"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto difference</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; ys) {</div><div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div><div class="line">    }</div></div><!-- fragment -->
-<p>Returns the set-theoretic difference of two sets. </p>
-<p>Given two sets <code>xs</code> and <code>ys</code>, <code>difference(xs, ys)</code> is a new set containing all the elements of <code>xs</code> that are <em>not</em> contained in <code>ys</code>. For any object <code>x</code>, the following holds: </p><div class="fragment"><div class="line">x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ <a class="code" href="structboost_1_1hana_1_1set.html#a718ddfe86437adbbca1e1a5db651d139">difference</a>(xs, ys) if and only if x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ xs &amp;&amp; !(x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ ys)</div></div><!-- fragment --><dl class="section note"><dt>Note</dt><dd>This operation is not commutative, i.e. <code>difference(xs, ys)</code> is not necessarily the same as <code>difference(ys, xs)</code>. Indeed, consider the case where <code>xs</code> is empty and <code>ys</code> isn't. Then, <code>difference(xs, ys)</code> is empty but <code>difference(ys, xs)</code> is equal to <code>ys</code>. For the symmetric version of this operation, see <code>symmetric_difference</code>.</dd></dl>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">xs</td><td>A set to remove values from.</td></tr>
-    <tr><td class="paramname">ys</td><td>The set whose values are removed from <code>xs</code>.</td></tr>
-  </table>
-  </dd>
-</dl>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="difference_8hpp.html">boost/hana/difference.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_c&lt;3&gt;);</div><div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_c&lt;3&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;int&gt;);</div><div class="line"></div><div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::difference(xs, ys) == hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;));</div><div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::difference(ys, xs) == hana::make_set(hana::type_c&lt;void&gt;));</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() { }</div></div><!-- fragment --> 
-</div>
-</div>
-<a class="anchor" id="a3b3430482d4e88052e621f63a234f3eb"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto intersection</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; ys) {</div><div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div><div class="line">    }</div></div><!-- fragment -->
-<p>Returns the intersection of two sets. </p>
-<p>Given two sets <code>xs</code> and <code>ys</code>, <code>intersection(xs, ys)</code> is a new set containing exactly those elements that are present both in <code>xs</code> and in <code>ys</code>. In other words, the following holds for any object <code>x</code>: </p><div class="fragment"><div class="line">x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ <a class="code" href="structboost_1_1hana_1_1set.html#a3b3430482d4e88052e621f63a234f3eb">intersection</a>(xs, ys) if and only if x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ xs &amp;&amp; x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ ys</div></div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">xs,ys</td><td>Two sets to intersect.</td></tr>
-  </table>
-  </dd>
-</dl>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="intersection_8hpp.html">boost/hana/intersection.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;, hana::int_c&lt;2&gt;);</div><div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_c&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_c&lt;3&gt;);</div><div class="line"></div><div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::intersection(xs, ys) == hana::make_set(hana::int_c&lt;2&gt;));</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() { }</div></div><!-- fragment --> 
-</div>
-</div>
 <a class="anchor" id="aa337857e80b8a8c91880b0184aaf7534"></a>
 <div class="memitem">
 <div class="memproto">
@@ -396,6 +332,69 @@ template&lt;typename implementation_defined &gt; </div>
 <div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="erase__key_8hpp.html">boost/hana/erase_key.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() {</div><div class="line">    constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;0&gt;, hana::type_c&lt;int&gt;, hana::type_c&lt;void&gt;);</div><div class="line"></div><div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::erase_key(xs, hana::type_c&lt;int&gt;) == hana::make_set(hana::int_c&lt;0&gt;, hana::type_c&lt;void&gt;));</div><div class="line">    <a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::erase_key(xs, hana::type_c&lt;char&gt;) == xs);</div><div class="line">}</div></div><!-- fragment --> 
 </div>
 </div>
+<a class="anchor" id="acd511f2c01f38405bfba0b6d5b2922e8"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename implementation_defined &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto union_</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; ys) {</div><div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div><div class="line">    }</div></div><!-- fragment -->
+<p>Returns the union of two sets. </p>
+<p>Given two sets <code>xs</code> and <code>ys</code>, <code>union_(xs, ys)</code> is a new set containing all the elements of <code>xs</code> and all the elements of <code>ys</code>, without duplicates. For any object <code>x</code>, the following holds: <code>x</code> is in <code>hana::union_(xs, ys)</code> if and only if <code>x</code> is in <code>xs</code> or <code>x</code> is in <code>ys</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs,ys</td><td>Two sets to compute the union of.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="string_8hpp.html">boost/hana/string.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="union_8hpp.html">boost/hana/union.hpp</a>&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"><span class="keyword">using namespace </span>hana::literals;</div><div class="line"></div><div class="line"></div><div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;, hana::int_c&lt;2&gt;);</div><div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_c&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_c&lt;3&gt;);</div><div class="line"></div><div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::union_(xs, ys) == hana::make_set(</div><div class="line">    hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;, hana::int_c&lt;3&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;int&gt;</div><div class="line">));</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() { }</div></div><!-- fragment --> 
+</div>
+</div>
+<a class="anchor" id="a3b3430482d4e88052e621f63a234f3eb"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename implementation_defined &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto intersection</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; ys) {</div><div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div><div class="line">    }</div></div><!-- fragment -->
+<p>Returns the intersection of two sets. </p>
+<p>Given two sets <code>xs</code> and <code>ys</code>, <code>intersection(xs, ys)</code> is a new set containing exactly those elements that are present both in <code>xs</code> and in <code>ys</code>. In other words, the following holds for any object <code>x</code>: </p><div class="fragment"><div class="line">x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ <a class="code" href="structboost_1_1hana_1_1set.html#a3b3430482d4e88052e621f63a234f3eb">intersection</a>(xs, ys) if and only if x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ xs &amp;&amp; x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ ys</div></div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs,ys</td><td>Two sets to intersect.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="intersection_8hpp.html">boost/hana/intersection.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;, hana::int_c&lt;2&gt;);</div><div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_c&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_c&lt;3&gt;);</div><div class="line"></div><div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::intersection(xs, ys) == hana::make_set(hana::int_c&lt;2&gt;));</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() { }</div></div><!-- fragment --> 
+</div>
+</div>
 <a class="anchor" id="accbea694d32b341e860dac724c0c6933"></a>
 <div class="memitem">
 <div class="memproto">
@@ -418,6 +417,39 @@ template&lt;typename implementation_defined &gt; </div>
 
 <p>Equivalent to <code>to&lt;<a class="el" href="structboost_1_1hana_1_1set__tag.html" title="Tag representing the hana::set container. ">set_tag</a>&gt;</code>; provided for convenience. </p>
 
+</div>
+</div>
+<a class="anchor" id="a718ddfe86437adbbca1e1a5db651d139"></a>
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename implementation_defined &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto difference</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">related</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; ys) {</div><div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div><div class="line">}</div></div><!-- fragment -->
+<p>Returns the set-theoretic difference of two sets. </p>
+<p>Given two sets <code>xs</code> and <code>ys</code>, <code>difference(xs, ys)</code> is a new set containing all the elements of <code>xs</code> that are <em>not</em> contained in <code>ys</code>. For any object <code>x</code>, the following holds: </p><div class="fragment"><div class="line">x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ <a class="code" href="structboost_1_1hana_1_1set.html#a718ddfe86437adbbca1e1a5db651d139">difference</a>(xs, ys) if and only if x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ xs &amp;&amp; !(x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ ys)</div></div><!-- fragment --><p>This operation is not commutative, i.e. <code>difference(xs, ys)</code> is not necessarily the same as <code>difference(ys, xs)</code>. Indeed, consider the case where <code>xs</code> is empty and <code>ys</code> isn't. Then, <code>difference(xs, ys)</code> is empty but <code>difference(ys, xs)</code> is equal to <code>ys</code>. For the symmetric version of this operation, see <code>symmetric_difference</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">xs</td><td>A set param to remove values from.</td></tr>
+    <tr><td class="paramname">ys</td><td>The set whose values are removed from <code>xs</code>.</td></tr>
+  </table>
+  </dd>
+</dl>
+<h2>Example </h2>
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="difference_8hpp.html">boost/hana/difference.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_c&lt;3&gt;);</div><div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_c&lt;3&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;int&gt;);</div><div class="line"></div><div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::difference(xs, ys) == hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;));</div><div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::difference(ys, xs) == hana::make_set(hana::type_c&lt;void&gt;));</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() { }</div></div><!-- fragment --> 
 </div>
 </div>
 <a class="anchor" id="a8bcb2455eb9f7074185d8fb61a99801e"></a>
@@ -448,38 +480,7 @@ template&lt;typename implementation_defined &gt; </div>
   </dd>
 </dl>
 <h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="symmetric__difference_8hpp.html">boost/hana/symmetric_difference.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_c&lt;3&gt;);</div><div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_c&lt;3&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;int&gt;);</div><div class="line"></div><div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div><div class="line">    hana::symmetric_difference(xs, ys) == hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;, hana::type_c&lt;void&gt;)</div><div class="line">);</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() { }</div></div><!-- fragment --> 
-</div>
-</div>
-<a class="anchor" id="acd511f2c01f38405bfba0b6d5b2922e8"></a>
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename implementation_defined &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr auto union_</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">related</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span>&amp;&amp; ys) {</div><div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div><div class="line">    }</div></div><!-- fragment -->
-<p>Returns the union of two sets. </p>
-<p>Given two sets <code>xs</code> and <code>ys</code>, <code>union_(xs, ys)</code> is a new set containing all the elements of <code>xs</code> and all the elements of <code>ys</code>, without duplicates. For any object <code>x</code>, the following holds: </p><div class="fragment"><div class="line">x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ <a class="code" href="structboost_1_1hana_1_1set.html#acd511f2c01f38405bfba0b6d5b2922e8">union_</a>(xs, ys) if and only if x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ xs || x ^<a class="code" href="group__group-Searchable.html#ga0d9456ceda38b6ca664998e79d7c45b7">in</a>^ ys</div></div><!-- fragment --><dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">xs,ys</td><td>Two sets to compute the union of.</td></tr>
-  </table>
-  </dd>
-</dl>
-<h2>Example </h2>
-<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="equal_8hpp.html">boost/hana/equal.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="integral__constant_8hpp.html">boost/hana/integral_constant.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="type_8hpp.html">boost/hana/type.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="union_8hpp.html">boost/hana/union.hpp</a>&gt;</span></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::type_c&lt;void&gt;, hana::int_c&lt;2&gt;);</div><div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_c&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_c&lt;3&gt;);</div><div class="line"></div><div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(hana::union_(xs, ys) == hana::make_set(</div><div class="line">    hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;, hana::int_c&lt;3&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;int&gt;</div><div class="line">));</div><div class="line"></div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() { }</div></div><!-- fragment --> 
+<div class="fragment"><div class="line"><span class="comment">// Copyright Louis Dionne 2013-2017</span></div><div class="line"><span class="comment">// Distributed under the Boost Software License, Version 1.0.</span></div><div class="line"><span class="comment">// (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)</span></div><div class="line"></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="assert_8hpp.html">boost/hana/assert.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="set_8hpp.html">boost/hana/set.hpp</a>&gt;</span></div><div class="line"><span class="preprocessor">#include &lt;<a class="code" href="symmetric__difference_8hpp.html">boost/hana/symmetric_difference.hpp</a>&gt;</span></div><div class="line"></div><div class="line"><span class="keyword">namespace </span>hana = <a class="code" href="namespaceboost_1_1hana.html">boost::hana</a>;</div><div class="line"></div><div class="line"></div><div class="line">constexpr <span class="keyword">auto</span> xs = hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;, hana::type_c&lt;int&gt;, hana::int_c&lt;3&gt;);</div><div class="line">constexpr <span class="keyword">auto</span> ys = hana::make_set(hana::int_c&lt;3&gt;, hana::type_c&lt;void&gt;, hana::type_c&lt;int&gt;);</div><div class="line"></div><div class="line"><a class="code" href="group__group-assertions.html#ga4bf9e0c46c44e21fbe5c5fbb3ace8356">BOOST_HANA_CONSTANT_CHECK</a>(</div><div class="line">    hana::symmetric_difference(xs, ys) == hana::make_set(hana::int_c&lt;1&gt;, hana::int_c&lt;2&gt;, hana::type_c&lt;void&gt;)</div><div class="line">);</div><div class="line"></div><div class="line"><span class="keywordtype">int</span> main() { }</div></div><!-- fragment --> 
 </div>
 </div>
 </div><!-- contents -->
@@ -494,7 +495,7 @@ Distributed under the Boost Software License, Version 1.0.
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespaceboost.html">boost</a></li><li class="navelem"><a class="el" href="namespaceboost_1_1hana.html">hana</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1set.html">set</a></li>
+    <li class="navelem"><b>boost</b></li><li class="navelem"><a class="el" href="namespaceboost_1_1hana.html">hana</a></li><li class="navelem"><a class="el" href="structboost_1_1hana_1_1set.html">set</a></li>
   </ul>
 </div>
 </body>

@@ -13,7 +13,7 @@ var searchData=
   ['deprecated_20list',['Deprecated List',['../deprecated.html',1,'']]],
   ['deque',['deque',['../structboost_1_1fusion_1_1deque.html',1,'boost::fusion']]],
   ['deque_2ehpp',['deque.hpp',['../deque_8hpp.html',1,'']]],
-  ['difference',['difference',['../structboost_1_1hana_1_1set.html#a718ddfe86437adbbca1e1a5db651d139',1,'boost::hana::set']]],
+  ['difference',['difference',['../structboost_1_1hana_1_1map.html#a718ddfe86437adbbca1e1a5db651d139',1,'boost::hana::map::difference()'],['../structboost_1_1hana_1_1set.html#a718ddfe86437adbbca1e1a5db651d139',1,'boost::hana::set::difference()']]],
   ['difference_2ehpp',['difference.hpp',['../fwd_2difference_8hpp.html',1,'']]],
   ['difference_2ehpp',['difference.hpp',['../difference_8hpp.html',1,'']]],
   ['dispatch_2ehpp',['dispatch.hpp',['../dispatch_8hpp.html',1,'']]],

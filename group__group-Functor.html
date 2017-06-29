@@ -63,7 +63,7 @@ MathJax.Hub.Config({
   <td id="projectlogo"><img alt="Logo" src="Boost.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Boost.Hana
-   &#160;<span id="projectnumber">1.1.0</span>
+   &#160;<span id="projectnumber">1.2.0</span>
    </div>
    <div id="projectbrief">Your standard library for metaprogramming</div>
   </td>
@@ -211,7 +211,7 @@ Variables</h2></td></tr>
 <b>Initial value:</b><div class="fragment"><div class="line">= [](<span class="keyword">auto</span>&amp;&amp; xs, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; pred, <span class="keyword">auto</span> <span class="keyword">const</span>&amp; f) {</div><div class="line">        <span class="keywordflow">return</span> tag-dispatched;</div><div class="line">    }</div></div><!-- fragment -->
 <p>Apply a function on all the elements of a structure satisfying a predicate.Given a Functor, a predicate <code>pred</code> and a function <code>f</code>, <code>adjust_if</code> will <em>adjust</em> the elements of the Functor that satisfy the predicate with the function <code>f</code>. In other words, <code>adjust_if</code> will return a new Functor equal to the original one, except that the elements satisfying the predicate will be transformed with the given function. Elements for which the predicate is not satisfied are left untouched, and they are kept as-is in the resulting Functor. </p>
 <h2>Signature </h2>
-<p>Given a <code>Functor</code> <code>F</code> and a <code>Logical</code> <code>Bool</code>, the signature is \( \mathtt{adjust_if} : F(T) \times (T \to Bool) \times (T \to T) \to F(T) \)</p>
+<p>Given a <code>Functor</code> <code>F</code> and a <code>Logical</code> <code>Bool</code>, the signature is \( \mathtt{adjust\_if} : F(T) \times (T \to Bool) \times (T \to T) \to F(T) \)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The structure to adjust with <code>f</code>.</td></tr>
@@ -293,7 +293,7 @@ Variables</h2></td></tr>
 </div><!-- fragment -->
 <p>Replace all the elements of a structure satisfying a <code>predicate</code> with a fixed value. </p>
 <h2>Signature </h2>
-<p>Given <code>F</code> a Functor and <code>Bool</code> a Logical, the signature is \( \mathtt{replace_if} : F(T) \times (T \to Bool) \times T \to F(T) \)</p>
+<p>Given <code>F</code> a Functor and <code>Bool</code> a Logical, the signature is \( \mathtt{replace\_if} : F(T) \times (T \to Bool) \times T \to F(T) \)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">xs</td><td>The structure to replace elements of.</td></tr>

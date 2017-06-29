@@ -4,6 +4,7 @@ var NAVTREE =
     [ "User Manual", "index.html", [
       [ "Description", "index.html#tutorial-description", null ],
       [ "Prerequisites and installation", "index.html#tutorial-installation", [
+        [ "Note for CMake users", "index.html#tutorial-installation-cmake", null ],
         [ "Compiler requirements", "index.html#tutorial-installation-requirements", null ]
       ] ],
       [ "Support", "index.html#tutorial-support", null ],
@@ -104,10 +105,10 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "accessors_8hpp.html",
-"fwd_2count_8hpp.html#ga3159cfa41be18a396926741b0a3fdefd",
-"group__group-Comparable.html#ga9c2ffe2e51780e57a38d9e7e31b87cdc",
-"group__group-functional.html#ga835970cb25a0c8dc200f1e5f8943538b",
-"structboost_1_1hana_1_1integral__constant.html#a96c109b048f822be0ca7578c93694405"
+"fwd_2count_8hpp.html",
+"group__group-Comonad.html#ga307479a91a21b7ab06a2bc746b003dcc",
+"group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d",
+"structboost_1_1hana_1_1integral__constant.html#a84a8b7c3f824b4f0421d6a834601a0c4"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

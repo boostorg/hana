@@ -7,7 +7,6 @@ var group__group_details =
     [ "decay", "structboost_1_1hana_1_1detail_1_1decay.html", null ],
     [ "first_unsatisfied_index", "structboost_1_1hana_1_1detail_1_1first__unsatisfied__index.html", null ],
     [ "has_duplicates", "structboost_1_1hana_1_1detail_1_1has__duplicates.html", null ],
-    [ "index_if", "structboost_1_1hana_1_1detail_1_1index__if.html", null ],
     [ "nested_by", "structboost_1_1hana_1_1detail_1_1nested__by.html", null ],
     [ "nested_than", "structboost_1_1hana_1_1detail_1_1nested__than.html", null ],
     [ "nested_to", "structboost_1_1hana_1_1detail_1_1nested__to.html", null ],

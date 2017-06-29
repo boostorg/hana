@@ -16,7 +16,7 @@ var dir_0a4844ac9cb2026bd07faf42b116b549 =
     [ "has_common_embedding.hpp", "has__common__embedding_8hpp.html", "has__common__embedding_8hpp" ],
     [ "has_duplicates.hpp", "has__duplicates_8hpp.html", null ],
     [ "hash_table.hpp", "hash__table_8hpp.html", null ],
-    [ "index_if.hpp", "index__if_8hpp.html", null ],
+    [ "index_if.hpp", "detail_2index__if_8hpp.html", null ],
     [ "integral_constant.hpp", "detail_2integral__constant_8hpp.html", [
       [ "integral_constant_tag", "structboost_1_1hana_1_1integral__constant__tag.html", null ]
     ] ],

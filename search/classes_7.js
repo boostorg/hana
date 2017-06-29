@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['index_5fif',['index_if',['../structboost_1_1hana_1_1detail_1_1index__if.html',1,'boost::hana::detail']]],
   ['integer_5fsequence',['integer_sequence',['../structstd_1_1integer__sequence.html',1,'std']]],
   ['integral_5fc',['integral_c',['../structboost_1_1mpl_1_1integral__c.html',1,'boost::mpl']]],
-  ['integral_5fconstant',['integral_constant',['../structboost_1_1hana_1_1integral__constant.html',1,'boost::hana']]],
   ['integral_5fconstant',['integral_constant',['../structstd_1_1integral__constant.html',1,'std']]],
+  ['integral_5fconstant',['integral_constant',['../structboost_1_1hana_1_1integral__constant.html',1,'boost::hana']]],
   ['integral_5fconstant_3c_20bool_2c_20false_20_3e',['integral_constant&lt; bool, false &gt;',['../structboost_1_1hana_1_1integral__constant.html',1,'boost::hana']]],
   ['integral_5fconstant_3c_20bool_2c_20hana_3a_3aintegralconstant_3c_20tag_20_3e_3a_3avalue_20_3e',['integral_constant&lt; bool, hana::IntegralConstant&lt; Tag &gt;::value &gt;',['../structboost_1_1hana_1_1integral__constant.html',1,'boost::hana']]],
   ['integral_5fconstant_3c_20bool_2c_20hana_3a_3asequence_3c_20tag_20_3e_3a_3avalue_20_3e',['integral_constant&lt; bool, hana::Sequence&lt; Tag &gt;::value &gt;',['../structboost_1_1hana_1_1integral__constant.html',1,'boost::hana']]],
