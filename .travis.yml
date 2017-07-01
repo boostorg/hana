@@ -28,6 +28,7 @@ cache:
     - ${TRAVIS_BUILD_DIR}/deps/boost-1.61.0
     - ${TRAVIS_BUILD_DIR}/deps/boost-1.62.0
     - ${TRAVIS_BUILD_DIR}/deps/boost-1.63.0
+    - ${TRAVIS_BUILD_DIR}/deps/boost-1.64.0
 
 
 matrix:
@@ -120,6 +121,10 @@ matrix:
     - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.62.0
       addons: *defaults
 
+    # With Boost 1.63
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.63.0
+      addons: *defaults
+
     # Without Boost (make sure we don't depend on it)
     - env: UNIT_TESTS=true COMPILER=default
       addons: *defaults
@@ -177,7 +182,7 @@ install:
   # Setup default versions and override CXX set by Travis if needed
   ############################################################################
   - if [[ "${COMPILER}" == "default" ]]; then COMPILER=clang++-3.9; fi
-  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.63.0; fi
+  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.64.0; fi
 
   - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
   - ${CXX} --version
