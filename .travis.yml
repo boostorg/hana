@@ -64,7 +64,11 @@ matrix:
 
     # Clang 3.9
     - env: UNIT_TESTS=true COMPILER=clang++-3.9 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: &defaults { apt: { packages: ["clang-3.9", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.9"] } }
+      addons: { apt: { packages: ["clang-3.9", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.9"] } }
+
+    # Clang 4.0
+    - env: UNIT_TESTS=true COMPILER=clang++-4.0 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: &defaults { apt: { packages: ["clang-4.0", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-4.0"] } }
 
     # GCC 6
     - env: UNIT_TESTS=true COMPILER=g++-6 BOOST_VERSION=default ENABLE_MEMCHECK=true
@@ -181,7 +185,7 @@ install:
   ############################################################################
   # Setup default versions and override CXX set by Travis if needed
   ############################################################################
-  - if [[ "${COMPILER}" == "default" ]]; then COMPILER=clang++-3.9; fi
+  - if [[ "${COMPILER}" == "default" ]]; then COMPILER=clang++-4.0; fi
   - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.64.0; fi
 
   - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
@@ -240,6 +244,7 @@ install:
       elif [[ "${CXX}" == "clang++-3.7" ]]; then LLVM_VERSION="3.7.1";
       elif [[ "${CXX}" == "clang++-3.8" ]]; then LLVM_VERSION="3.8.1";
       elif [[ "${CXX}" == "clang++-3.9" ]]; then LLVM_VERSION="3.9.0";
+      elif [[ "${CXX}" == "clang++-4.0" ]]; then LLVM_VERSION="4.0.0";
       fi
 
       LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
