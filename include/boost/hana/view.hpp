@@ -20,6 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/algorithm.hpp>
 #include <boost/hana/detail/decay.hpp>
 #include <boost/hana/detail/unpack_flatten.hpp>
+#include <boost/hana/equal.hpp>
 #include <boost/hana/fold_left.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/on.hpp>
@@ -28,7 +29,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/core/make.hpp>
 #include <boost/hana/fwd/drop_front.hpp>
 #include <boost/hana/fwd/empty.hpp>
-#include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/flatten.hpp>
 #include <boost/hana/fwd/is_empty.hpp>
 #include <boost/hana/fwd/less.hpp>
@@ -559,30 +559,37 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
+
+    template <typename Xs, typename Ys>
+    inline constexpr auto equal_helper(Xs const& xs, Ys const& ys) {
+        constexpr std::size_t xs_size = decltype(hana::length(xs))::value;
+        constexpr std::size_t ys_size = decltype(hana::length(ys))::value;
+        detail::compare_finite_sequences<Xs, Ys, xs_size> comp{xs, ys};
+        return comp.template apply<0>(hana::bool_<xs_size == 0>{},
+                                      hana::bool_<xs_size == ys_size>{});
+    }
+
     template <>
     struct equal_impl<hana::view_tag, hana::view_tag> {
         template <typename View1, typename View2>
-        static constexpr auto apply(View1 v1, View2 v2) {
-            // TODO: Use a lexicographical comparison algorithm.
-            return hana::equal(hana::to_tuple(v1), hana::to_tuple(v2));
+        static constexpr auto apply(View1&& v1, View2&& v2) {
+            return equal_helper(static_cast<View1&&>(v1), static_cast<View2&&>(v2));
         }
     };
 
     template <typename S>
     struct equal_impl<hana::view_tag, S, hana::when<hana::Sequence<S>::value>> {
-        template <typename View1, typename Seq>
-        static constexpr auto apply(View1 v1, Seq const& s) {
-            // TODO: Use a lexicographical comparison algorithm.
-            return hana::equal(hana::to_tuple(v1), hana::to_tuple(s));
+        template <typename View1, typename View2>
+        static constexpr auto apply(View1&& v1, View2&& v2) {
+            return equal_helper(static_cast<View1&&>(v1), static_cast<View2&&>(v2));
         }
     };
 
     template <typename S>
     struct equal_impl<S, hana::view_tag, hana::when<hana::Sequence<S>::value>> {
-        template <typename Seq, typename View2>
-        static constexpr auto apply(Seq const& s, View2 v2) {
-            // TODO: Use a lexicographical comparison algorithm.
-            return hana::equal(hana::to_tuple(s), hana::to_tuple(v2));
+        template <typename View1, typename View2>
+        static constexpr auto apply(View1&& v1, View2&& v2) {
+            return equal_helper(static_cast<View1&&>(v1), static_cast<View2&&>(v2));
         }
     };
 
