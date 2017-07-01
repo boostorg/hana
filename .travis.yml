@@ -47,8 +47,8 @@ matrix:
     # speed up Travis builds.
     ##########################################################################
     # Clang 3.5
-    # TODO: Find out why this fails to compile the test suite.
-    # - env: UNIT_TESTS=true LLVM_VERSION=3.5.2 BOOST_VERSION=default ENABLE_MEMCHECK=true
+    - env: UNIT_TESTS=true COMPILER=clang++-3.5 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: { apt: { packages: ["clang-3.5", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.5"] } }
 
     # Clang 3.6
     - env: UNIT_TESTS=true COMPILER=clang++-3.6 BOOST_VERSION=default ENABLE_MEMCHECK=true
@@ -176,6 +176,8 @@ matrix:
 
 
   allow_failures:
+    # TODO: Find how to fix compilation on Clang 3.5
+    - env: UNIT_TESTS=true COMPILER=clang++-3.5 BOOST_VERSION=default ENABLE_MEMCHECK=true
     # - env: UNIT_TESTS=true COMPILER=trunk BOOST_VERSION=default
     - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=trunk
 
@@ -245,10 +247,11 @@ install:
   ############################################################################
   - |
     if [[ "${CXX%%+*}" == "clang" ]]; then
-      if   [[ "${CXX}" == "clang++-3.6" ]]; then LLVM_VERSION="3.6.2";
+      if   [[ "${CXX}" == "clang++-3.5" ]]; then LLVM_VERSION="3.5.2";
+      elif [[ "${CXX}" == "clang++-3.6" ]]; then LLVM_VERSION="3.6.2";
       elif [[ "${CXX}" == "clang++-3.7" ]]; then LLVM_VERSION="3.7.1";
       elif [[ "${CXX}" == "clang++-3.8" ]]; then LLVM_VERSION="3.8.1";
-      elif [[ "${CXX}" == "clang++-3.9" ]]; then LLVM_VERSION="3.9.0";
+      elif [[ "${CXX}" == "clang++-3.9" ]]; then LLVM_VERSION="3.9.1";
       elif [[ "${CXX}" == "clang++-4.0" ]]; then LLVM_VERSION="4.0.0";
       fi
 
