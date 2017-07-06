@@ -35,7 +35,7 @@ add_library(hana INTERFACE)
 target_include_directories(hana INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
                                           $<INSTALL_INTERFACE:include>)
 # With Clang on Windows, the -std=c++14 flag is incorrectly set and the compiler
-# complains about the unkown option. TODO: Remove this workaround once the
+# complains about the unknown option. TODO: Remove this workaround once the
 # underlying bug is fixed in CMake: https://gitlab.kitware.com/cmake/cmake/issues/17015
 if (NOT (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang"))
     target_compile_features(hana INTERFACE cxx_std_14)
