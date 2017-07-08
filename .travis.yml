@@ -164,21 +164,14 @@ matrix:
     ##########################################################################
     # Jobs that are allowed to fail
     ##########################################################################
-    # Clang trunk
-    # TODO: Find a way to download pre-built Clang trunk and enable this
-    # - os: linux
-    #   env: UNIT_TESTS=true COMPILER=trunk BOOST_VERSION=default
-    #   compiler: clang
-
     # Boost trunk
     - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=trunk
       addons: *defaults
 
 
   allow_failures:
-    # TODO: Find how to fix compilation on Clang 3.5
-    - env: UNIT_TESTS=true COMPILER=clang++-3.5 BOOST_VERSION=default ENABLE_MEMCHECK=true
-    # - env: UNIT_TESTS=true COMPILER=trunk BOOST_VERSION=default
+    - env: UNIT_TESTS=true COMPILER=g++-7 BOOST_VERSION=default ENABLE_MEMCHECK=true # TODO: Disallow failures here
+    - env: UNIT_TESTS=true COMPILER=clang++-3.5 BOOST_VERSION=default ENABLE_MEMCHECK=true # TODO: Disallow failures here
     - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=trunk
 
 
