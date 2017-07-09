@@ -28,9 +28,9 @@ auto p() { return ::minimal_product(key<i>(), val<j>()); }
 struct undefined { };
 
 int main() {
-    constexpr auto sequence = ::seq;
+    auto sequence = ::seq;
 
-    // Use pointers to workaround a Clang ICE
+    // Use pointers to work around a Clang ICE
     hana::test::_injection<0> f{};
     auto* fp = &f;
 

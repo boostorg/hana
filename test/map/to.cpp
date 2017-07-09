@@ -26,7 +26,7 @@ auto p() { return ::minimal_product(key<i>(), val<j>()); }
 
 int main() {
     constexpr auto foldable = ::seq;
-    constexpr auto sequence = ::seq;
+    auto sequence = ::seq;
 
     // Foldable -> Map
     {
