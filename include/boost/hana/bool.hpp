@@ -182,8 +182,10 @@ BOOST_HANA_NAMESPACE_BEGIN
 
             for (std::size_t i = 0; i < N - offset; ++i) {
                 char c = arr[N - 1 - i];
-                number += to_int(c) * multiplier;
-                multiplier *= base;
+                if (c != '\'') { // skip digit separators
+                    number += to_int(c) * multiplier;
+                    multiplier *= base;
+                }
             }
 
             return number;
