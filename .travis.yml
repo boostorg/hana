@@ -179,7 +179,6 @@ matrix:
 
   allow_failures:
     - env: UNIT_TESTS=true COMPILER=g++-7 BOOST_VERSION=default ENABLE_MEMCHECK=true # TODO: Disallow failures here
-    - env: UNIT_TESTS=true COMPILER=clang++-3.5 BOOST_VERSION=default ENABLE_MEMCHECK=true # TODO: Disallow failures here
     - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=trunk
 
 
@@ -268,7 +267,7 @@ install:
       (cd llvm/build/projects/libcxx && make install -j2)
       (cd llvm/build/projects/libcxxabi && make install -j2)
 
-      export CXXFLAGS="-nostdinc++ -isystem ${DEPS_DIR}/llvm/install/include/c++/v1"
+      export CXXFLAGS="-isystem ${DEPS_DIR}/llvm/install/include/c++/v1"
       export LDFLAGS="-L ${DEPS_DIR}/llvm/install/lib -l c++ -l c++abi"
       export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${DEPS_DIR}/llvm/install/lib"
     fi
