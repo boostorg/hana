@@ -8,7 +8,7 @@
 namespace hana = boost::hana;
 
 
-BOOST_HANA_CONSTEXPR_LAMBDA auto factorial = hana::fix([](auto fact, auto n) -> int {
+BOOST_HANA_CONSTEXPR_STATELESS_LAMBDA auto factorial = hana::fix([](auto fact, auto n) -> int {
     if (n == 0) return 1;
     else        return n * fact(n - 1);
 });
