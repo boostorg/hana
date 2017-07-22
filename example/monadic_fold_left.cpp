@@ -13,9 +13,9 @@
 namespace hana = boost::hana;
 
 
-auto builtin_common_t = hana::sfinae([](auto&& t, auto&& u) -> decltype(hana::type_c<
+auto builtin_common_t = hana::sfinae([](auto&& t, auto&& u) -> hana::type<
     std::decay_t<decltype(true ? hana::traits::declval(t) : hana::traits::declval(u))>
->) { return {}; });
+> { return {}; });
 
 template <typename ...T>
 struct common_type { };

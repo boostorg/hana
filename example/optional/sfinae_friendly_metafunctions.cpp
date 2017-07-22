@@ -24,9 +24,9 @@ struct has_type<T, void_t<typename T::type>>
     : std::true_type
 { };
 
-auto common_type_impl = hana::sfinae([](auto t, auto u) -> decltype(hana::type_c<
+auto common_type_impl = hana::sfinae([](auto t, auto u) -> hana::type<
     decltype(true ? hana::traits::declval(t) : hana::traits::declval(u))
->) { return {}; });
+> { return {}; });
 
 template <typename T, typename U>
 using common_type2 = decltype(common_type_impl(hana::type_c<T>, hana::type_c<U>));
