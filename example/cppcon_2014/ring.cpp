@@ -16,12 +16,12 @@ using namespace cppcon;
 int main() {
     // mult
     {
-        auto a = matrix(
+        BOOST_HANA_CONSTEXPR_LAMBDA auto a = matrix(
             row(1, 2, 3),
             row(4, 5, 6)
         );
 
-        auto b = matrix(
+        BOOST_HANA_CONSTEXPR_LAMBDA auto b = matrix(
             row(1, 2),
             row(3, 4),
             row(5, 6)
