@@ -28,7 +28,7 @@ struct Person {
 };
 
 int main() {
-    Person john{30};
+    constexpr Person john{30};
 
     // Can't dereference a non-pointer.
     BOOST_HANA_CONSTANT_CHECK(f(john) == hana::nothing);

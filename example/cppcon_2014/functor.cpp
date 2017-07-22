@@ -15,7 +15,7 @@ using namespace cppcon;
 int main() {
     // transform
     {
-        auto m = matrix(
+        BOOST_HANA_CONSTEXPR_LAMBDA auto m = matrix(
             row(1,              hana::int_c<2>, 3),
             row(hana::int_c<4>, 5,              6),
             row(7,              8,              hana::int_c<9>)

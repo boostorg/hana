@@ -49,9 +49,9 @@ BOOST_HANA_NAMESPACE_BEGIN
     namespace detail {
         template <bool ...B>
         struct partition_indices {
-            static constexpr bool results[] = {B..., false}; // avoid empty array
+            static constexpr detail::array<bool, sizeof...(B)> results{{B...}};
             static constexpr std::size_t left_size =
-                detail::count(results, results + sizeof...(B), true);
+                detail::count(results.begin(), results.end(), true);
             static constexpr std::size_t right_size = sizeof...(B) - left_size;
 
             static constexpr auto compute_left() {

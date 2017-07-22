@@ -44,7 +44,7 @@ BOOST_HANA_RUNTIME_CHECK(s == "xxxxxyyyyyzzzzz");
 
 //! [times_higher_order]
 std::string s;
-BOOST_HANA_CONSTEXPR_LAMBDA auto functions = hana::make_tuple(
+auto functions = hana::make_tuple(
     [&] { s += "x"; },
     [&] { s += "y"; },
     [&] { s += "z"; }
