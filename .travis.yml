@@ -178,7 +178,6 @@ matrix:
 
 
   allow_failures:
-    - env: UNIT_TESTS=true COMPILER=g++-7 BOOST_VERSION=default ENABLE_MEMCHECK=true # TODO: Disallow failures here
     - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=trunk
 
 
