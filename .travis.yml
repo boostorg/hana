@@ -38,7 +38,7 @@ matrix:
     ##########################################################################
     - os: osx
       env: CHECK_FORMATTING=true
-      osx_image: xcode8
+      osx_image: xcode9.1
 
     ##########################################################################
     # Build with the main configuration on all the supported compilers
@@ -89,10 +89,15 @@ matrix:
       env: UNIT_TESTS=true BOOST_VERSION=default
       osx_image: xcode7.3
 
-    # Xcode 8
+    # Xcode 8.3
     - os: osx
       env: UNIT_TESTS=true BOOST_VERSION=default
-      osx_image: xcode8
+      osx_image: xcode8.3
+
+    # Xcode 9.1
+    - os: osx
+      env: UNIT_TESTS=true BOOST_VERSION=default
+      osx_image: xcode9.1
 
     ##########################################################################
     # Build with variations in the configuration
@@ -120,7 +125,7 @@ matrix:
     # Without exceptions on OS X
     - os: osx
       env: UNIT_TESTS=true BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
-      osx_image: xcode8
+      osx_image: xcode9.1
 
     # With Boost 1.59
     - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.59.0
@@ -153,7 +158,7 @@ matrix:
     # With Boost.Build instead of CMake (on OS X)
     - os: osx
       env: UNIT_TESTS=true BOOST_VERSION=default BOOST_BUILD=true
-      osx_image: xcode8
+      osx_image: xcode9.1
 
     ##########################################################################
     # Generate the documentation
