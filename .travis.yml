@@ -85,9 +85,9 @@ matrix:
       osx_image: xcode6.4
 
     # Xcode 7.3
-    - os: osx
-      env: UNIT_TESTS=true BOOST_VERSION=default
-      osx_image: xcode7.3
+    # - os: osx
+    #   env: UNIT_TESTS=true BOOST_VERSION=default
+    #   osx_image: xcode7.3
 
     # Xcode 8.3
     - os: osx
