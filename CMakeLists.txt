@@ -5,6 +5,22 @@
 cmake_minimum_required(VERSION 3.8)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+##############################################################################
+# Setup CMake options
+##############################################################################
+option(BOOST_HANA_ENABLE_CONCEPT_CHECKS "Enable concept checking in the interface methods." ON)
+option(BOOST_HANA_ENABLE_DEBUG_MODE "Enable Hana's debug mode." OFF)
+option(BOOST_HANA_ENABLE_CPP17 "Build with C++17 instead of usual required C++ standard. Useful for testing." OFF)
+
+option(BOOST_HANA_ENABLE_STRING_UDL
+"Enable the GNU extension allowing the special string literal operator\
+ template, which enables the _s suffix for creating compile-time strings." ON)
+
+option(BOOST_HANA_ENABLE_EXCEPTIONS
+"Build with exceptions enabled. Note that Hana does not make use of exceptions,\
+ but this switch can be disabled when building the tests to assess that it is\
+ really the case." ON)
+
 
 ##############################################################################
 # Setup project
@@ -31,14 +47,19 @@ include(CheckCxxCompilerSupport)
 # Setup the 'hana' header-only library target, along with its install target
 # and exports.
 ##############################################################################
+include(CheckCXXCompilerFlag)
 add_library(hana INTERFACE)
 target_include_directories(hana INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
                                           $<INSTALL_INTERFACE:include>)
 # With Clang on Windows, the -std=c++14 flag is incorrectly set and the compiler
-# complains about the unkown option. TODO: Remove this workaround once the
+# complains about the unknown option. TODO: Remove this workaround once the
 # underlying bug is fixed in CMake: https://gitlab.kitware.com/cmake/cmake/issues/17015
 if (NOT (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang"))
-    target_compile_features(hana INTERFACE cxx_std_14)
+    if (BOOST_HANA_ENABLE_CPP17)
+        target_compile_features(hana INTERFACE cxx_std_17)
+    else()
+        target_compile_features(hana INTERFACE cxx_std_14)
+    endif()
 endif()
 
 # Export the `hana` library into a HanaConfig.cmake file
@@ -52,25 +73,8 @@ install(FILES "${CMAKE_CURRENT_BINARY_DIR}/hana.pc" DESTINATION lib/pkgconfig)
 
 
 ##############################################################################
-# Setup CMake options
-##############################################################################
-option(BOOST_HANA_ENABLE_CONCEPT_CHECKS "Enable concept checking in the interface methods." ON)
-option(BOOST_HANA_ENABLE_DEBUG_MODE "Enable Hana's debug mode." OFF)
-
-option(BOOST_HANA_ENABLE_STRING_UDL
-"Enable the GNU extension allowing the special string literal operator\
- template, which enables the _s suffix for creating compile-time strings." ON)
-
-option(BOOST_HANA_ENABLE_EXCEPTIONS
-"Build with exceptions enabled. Note that Hana does not make use of exceptions,\
- but this switch can be disabled when building the tests to assess that it is\
- really the case." ON)
-
-
-##############################################################################
 # Function to setup common compiler flags on tests and examples
 ##############################################################################
-include(CheckCXXCompilerFlag)
 function(boost_hana_set_test_properties target)
     target_link_libraries(${target} PRIVATE hana)
     set_target_properties(${target} PROPERTIES CXX_EXTENSIONS NO)

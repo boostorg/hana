@@ -13,7 +13,7 @@ using namespace cppcon;
 int main() {
     // transpose
     {
-        auto m = matrix(
+        BOOST_HANA_CONSTEXPR_LAMBDA auto m = matrix(
             row(1, 2.2, '3'),
             row(4, '5', 6)
         );
@@ -30,7 +30,7 @@ int main() {
 
     // vector
     {
-        auto v = vector(1, '2', hana::int_c<3>, 4.2f);
+        BOOST_HANA_CONSTEXPR_LAMBDA auto v = vector(1, '2', hana::int_c<3>, 4.2f);
         BOOST_HANA_CONSTEXPR_CHECK(v.size() == 4ul);
         BOOST_HANA_CONSTEXPR_CHECK(v.nrows() == 4ul);
         BOOST_HANA_CONSTEXPR_CHECK(v.ncolumns() == 1ul);
@@ -38,7 +38,7 @@ int main() {
 
     // matrix.at
     {
-        auto m = matrix(
+        BOOST_HANA_CONSTEXPR_LAMBDA auto m = matrix(
             row(1, '2', 3),
             row('4', hana::char_c<'5'>, 6),
             row(hana::int_c<7>, '8', 9.3)
@@ -58,7 +58,7 @@ int main() {
 
     // size, ncolumns, nrows
     {
-        auto m = matrix(
+        BOOST_HANA_CONSTEXPR_LAMBDA auto m = matrix(
             row(1, '2', 3),
             row('4', hana::char_c<'5'>, 6)
         );

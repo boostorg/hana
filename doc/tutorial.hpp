@@ -3322,16 +3322,32 @@ more generally. You may find some of it useful:
 - Keynote on metaprogramming at [Meeting C++][] 2016 ([slides](http://ldionne.com/meetingcpp-2016)/[video](https://youtu.be/X_p9X5RzBJE))
 - Talk on advanced metaprogramming techniques used in Hana at [C++Now][] 2016 ([slides](http://ldionne.com/cppnow-2016-metaprogramming-for-the-brave)/[video](https://youtu.be/UXwWXHrvTug))
 - Introduction to metaprogramming with Hana at [C++Now][] 2016 ([slides](http://ldionne.com/cppnow-2016-metaprogramming-for-dummies)/[video](https://youtu.be/a1doqFAumCk))
-- Talk on metaprogramming and Hana at [CppCon][] 2015 ([slides](http://ldionne.com/hana-cppcon-2015)/[video](https://youtu.be/cg1wOINjV9U))
-- Talk on metaprogramming and Hana at [C++Now][] 2015 ([slides](http://ldionne.com/hana-cppnow-2015)/[video](https://youtu.be/Z2ABRaQiFHs))
-- Talk on Hana at [CppCon][] 2014 ([slides](http://ldionne.com/hana-cppcon-2014)/[video](https://youtu.be/L2SktfaJPuU))
-- The [MPL11][] library, which is how Hana started out
-- Talk on the MPL11 at [C++Now][] 2014 ([slides](http://ldionne.com/mpl11-cppnow-2014)/[video](https://youtu.be/8c0aWLuEO0Y))
+- Talk on the [MPL11][] library at [C++Now][] 2014. This is how Hana started out. ([slides](http://ldionne.com/mpl11-cppnow-2014)/[video](https://youtu.be/8c0aWLuEO0Y))
 - My bachelor's thesis was a formalization of C++ metaprogramming using category
   theory. The thesis is available [here](https://github.com/ldionne/hana-thesis/blob/gh-pages/main.pdf),
   and the slides of a related presentation are available [here](http://ldionne.com/hana-thesis).
   Unfortunately, both are in french only.
 
+The complete list of talks I've done on Hana and metaprogramming is [here][ldionne.talks].
+There is also an unofficial translation of Hana's documentation to Chinese
+available [here](https://github.com/freezestudio/hana.zh).
+
+@subsection tutorial-conclusion-projects_using_hana Projects using Hana
+
+There is a growing number of projects using Hana. It can be useful to look
+at them to get a sense of how to best use the library. Here's a few of those
+projects ([open an issue][Hana.issues] if you want your project to be listed
+here):
+
+- [Dyno](https://github.com/ldionne/dyno): A policy-based type erasure library.
+  Uses Hana for vtable generation and concept map emulation under the hood.
+- [yap](https://github.com/tzlaine/yap): An expression template library built
+  on top of Hana.
+- [NBDL](https://github.com/ricejasonf/nbdl): Library for managing application
+  state across network. Uses Hana for some things under the hood.
+- [ECST](https://github.com/SuperV1234/ecst): An experimental multithreaded
+  compile-time entity-component system using Hana under the hood for a few
+  things.
 
 This finishes the tutorial part of the documentation. I hope you enjoy using
 the library, and please consider [contributing][Hana.contributing] to make it
@@ -4143,6 +4159,7 @@ modified as little as possible to work with this reimplementation.
 [Hana.StackOverflow]: http://stackoverflow.com/questions/tagged/boost-hana
 [Hana.wiki]: https://github.com/boostorg/hana/wiki
 [Homebrew]: http://brew.sh
+[ldionne.talks]: http://ldionne.com/talks
 [lie-to-children]: http://en.wikipedia.org/wiki/Lie-to-children
 [Meeting C++]: https://meetingcpp.com
 [Metabench]: http://metaben.ch

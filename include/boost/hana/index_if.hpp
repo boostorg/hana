@@ -86,7 +86,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct index_if_impl<It, when<!Foldable<It>::value>> {
         template <typename Xs, typename Pred>
         static constexpr auto apply(Xs const&, Pred const&)
-            -> typename detail::iterate_while<hana::size_c<0>,
+            -> typename detail::iterate_while<0,
                 static_cast<std::size_t>(-1), false>
                     ::template f<Xs, Pred>
         { return {}; }

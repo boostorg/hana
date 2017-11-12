@@ -25,7 +25,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     template <std::size_t ...Lengths>
     struct flatten_indices {
         // avoid empty arrays by appending 0 to `lengths`
-        static constexpr std::size_t lengths[] = {Lengths..., 0};
+        static constexpr std::size_t lengths[sizeof...(Lengths) + 1] = {Lengths..., 0};
         static constexpr auto flat_length =
             detail::accumulate(lengths, lengths + sizeof...(Lengths), 0);
 

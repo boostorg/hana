@@ -2,7 +2,9 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-language: c++
+language: cpp
+os: linux # Use Linux unless specified otherwise
+dist: precise # Use precise unless specified otherwise
 sudo: false
 
 # Do not build branches of the form "pr/*". By prefixing pull requests coming
@@ -19,26 +21,14 @@ env:
     - secure: "gB1wvjk565j3O4UBGjyN44Vd8IGqcNHzkbvRdFNHp7C+C+JG2vhAeLlpiK0Zd483gdTjq9gPjIDwpwyG2UJ+yjT1kMTJvD1YNWpGcK6vOHYl1yMOwv/LBdnKn+J7i/FnoeULGRCCI2Fpp1qILhxeZgLxTxsdQaYXlAkkR0i8cgQ="
 
 
-addons:
-  apt:
-    packages:
-      - valgrind
-      - g++-6
-    sources: &sources
-      - ubuntu-toolchain-r-test
-
-
 cache:
   directories:
-    - ${TRAVIS_BUILD_DIR}/deps/llvm-3.6.2
-    - ${TRAVIS_BUILD_DIR}/deps/llvm-3.7.1
-    - ${TRAVIS_BUILD_DIR}/deps/llvm-3.8.0
-    - ${TRAVIS_BUILD_DIR}/deps/llvm-3.9.0
     - ${TRAVIS_BUILD_DIR}/deps/boost-1.59.0
     - ${TRAVIS_BUILD_DIR}/deps/boost-1.60.0
     - ${TRAVIS_BUILD_DIR}/deps/boost-1.61.0
     - ${TRAVIS_BUILD_DIR}/deps/boost-1.62.0
     - ${TRAVIS_BUILD_DIR}/deps/boost-1.63.0
+    - ${TRAVIS_BUILD_DIR}/deps/boost-1.64.0
 
 
 matrix:
@@ -48,7 +38,7 @@ matrix:
     ##########################################################################
     - os: osx
       env: CHECK_FORMATTING=true
-      osx_image: xcode8
+      osx_image: xcode9.1
 
     ##########################################################################
     # Build with the main configuration on all the supported compilers
@@ -57,33 +47,37 @@ matrix:
     # speed up Travis builds.
     ##########################################################################
     # Clang 3.5
-    # TODO: Find out why this fails to compile the test suite.
-    # - env: UNIT_TESTS=true LLVM_VERSION=3.5.2 BOOST_VERSION=default ENABLE_MEMCHECK=true
+    - env: UNIT_TESTS=true COMPILER=clang++-3.5 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: { apt: { packages: ["clang-3.5", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.5"] } }
 
     # Clang 3.6
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=3.6.2 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=clang++-3.6 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: { apt: { packages: ["clang-3.6", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.6"] } }
 
     # Clang 3.7
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=3.7.1 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: { apt: { packages: ["clang-3.7", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.7"] } }
 
     # Clang 3.8
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=3.8.0 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: { apt: { packages: ["clang-3.8", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.8"] } }
 
     # Clang 3.9
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=3.9.0 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=clang++-3.9 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: { apt: { packages: ["clang-3.9", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.9"] } }
+
+    # Clang 4.0
+    - env: UNIT_TESTS=true COMPILER=clang++-4.0 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: &defaults { apt: { packages: ["clang-4.0", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-4.0"] } }
 
     # GCC 6
-    - os: linux
-      env: UNIT_TESTS=true COMPILER=g++-6     BOOST_VERSION=default ENABLE_MEMCHECK=true
-      compiler: gcc
+    - env: UNIT_TESTS=true COMPILER=g++-6 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: { apt: { packages: ["g++-6", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
+
+    # GCC 7
+    - env: UNIT_TESTS=true COMPILER=g++-7 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: { apt: { packages: ["g++-7", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
+      dist: trusty
 
     # Xcode 6.4
     - os: osx
@@ -91,111 +85,105 @@ matrix:
       osx_image: xcode6.4
 
     # Xcode 7.3
-    - os: osx
-      env: UNIT_TESTS=true BOOST_VERSION=default
-      osx_image: xcode7.3
+    # - os: osx
+    #   env: UNIT_TESTS=true BOOST_VERSION=default
+    #   osx_image: xcode7.3
 
-    # Xcode 8
+    # Xcode 8.3
     - os: osx
       env: UNIT_TESTS=true BOOST_VERSION=default
-      osx_image: xcode8
+      osx_image: xcode8.3
+
+    # Xcode 9.1
+    - os: osx
+      env: UNIT_TESTS=true BOOST_VERSION=default
+      osx_image: xcode9.1
 
     ##########################################################################
     # Build with variations in the configuration
     ##########################################################################
+    # With C++17 instead of C++14, on Clang
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CPP17=ON"
+      addons: *defaults
+
+    # With C++17 instead of C++14, on GCC
+    - env: UNIT_TESTS=true COMPILER=g++-6     BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CPP17=ON"
+      addons: { apt: { packages: ["g++-6", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
+
     # Without concept checks
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF"
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF"
+      addons: *defaults
 
     # With debug mode
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_DEBUG_MODE=ON"
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_DEBUG_MODE=ON"
+      addons: *defaults
 
     # Without exceptions
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
+      addons: *defaults
 
     # Without exceptions on OS X
     - os: osx
       env: UNIT_TESTS=true BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
-      osx_image: xcode8
+      osx_image: xcode9.1
 
     # With Boost 1.59
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=1.59.0
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.59.0
+      addons: *defaults
 
     # With Boost 1.60
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=1.60.0
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.60.0
+      addons: *defaults
 
     # With Boost 1.61
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=1.61.0
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.61.0
+      addons: *defaults
 
     # With Boost 1.62
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=1.62.0
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.62.0
+      addons: *defaults
+
+    # With Boost 1.63
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.63.0
+      addons: *defaults
 
     # Without Boost (make sure we don't depend on it)
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=default
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=default
+      addons: *defaults
 
     # With Boost.Build instead of CMake (on Linux)
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=default BOOST_BUILD=true
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=default BOOST_BUILD=true
+      addons: *defaults
 
     # With Boost.Build instead of CMake (on OS X)
     - os: osx
       env: UNIT_TESTS=true BOOST_VERSION=default BOOST_BUILD=true
-      osx_image: xcode8
-
+      osx_image: xcode9.1
 
     ##########################################################################
     # Generate the documentation
     ##########################################################################
-    - os: linux
-      env: DOCUMENTATION=true LLVM_VERSION=default BOOST_VERSION=default
-      compiler: clang
-    - os: linux
-      env: DOCUMENTATION=true LLVM_VERSION=default BOOST_VERSION=default BOOST_BUILD=true
-      compiler: clang
-
+    - env: DOCUMENTATION=true COMPILER=default BOOST_VERSION=default
+      addons: *defaults
+    - env: DOCUMENTATION=true COMPILER=default BOOST_VERSION=default BOOST_BUILD=true
+      addons: *defaults
 
     ##########################################################################
     # Benchmarks
     ##########################################################################
-    - os: linux
-      env: BENCHMARKS=true LLVM_VERSION=3.8.0 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
-      compiler: clang
-
+    - env: BENCHMARKS=true COMPILER=default BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_BUILD_TYPE=Release"
+      addons: *defaults
 
     ##########################################################################
     # Jobs that are allowed to fail
     ##########################################################################
-    # Clang trunk
-    # TODO: Find a way to download pre-built Clang trunk and enable this
-    # - os: linux
-    #   env: UNIT_TESTS=true LLVM_VERSION=trunk BOOST_VERSION=default
-    #   compiler: clang
-
     # Boost trunk
-    - os: linux
-      env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=trunk
-      compiler: clang
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=trunk
+      addons: *defaults
 
 
   allow_failures:
-    # - env: UNIT_TESTS=true LLVM_VERSION=trunk BOOST_VERSION=default
-    - env: UNIT_TESTS=true LLVM_VERSION=default BOOST_VERSION=trunk
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=trunk
 
 
 install:
@@ -206,12 +194,13 @@ install:
   - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
 
   ############################################################################
-  # Setup default versions and override compiler if needed
+  # Setup default versions and override CXX set by Travis if needed
   ############################################################################
-  - if [[ "${LLVM_VERSION}" == "default" ]]; then LLVM_VERSION=3.9.0; fi
-  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.63.0; fi
+  - if [[ "${COMPILER}" == "default" ]]; then COMPILER=clang++-4.0; fi
+  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.64.0; fi
 
   - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
+  - ${CXX} --version
 
   ############################################################################
   # Install Boost headers
@@ -258,33 +247,34 @@ install:
     fi
 
   ############################################################################
-  # Install Clang, libc++ and libc++abi
+  # Install libc++ and libc++abi if needed
   ############################################################################
   - |
-    if [[ "${LLVM_VERSION}" != "" ]]; then
-      LLVM_DIR=${DEPS_DIR}/llvm-${LLVM_VERSION}
-      if [[ -z "$(ls -A ${LLVM_DIR})" ]]; then
-        LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
-        LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
-        LIBCXXABI_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxxabi-${LLVM_VERSION}.src.tar.xz"
-        CLANG_URL="http://llvm.org/releases/${LLVM_VERSION}/clang+llvm-${LLVM_VERSION}-x86_64-linux-gnu-ubuntu-14.04.tar.xz"
-
-        mkdir -p ${LLVM_DIR} ${LLVM_DIR}/build ${LLVM_DIR}/projects/libcxx ${LLVM_DIR}/projects/libcxxabi ${LLVM_DIR}/clang
-        travis_retry wget --quiet -O - ${LLVM_URL}      | tar --strip-components=1 -xJ -C ${LLVM_DIR}
-        travis_retry wget --quiet -O - ${LIBCXX_URL}    | tar --strip-components=1 -xJ -C ${LLVM_DIR}/projects/libcxx
-        travis_retry wget --quiet -O - ${LIBCXXABI_URL} | tar --strip-components=1 -xJ -C ${LLVM_DIR}/projects/libcxxabi
-        travis_retry wget --quiet -O - ${CLANG_URL}     | tar --strip-components=1 -xJ -C ${LLVM_DIR}/clang
-        (cd ${LLVM_DIR}/build && cmake .. -DCMAKE_INSTALL_PREFIX=${LLVM_DIR}/install -DCMAKE_CXX_COMPILER=clang++)
-        (cd ${LLVM_DIR}/build/projects/libcxx && make install -j2)
-        (cd ${LLVM_DIR}/build/projects/libcxxabi && make install -j2)
+    if [[ "${CXX%%+*}" == "clang" ]]; then
+      if   [[ "${CXX}" == "clang++-3.5" ]]; then LLVM_VERSION="3.5.2";
+      elif [[ "${CXX}" == "clang++-3.6" ]]; then LLVM_VERSION="3.6.2";
+      elif [[ "${CXX}" == "clang++-3.7" ]]; then LLVM_VERSION="3.7.1";
+      elif [[ "${CXX}" == "clang++-3.8" ]]; then LLVM_VERSION="3.8.1";
+      elif [[ "${CXX}" == "clang++-3.9" ]]; then LLVM_VERSION="3.9.1";
+      elif [[ "${CXX}" == "clang++-4.0" ]]; then LLVM_VERSION="4.0.0";
       fi
 
-      export CXXFLAGS="-nostdinc++ -isystem ${LLVM_DIR}/install/include/c++/v1"
-      export LDFLAGS="-L ${LLVM_DIR}/install/lib -l c++ -l c++abi"
-      export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${LLVM_DIR}/install/lib"
-      export PATH="${LLVM_DIR}/clang/bin:${PATH}"
+      LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
+      LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
+      LIBCXXABI_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxxabi-${LLVM_VERSION}.src.tar.xz"
+
+      mkdir -p llvm llvm/build llvm/projects/libcxx llvm/projects/libcxxabi
+      travis_retry wget -O - ${LLVM_URL} | tar --strip-components=1 -xJ -C llvm
+      travis_retry wget -O - ${LIBCXX_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxx
+      travis_retry wget -O - ${LIBCXXABI_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxxabi
+      (cd llvm/build && cmake .. -DCMAKE_INSTALL_PREFIX=${DEPS_DIR}/llvm/install)
+      (cd llvm/build/projects/libcxx && make install -j2)
+      (cd llvm/build/projects/libcxxabi && make install -j2)
+
+      export CXXFLAGS="-isystem ${DEPS_DIR}/llvm/install/include/c++/v1"
+      export LDFLAGS="-L ${DEPS_DIR}/llvm/install/lib -l c++ -l c++abi"
+      export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${DEPS_DIR}/llvm/install/lib"
     fi
-  - ${CXX} --version
 
   ############################################################################
   # Install a recent Doxygen

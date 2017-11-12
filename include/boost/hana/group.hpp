@@ -78,7 +78,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
         template <bool ...b>
         struct group_indices {
-            static constexpr bool bs[] = {b...};
+            static constexpr bool bs[sizeof...(b)] = {b...};
             static constexpr std::size_t n_groups =
                     detail::count(bs, bs + sizeof(bs), false) + 1;
 

@@ -39,6 +39,7 @@ BOOST_HANA_CONSTEXPR_LAMBDA auto evaluate = hana::ap(function<op>, digit<x>, dig
 
 int main() {
     BOOST_HANA_CONSTEXPR_CHECK(evaluate<'1', '+', '2'> == hana::just(1 + 2));
+    BOOST_HANA_CONSTEXPR_CHECK(evaluate<'4', '-', '2'> == hana::just(4 - 2));
 
     BOOST_HANA_CONSTANT_CHECK(evaluate<'?', '+', '2'> == hana::nothing);
     BOOST_HANA_CONSTANT_CHECK(evaluate<'1', '?', '2'> == hana::nothing);

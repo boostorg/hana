@@ -28,7 +28,7 @@ auto p() { return ::minimal_product(key<i>(), val<j>()); }
 struct undefined { };
 
 int main() {
-    constexpr auto sequence = ::seq;
+    auto sequence = ::seq;
     hana::test::_injection<0> f{};
 
     auto check = [=](auto ...pairs) {
