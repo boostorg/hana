@@ -66,29 +66,29 @@ endif()
 # Generate tests that include each public header.
 # The headers that were excluded above due to caveats are ignored here.
 ##############################################################################
+add_custom_target(test.headers COMMENT "Build all the header-inclusion unit tests.")
+add_dependencies(tests test.headers)
+
 file(GLOB_RECURSE PUBLIC_HEADERS
     RELATIVE "${Boost.Hana_SOURCE_DIR}/include"
     "${Boost.Hana_SOURCE_DIR}/include/*.hpp"
 )
 list(REMOVE_ITEM PUBLIC_HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST})
 
-add_custom_target(test.headers COMMENT "Build all the header-inclusion unit tests.")
-add_dependencies(tests test.headers)
 include(TestHeaders)
-generate_standalone_header_tests(
-    HEADERS ${PUBLIC_HEADERS}
-    EXCLUDE ${EXCLUDED_PUBLIC_HEADERS}
-    LINK_LIBRARIES hana
-    MASTER_TARGET test.headers
-    EXCLUDE_FROM_ALL
-)
-generate_standalone_header_tests(
-    HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST}
-    EXCLUDE ${EXCLUDED_PUBLIC_HEADERS}
-    LINK_LIBRARIES hana Boost::boost
-    MASTER_TARGET test.headers
-    EXCLUDE_FROM_ALL
-)
+add_header_test(test.headers.standalone EXCLUDE_FROM_ALL
+                                        HEADERS ${PUBLIC_HEADERS}
+                                        EXCLUDE ${EXCLUDED_PUBLIC_HEADERS})
+target_link_libraries(test.headers.standalone PRIVATE hana)
+add_dependencies(test.headers test.headers.standalone)
+
+if (Boost_FOUND)
+    add_header_test(test.headers.boost EXCLUDE_FROM_ALL
+                                       HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST}
+                                       EXCLUDE ${EXCLUDED_PUBLIC_HEADERS})
+    target_link_libraries(test.headers.boost PRIVATE hana Boost::boost)
+    add_dependencies(test.headers test.headers.boost)
+endif()
 
 
 ##############################################################################
