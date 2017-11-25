@@ -23,12 +23,9 @@ env:
 
 cache:
   directories:
-    - ${TRAVIS_BUILD_DIR}/deps/boost-1.59.0
-    - ${TRAVIS_BUILD_DIR}/deps/boost-1.60.0
-    - ${TRAVIS_BUILD_DIR}/deps/boost-1.61.0
-    - ${TRAVIS_BUILD_DIR}/deps/boost-1.62.0
     - ${TRAVIS_BUILD_DIR}/deps/boost-1.63.0
     - ${TRAVIS_BUILD_DIR}/deps/boost-1.64.0
+    - ${TRAVIS_BUILD_DIR}/deps/boost-1.65.1
 
 
 matrix:
@@ -127,24 +124,12 @@ matrix:
       env: UNIT_TESTS=true BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
       osx_image: xcode9.1
 
-    # With Boost 1.59
-    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.59.0
-      addons: *defaults
-
-    # With Boost 1.60
-    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.60.0
-      addons: *defaults
-
-    # With Boost 1.61
-    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.61.0
-      addons: *defaults
-
-    # With Boost 1.62
-    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.62.0
-      addons: *defaults
-
     # With Boost 1.63
     - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.63.0
+      addons: *defaults
+
+    # With Boost 1.64
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.64.0
       addons: *defaults
 
     # Without Boost (make sure we don't depend on it)
@@ -197,7 +182,7 @@ install:
   # Setup default versions and override CXX set by Travis if needed
   ############################################################################
   - if [[ "${COMPILER}" == "default" ]]; then COMPILER=clang++-4.0; fi
-  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.64.0; fi
+  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.65.1; fi
 
   - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
   - ${CXX} --version
@@ -214,7 +199,7 @@ install:
           travis_retry git clone --depth 1 --recursive ${BOOST_URL} ${BOOST_DIR} || exit 1
           (cd ${BOOST_DIR} && ./bootstrap.sh && ./b2 headers) || exit 1
         else
-          BOOST_URL="http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//\./_}.tar.gz"
+          BOOST_URL="https://dl.bintray.com/boostorg/release/${BOOST_VERSION}/source/boost_${BOOST_VERSION//\./_}.tar.gz"
           mkdir -p ${BOOST_DIR}
           { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
         fi

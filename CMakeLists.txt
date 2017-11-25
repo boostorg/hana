@@ -120,7 +120,7 @@ endfunction()
 ##############################################################################
 # Look for the rest of Boost, which is an optional dependency of some tests.
 ##############################################################################
-find_package(Boost 1.59)
+find_package(Boost 1.63)
 if (NOT Boost_FOUND)
     message(WARNING "The rest of Boost was not found; some tests and examples will be disabled.")
 endif()
