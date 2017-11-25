@@ -63,6 +63,14 @@ BOOST_HANA_NAMESPACE_BEGIN
                         std::make_index_sequence<(n < len ? n : len)>{});
         }
     };
+
+    template <std::size_t n>
+    struct take_back_c_t {
+        template <typename Xs>
+        constexpr auto operator()(Xs&& xs) const {
+            return hana::take_back(static_cast<Xs&&>(xs), hana::size_c<n>);
+        }
+    };
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_TAKE_BACK_HPP
