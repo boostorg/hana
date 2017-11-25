@@ -49,8 +49,7 @@ include(CheckCxxCompilerSupport)
 ##############################################################################
 include(CheckCXXCompilerFlag)
 add_library(hana INTERFACE)
-target_include_directories(hana INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-                                          $<INSTALL_INTERFACE:include>)
+target_include_directories(hana INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>")
 # With Clang on Windows, the -std=c++14 flag is incorrectly set and the compiler
 # complains about the unknown option. TODO: Remove this workaround once the
 # underlying bug is fixed in CMake: https://gitlab.kitware.com/cmake/cmake/issues/17015
@@ -63,9 +62,14 @@ if (NOT (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang"))
 endif()
 
 # Export the `hana` library into a HanaConfig.cmake file
-install(TARGETS hana EXPORT HanaConfig)
-install(EXPORT HanaConfig       DESTINATION lib/cmake/hana)
-install(DIRECTORY include/boost DESTINATION include FILES_MATCHING PATTERN "*.hpp")
+install(TARGETS hana
+        EXPORT HanaConfig
+        INCLUDES DESTINATION include)
+install(EXPORT HanaConfig
+        DESTINATION lib/cmake/hana)
+install(DIRECTORY include/boost
+        DESTINATION include
+        FILES_MATCHING PATTERN "*.hpp")
 
 # Also install an optional pkg-config file
 configure_file(cmake/hana.pc.in hana.pc @ONLY)
