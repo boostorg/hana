@@ -28,17 +28,6 @@ if (NOT Boost_FOUND)
     list(APPEND EXCLUDED_PUBLIC_HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST})
 endif()
 
-# The std::tuple adapter is not supported with Clang < 3.7.0
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
-    "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
-
-    list(APPEND EXCLUDED_UNIT_TESTS "ext/std/tuple.cpp")
-
-    list(APPEND EXCLUDED_PUBLIC_HEADERS
-        "boost/hana/fwd/ext/std/tuple.hpp"
-        "boost/hana/ext/std/tuple.hpp")
-endif()
-
 # The experimental::type_name test is only supported on Clang >= 3.6 and
 # AppleClang >= 7.0
 if (NOT ((${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
