@@ -82,9 +82,9 @@ matrix:
       osx_image: xcode6.4
 
     # Xcode 7.3
-    # - os: osx
-    #   env: UNIT_TESTS=true BOOST_VERSION=default
-    #   osx_image: xcode7.3
+    - os: osx
+      env: UNIT_TESTS=true BOOST_VERSION=default
+      osx_image: xcode7.3
 
     # Xcode 8.3
     - os: osx
@@ -218,7 +218,7 @@ install:
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
     else
-      brew upgrade cmake || brew install cmake
+      brew install cmake || brew upgrade cmake
     fi
   - cmake --version
 
