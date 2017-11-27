@@ -110,3 +110,33 @@ foreach(_file IN LISTS UNIT_TESTS)
     add_test(${_target} "${CMAKE_CURRENT_BINARY_DIR}/${_target}")
     add_dependencies(tests ${_target})
 endforeach()
+
+
+##############################################################################
+# Add the deployment test, which checks that we can indeed install `hana` and
+# then use the provided `HanaConfig.cmake` config file to use `hana` from an
+# external project.
+##############################################################################
+include(ExternalProject)
+set(HANA_FAKE_INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/deploy/fakeroot")
+ExternalProject_Add(test.deploy.fakeroot
+  SOURCE_DIR "${PROJECT_SOURCE_DIR}"
+  EXCLUDE_FROM_ALL TRUE
+  BUILD_ALWAYS TRUE
+  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${HANA_FAKE_INSTALL_DIR}
+             -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+  TEST_COMMAND ""      # Disable test step
+  UPDATE_COMMAND ""    # Disable source work-tree update
+)
+
+add_custom_target(test.deploy
+  DEPENDS test.deploy.fakeroot
+  COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/deploy/build"
+  COMMAND ${CMAKE_COMMAND} -E chdir "${CMAKE_CURRENT_BINARY_DIR}/deploy/build"
+            ${CMAKE_COMMAND} "${CMAKE_CURRENT_SOURCE_DIR}/deploy"
+                             -DCMAKE_CXX_COMPILER="${CMAKE_CXX_COMPILER}"
+                             -DCMAKE_PREFIX_PATH="${HANA_FAKE_INSTALL_DIR}"
+  COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_BINARY_DIR}/deploy/build"
+  USES_TERMINAL
+)
+add_dependencies(check test.deploy)
