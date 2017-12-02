@@ -23,8 +23,10 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/unpack_flatten.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/fold_left.hpp>
+#include <boost/hana/functional/apply.hpp>
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/on.hpp>
+#include <boost/hana/fuse.hpp>
 #include <boost/hana/fwd/ap.hpp>
 #include <boost/hana/fwd/concat.hpp>
 #include <boost/hana/fwd/core/make.hpp>
@@ -625,10 +627,14 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <>
     struct ap_impl<hana::view_tag> {
         template <typename F, typename X>
-        static constexpr auto apply(F&& f, X&& x) {
-            // TODO: Implement cleverly; we most likely need a cartesian_product
-            //       view or something like that.
-            return hana::ap(hana::to_tuple(f), hana::to_tuple(x));
+        static constexpr auto apply(F f, X x) {
+            // Note: `f` and `x` must both be view, so we're not returning
+            //       dangling references below.
+            auto fs = detail::single_view(f);
+            auto xs = detail::single_view(x);
+            auto joined = detail::joined(fs, xs);
+            auto product = detail::cartesian_product_view(joined);
+            return detail::transformed(product, hana::fuse(hana::apply));
         }
     };
 
@@ -669,7 +675,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     // Comparable
     //////////////////////////////////////////////////////////////////////////
-
     template <typename Xs, typename Ys>
     inline constexpr auto equal_helper(Xs const& xs, Ys const& ys) {
         constexpr std::size_t xs_size = decltype(hana::length(xs))::value;
