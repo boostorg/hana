@@ -583,7 +583,8 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr auto apply(View view, N const&) {
             constexpr auto n = N::value;
             constexpr auto Length = decltype(hana::length(view))::value;
-            return detail::sliced(view, hana::range_c<std::size_t, n, Length>);
+            constexpr auto begin = (n > Length ? Length : n);
+            return detail::sliced(view, hana::range_c<std::size_t, begin, Length>);
         }
     };
 
