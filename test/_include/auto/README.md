@@ -28,17 +28,7 @@ The following directories contain automatic unit tests, and the following is
 sufficient when adding a new automatic unit test (in a file `${FILE}`):
 
 ```sh
-DIRECTORIES=(
-    test/basic_tuple/auto
-    test/ext/boost/fusion/deque/auto
-    test/ext/boost/fusion/list/auto
-    test/ext/boost/fusion/tuple/auto
-    test/ext/boost/fusion/vector/auto
-    test/ext/boost/tuple/auto
-    test/ext/std/tuple/auto
-    test/tuple/auto
-)
-
+DIRECTORIES=$(find test -type d -name auto | grep -v test/_include/auto)
 for d in ${DIRECTORIES}; do
     cat > ${d}/${FILE}.cpp <<EOF
 // Copyright Louis Dionne 2013-2017
