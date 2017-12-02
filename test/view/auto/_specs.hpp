@@ -22,7 +22,7 @@ auto MAKE_TUPLE(T&& ...t) {
     return boost::hana::make_view(*pool.back().get());
 }
 
-#define MAKE_TUPLE(...) ::boost::hana::make_tuple(__VA_ARGS__)
+#define MAKE_TUPLE_NO_CONSTEXPR
 #define TUPLE_TYPE(...) ::boost::hana::view<::boost::hana::tuple<__VA_ARGS__>>
 #define TUPLE_TAG ::boost::hana::view_tag
 
