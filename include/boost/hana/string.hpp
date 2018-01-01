@@ -235,6 +235,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <std::size_t N, char ...xs, std::size_t ...i>
         static constexpr auto helper(string<xs...> const&, std::index_sequence<i...>) {
             constexpr char s[] = {xs...};
+            (void)s; // avoid spurious unused variable warning on GCC 5
             return hana::string_c<s[i + N]...>;
         }
 

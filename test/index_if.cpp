@@ -17,6 +17,7 @@ int main() {
     constexpr Counter<> c{};
     auto pred = [](auto i) {
         return [=](auto x) {
+            (void)i; (void)x; // avoid spurious unused-but-set-parameter warning with GCC 5
             return hana::bool_c<decltype(x)::value == decltype(i)::value>;
         };
     };

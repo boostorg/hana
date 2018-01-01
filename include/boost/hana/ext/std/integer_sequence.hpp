@@ -117,6 +117,7 @@ BOOST_HANA_NAMESPACE_BEGIN
                                                 std::index_sequence<i...>)
         {
             constexpr T ts[sizeof...(t)+1] = {t...}; // avoid 0-sized array
+            (void)ts; // avoid spurious unused variable warning on GCC 5
             return std::integer_sequence<T, ts[n + i]...>{};
         }
 

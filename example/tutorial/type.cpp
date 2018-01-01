@@ -205,12 +205,14 @@ static_assert(std::is_same<
 namespace hana_based {
 //! [smallest.Hana]
 template <typename ...T>
-auto smallest = hana::minimum(hana::make_tuple(hana::type_c<T>...), [](auto t, auto u) {
-  return hana::sizeof_(t) < hana::sizeof_(u);
-});
+auto smallest() {
+  return hana::minimum(hana::make_tuple(hana::type_c<T>...), [](auto t, auto u) {
+    return hana::sizeof_(t) < hana::sizeof_(u);
+  });
+}
 
 template <typename ...T>
-using smallest_t = typename decltype(smallest<T...>)::type;
+using smallest_t = typename decltype(smallest<T...>())::type;
 
 static_assert(std::is_same<
   smallest_t<char, long, long double>, char

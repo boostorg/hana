@@ -20,9 +20,7 @@ namespace hana = boost::hana;
 
 //! [cases]
 template <typename T>
-auto case_ = [](auto f) {
-  return hana::make_pair(hana::type_c<T>, f);
-};
+auto case_ = hana::partial(hana::make_pair, hana::type_c<T>);
 
 struct default_t;
 auto default_ = case_<default_t>;
