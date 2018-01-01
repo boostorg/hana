@@ -56,6 +56,7 @@ BOOST_HANA_NAMESPACE_BEGIN
             );
         }
 
+#if !defined(BOOST_HANA_CONFIG_GCC_HAS_OVERLOAD_RESOLUTION_BUG)
         template <typename X, typename Y, typename ...Z>
         constexpr decltype(auto) operator()(X&& x, Y&& y, Z&& ...z) && {
             return std::move(f)(
@@ -64,6 +65,7 @@ BOOST_HANA_NAMESPACE_BEGIN
                 static_cast<Z&&>(z)...
             );
         }
+#endif
     };
 
     constexpr detail::create<flip_t> flip{};

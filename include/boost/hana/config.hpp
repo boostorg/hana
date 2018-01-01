@@ -150,6 +150,10 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
 #endif
 
+#if defined(BOOST_HANA_CONFIG_GCC) && BOOST_HANA_CONFIG_GCC == BOOST_HANA_CONFIG_VERSION(5, 5, 0)
+#   define BOOST_HANA_CONFIG_GCC_HAS_OVERLOAD_RESOLUTION_BUG
+#endif
+
 //////////////////////////////////////////////////////////////////////////////
 // Namespace macros
 //////////////////////////////////////////////////////////////////////////////
