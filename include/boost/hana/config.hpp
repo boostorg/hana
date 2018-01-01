@@ -57,8 +57,8 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONFIG_GCC BOOST_HANA_CONFIG_VERSION(                 \
                             __GNUC__, __GNUC_MINOR__, __GNUC_PATCHLEVEL__)
 
-#   if BOOST_HANA_CONFIG_GCC < BOOST_HANA_CONFIG_VERSION(6, 0, 0)
-#       warning "Versions of GCC prior to 6.0.0 are not supported by Hana."
+#   if BOOST_HANA_CONFIG_GCC < BOOST_HANA_CONFIG_VERSION(5, 5, 0)
+#       warning "Versions of GCC prior to 5.5 are not supported by Hana."
 #   endif
 
 #else
