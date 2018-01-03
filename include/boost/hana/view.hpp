@@ -191,7 +191,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         //////////////////////////////////////////////////////////////////////
         template <typename T>
         struct single_view_t {
-            T& value_;
+            detail::view_storage<T> value_;
             using hana_tag = view_tag;
         };
 
@@ -225,7 +225,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         //////////////////////////////////////////////////////////////////////
         template <typename Xs>
         struct identity_view_t {
-            Xs& sequence_;
+            detail::view_storage<Xs> sequence_;
             using hana_tag = view_tag;
         };
 
