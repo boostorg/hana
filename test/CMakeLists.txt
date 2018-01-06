@@ -125,6 +125,7 @@ ExternalProject_Add(test.deploy.fakeroot
   BUILD_ALWAYS TRUE
   CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${HANA_FAKE_INSTALL_DIR}
              -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+             -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
   TEST_COMMAND ""      # Disable test step
   UPDATE_COMMAND ""    # Disable source work-tree update
 )
