@@ -229,6 +229,7 @@ install:
     if [[ "${BOOST_BUILD}" == "true" ]]; then
       (cd ${BOOST_DIR}/tools/build && ./bootstrap.sh && ./b2 install --prefix=${DEPS_DIR}/b2)
       export PATH=${DEPS_DIR}/b2/bin:${PATH}
+      b2 --version
     fi
 
   ############################################################################
