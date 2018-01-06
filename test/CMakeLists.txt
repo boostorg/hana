@@ -137,6 +137,7 @@ add_custom_target(test.deploy
                              -DCMAKE_CXX_COMPILER="${CMAKE_CXX_COMPILER}"
                              -DCMAKE_PREFIX_PATH="${HANA_FAKE_INSTALL_DIR}"
                              -DCMAKE_GENERATOR=${CMAKE_GENERATOR}
+                             -DCMAKE_TOOLCHAIN_FILE="${CMAKE_TOOLCHAIN_FILE}"
   COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_BINARY_DIR}/deploy/build"
   USES_TERMINAL
 )
