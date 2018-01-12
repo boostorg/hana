@@ -250,12 +250,12 @@ install:
       LIBCXXABI_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxxabi-${LLVM_VERSION}.src.tar.xz"
 
       mkdir -p llvm llvm/build llvm/projects/libcxx llvm/projects/libcxxabi
-      travis_retry wget -O - ${LLVM_URL} | tar --strip-components=1 -xJ -C llvm
-      travis_retry wget -O - ${LIBCXX_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxx
-      travis_retry wget -O - ${LIBCXXABI_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxxabi
-      (cd llvm/build && cmake .. -DCMAKE_INSTALL_PREFIX=${DEPS_DIR}/llvm/install)
-      (cd llvm/build/projects/libcxx && make install -j2)
-      (cd llvm/build/projects/libcxxabi && make install -j2)
+      travis_retry wget -O - ${LLVM_URL} | tar --strip-components=1 -xJ -C llvm || exit 1
+      travis_retry wget -O - ${LIBCXX_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxx || exit 1
+      travis_retry wget -O - ${LIBCXXABI_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxxabi || exit 1
+      (cd llvm/build && cmake .. -DCMAKE_INSTALL_PREFIX=${DEPS_DIR}/llvm/install) || exit 1
+      (cd llvm/build/projects/libcxx && make install -j2) || exit 1
+      (cd llvm/build/projects/libcxxabi && make install -j2) || exit 1
 
       export CXXFLAGS="-isystem ${DEPS_DIR}/llvm/install/include/c++/v1"
       export LDFLAGS="-L ${DEPS_DIR}/llvm/install/lib -l c++ -l c++abi"
