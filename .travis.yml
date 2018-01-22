@@ -204,7 +204,7 @@ install:
           { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
         fi
         # Make sure we don't conflict with the Hana shipped with Boost
-        rm -rf ${BOOST_DIR}/include/boost/{hana,hana.hpp} || exit 1
+        rm -r ${BOOST_DIR}/boost/{hana,hana.hpp} || exit 1
       fi
       CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
     fi
