@@ -20,14 +20,6 @@ env:
     # ${GITHUB_TOKEN} environment variable.
     - secure: "gB1wvjk565j3O4UBGjyN44Vd8IGqcNHzkbvRdFNHp7C+C+JG2vhAeLlpiK0Zd483gdTjq9gPjIDwpwyG2UJ+yjT1kMTJvD1YNWpGcK6vOHYl1yMOwv/LBdnKn+J7i/FnoeULGRCCI2Fpp1qILhxeZgLxTxsdQaYXlAkkR0i8cgQ="
 
-
-cache:
-  directories:
-    - ${TRAVIS_BUILD_DIR}/deps/boost-1.63.0
-    - ${TRAVIS_BUILD_DIR}/deps/boost-1.64.0
-    - ${TRAVIS_BUILD_DIR}/deps/boost-1.65.1
-
-
 matrix:
   include:
     ##########################################################################
@@ -173,9 +165,9 @@ matrix:
 
 install:
   ############################################################################
-  # All the dependencies are installed in ${TRAVIS_BUILD_DIR}/deps/
+  # All the dependencies are installed in ${HOME}/deps/
   ############################################################################
-  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+  - DEPS_DIR="${HOME}/deps"
   - mkdir -p ${DEPS_DIR} && cd ${DEPS_DIR}
 
   ############################################################################
@@ -229,7 +221,7 @@ install:
     if [[ "${BOOST_BUILD}" == "true" ]]; then
       (cd ${BOOST_DIR}/tools/build && ./bootstrap.sh && ./b2 install --prefix=${DEPS_DIR}/b2)
       export PATH=${DEPS_DIR}/b2/bin:${PATH}
-      b2 --version
+      b2 --version || true # b2 --version returns 1
     fi
 
   ############################################################################
@@ -291,6 +283,17 @@ install:
 
 before_script:
   ############################################################################
+  # When running with Boost.Build, put Hana in the Boost tree and make that
+  # the root of the project
+  ############################################################################
+  - |
+    if [[ "${BOOST_BUILD}" == "true" ]]; then
+      rm -rf "${BOOST_DIR}/libs/hana"
+      mv "${TRAVIS_BUILD_DIR}" "${BOOST_DIR}/libs/hana"
+      export TRAVIS_BUILD_DIR="${BOOST_DIR}/libs/hana"
+    fi
+
+  ############################################################################
   # Set the git identity (for pushing the documentation and the benchmarks)
   ############################################################################
   - git config --global user.name "Travis bot"
@@ -299,7 +302,7 @@ before_script:
   ############################################################################
   # Go back to the root of the project and setup the build directory
   ############################################################################
-  - cd ${TRAVIS_BUILD_DIR}
+  - cd "${TRAVIS_BUILD_DIR}"
   - (mkdir build && cd build && cmake .. ${CMAKE_OPTIONS})
 
 
@@ -347,7 +350,6 @@ script:
 
   - |
     if [[ "${DOCUMENTATION}" == "true" && "${BOOST_BUILD}" == "true" ]]; then
-      touch Jamroot
       (cd doc && b2)
       if [[ ! -d doc/html ]]; then exit 1; fi
     fi
@@ -402,7 +404,6 @@ script:
 
   - |
     if [[ "${UNIT_TESTS}" == "true" && "${BOOST_BUILD}" == "true" ]]; then
-      touch Jamroot
       echo "using clang : : ${CXX} ;" > project-config.jam
       if [[ "${LDFLAGS}" == "" ]]; then
         (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" include="${BOOST_DIR}")
