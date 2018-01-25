@@ -17,13 +17,6 @@ env:
 matrix:
   include:
     ##########################################################################
-    # Check for code formatting errors
-    ##########################################################################
-    - os: osx
-      env: CHECK_FORMATTING=true
-      osx_image: xcode9.1
-
-    ##########################################################################
     # Build with the main configuration on all the supported compilers
     #
     # Note that we only use the memory checker on the main configuration to
@@ -262,15 +255,6 @@ install:
   - rvm use 2.1 --install --binary --fuzzy
   - gem install ruby-progressbar tilt
 
-  ############################################################################
-  # Install tools to check for code formatting errors (run on OS X only)
-  ############################################################################
-  - |
-    if [[ "${CHECK_FORMATTING}" == "true" ]]; then
-      brew upgrade pcre || brew install pcre || exit 1
-      brew upgrade vera++ || brew install vera++ || exit 1
-    fi
-
 
 before_script:
   ############################################################################
@@ -301,19 +285,11 @@ script:
   ############################################################################
   # Check for common formatting errors.
   ############################################################################
-  - |
-    if [[ "${CHECK_FORMATTING}" == "true" ]]; then
-      # Find non-ASCII characters in headers
-      hpps=$(find include doc -name \*\.hpp)
-      cpps=$(find test example -name \*\.cpp)
-      pcregrep --color='auto' -n "[\x80-\xFF]" ${hpps} ${cpps}
-      if [[ $? -ne 1 ]]; then exit 1; fi
-
-      # F001: Source files should not use the '\r' (CR) character
-      # L001: No trailing whitespace at the end of lines
-      # L002: Don't use tab characters
-      find include -name \*\.hpp | vera++ --rule F001 --rule L001 --rule L002 --error
-    fi
+  - sources=($(find include doc test example -name "*.hpp" -or -name "*.cpp"))
+  - LANG=POSIX grep '[^[:print:][:cntrl:]]' "${sources[@]}"; [[ $? == 1 ]] || exit 1 # Non-ASCII character
+  - LANG=POSIX grep $'\r'                   "${sources[@]}"; [[ $? == 1 ]] || exit 1 # '\r' (CR) character
+  - LANG=POSIX grep $'\t'                   "${sources[@]}"; [[ $? == 1 ]] || exit 1 # Tab character
+  - LANG=POSIX grep '[[:blank:]]$'          "${sources[@]}"; [[ $? == 1 ]] || exit 1 # Trailing whitespace
 
   ############################################################################
   # Only push the documentation when we're on master, otherwise just make sure
