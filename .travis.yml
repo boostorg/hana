@@ -3,8 +3,8 @@
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 language: cpp
-os: linux # Use Linux unless specified otherwise
-dist: precise # Use precise unless specified otherwise
+os: linux # Jobs are on Linux unless specified otherwise
+dist: trusty # Jobs are on Trusty unless specified otherwise
 sudo: false
 
 # Do not build branches of the form "pr/*". By prefixing pull requests coming
@@ -53,7 +53,7 @@ matrix:
 
     # Clang 3.9
     - env: UNIT_TESTS=true COMPILER=clang++-3.9 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: { apt: { packages: ["clang-3.9", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.9"] } }
+      addons: { apt: { packages: ["clang-3.9", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-3.9"] } }
 
     # Clang 4.0
     - env: UNIT_TESTS=true COMPILER=clang++-4.0 BOOST_VERSION=default ENABLE_MEMCHECK=true
@@ -66,7 +66,6 @@ matrix:
     # GCC 7
     - env: UNIT_TESTS=true COMPILER=g++-7 BOOST_VERSION=default ENABLE_MEMCHECK=true
       addons: { apt: { packages: ["g++-7", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
-      dist: trusty
 
     # Xcode 6.4
     - os: osx
