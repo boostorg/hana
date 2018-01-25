@@ -129,20 +129,18 @@ matrix:
       addons: *defaults
 
     # With Boost.Build instead of CMake (on Linux)
-    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=default BOOST_BUILD=true
+    - env: BOOST_BUILD=true COMPILER=default BOOST_VERSION=default
       addons: *defaults
 
     # With Boost.Build instead of CMake (on OS X)
     - os: osx
-      env: UNIT_TESTS=true BOOST_VERSION=default BOOST_BUILD=true
+      env: BOOST_BUILD=true BOOST_VERSION=default
       osx_image: xcode9.1
 
     ##########################################################################
     # Generate the documentation
     ##########################################################################
     - env: DOCUMENTATION=true COMPILER=default BOOST_VERSION=default
-      addons: *defaults
-    - env: DOCUMENTATION=true COMPILER=default BOOST_VERSION=default BOOST_BUILD=true
       addons: *defaults
 
     ##########################################################################
@@ -329,7 +327,7 @@ script:
   # it builds properly.
   ############################################################################
   - |
-    if [[ "${DOCUMENTATION}" == "true" && "${BOOST_BUILD}" != "true" ]]; then
+    if [[ "${DOCUMENTATION}" == "true" ]]; then
       (cd build && ! make doc 2>&1 | grep -E "warning|error") || exit 1
 
       if [[ "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then
@@ -346,12 +344,6 @@ script:
         travis_retry git push origin gh-pages &>/dev/null
         popd
       fi
-    fi
-
-  - |
-    if [[ "${DOCUMENTATION}" == "true" && "${BOOST_BUILD}" == "true" ]]; then
-      (cd doc && b2)
-      if [[ ! -d doc/html ]]; then exit 1; fi
     fi
 
   ############################################################################
@@ -393,7 +385,7 @@ script:
   # Build and run the unit tests and examples.
   ############################################################################
   - |
-    if [[ "${UNIT_TESTS}" == "true" && "${BOOST_BUILD}" != "true" ]]; then
+    if [[ "${UNIT_TESTS}" == "true" ]]; then
       (cd build && make tests examples -j2 -k) &&
       if [[ "${ENABLE_MEMCHECK}" == "true" ]]; then
         (cd build && ctest --output-on-failure -j2 -D ExperimentalMemCheck)
@@ -402,13 +394,21 @@ script:
       fi
     fi
 
+  ############################################################################
+  # Special Boost.Build job
+  ############################################################################
   - |
-    if [[ "${UNIT_TESTS}" == "true" && "${BOOST_BUILD}" == "true" ]]; then
+    if [[ "${BOOST_BUILD}" == "true" ]]; then
+      # Build documentation
+      (cd doc && b2) || exit 1
+      if [[ ! -d doc/html ]]; then exit 1; fi
+
+      # Build tests
       echo "using clang : : ${CXX} ;" > project-config.jam
       if [[ "${LDFLAGS}" == "" ]]; then
-        (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" include="${BOOST_DIR}")
+        (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" include="${BOOST_DIR}") || exit 1
       else
-        (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" include="${BOOST_DIR}" linkflags="${LDFLAGS}")
+        (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" include="${BOOST_DIR}" linkflags="${LDFLAGS}") || exit 1
       fi
     fi
 
