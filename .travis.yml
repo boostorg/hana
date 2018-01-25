@@ -102,12 +102,12 @@ matrix:
       env: UNIT_TESTS=true BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
       osx_image: xcode9.1
 
-    # With Boost 1.63
-    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.63.0
-      addons: *defaults
-
     # With Boost 1.64
     - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.64.0
+      addons: *defaults
+
+    # With Boost 1.65.1
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.65.1
       addons: *defaults
 
     # Without Boost (make sure we don't depend on it)
@@ -158,7 +158,7 @@ install:
   # Setup default versions and override CXX set by Travis if needed
   ############################################################################
   - if [[ "${COMPILER}" == "default" ]]; then COMPILER=clang++-4.0; fi
-  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.65.1; fi
+  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.66.0; fi
 
   - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
   - ${CXX} --version
