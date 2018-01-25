@@ -169,19 +169,18 @@ install:
   - |
     if [[ "${BOOST_VERSION}" != "" ]]; then
       BOOST_DIR=${DEPS_DIR}/boost-${BOOST_VERSION}
-      if [[ -z "$(ls -A ${BOOST_DIR})" ]]; then
-        if [[ "${BOOST_VERSION}" == "trunk" ]]; then
-          BOOST_URL="http://github.com/boostorg/boost.git"
-          travis_retry git clone --depth 1 --recursive ${BOOST_URL} ${BOOST_DIR} || exit 1
-          (cd ${BOOST_DIR} && ./bootstrap.sh && ./b2 headers) || exit 1
-        else
-          BOOST_URL="https://dl.bintray.com/boostorg/release/${BOOST_VERSION}/source/boost_${BOOST_VERSION//\./_}.tar.gz"
-          mkdir -p ${BOOST_DIR}
-          { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
-        fi
-        # Make sure we don't conflict with the Hana shipped with Boost
-        rm -r ${BOOST_DIR}/boost/{hana,hana.hpp} || exit 1
+      if [[ "${BOOST_VERSION}" == "trunk" ]]; then
+        BOOST_URL="http://github.com/boostorg/boost.git"
+        travis_retry git clone --depth 1 --recursive ${BOOST_URL} ${BOOST_DIR} || exit 1
+        (cd ${BOOST_DIR} && ./bootstrap.sh && ./b2 headers) || exit 1
+      else
+        BOOST_URL="https://dl.bintray.com/boostorg/release/${BOOST_VERSION}/source/boost_${BOOST_VERSION//\./_}.tar.gz"
+        mkdir -p ${BOOST_DIR}
+        { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
       fi
+      # Make sure we don't conflict with the Hana shipped with Boost
+      rm -r ${BOOST_DIR}/boost/{hana,hana.hpp} || exit 1
+
       CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
     fi
 
