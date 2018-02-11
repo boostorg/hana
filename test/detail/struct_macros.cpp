@@ -68,7 +68,7 @@ int main() {
         BOOST_HANA_RUNTIME_CHECK(args.empty());
     }{
         Vector args = {BOOST_HANA_PP_DROP_BACK(1, 2)};
-        BOOST_HANA_RUNTIME_CHECK(args == Vector{2});
+        BOOST_HANA_RUNTIME_CHECK(args == Vector{1});
     }{
         Vector args = {BOOST_HANA_PP_DROP_BACK(1, 2, 3)};
         BOOST_HANA_RUNTIME_CHECK(args == Vector{1, 2});
