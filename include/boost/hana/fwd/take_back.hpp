@@ -53,6 +53,26 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     constexpr take_back_t take_back{};
 #endif
+
+    //! Equivalent to `take_back`; provided for convenience.
+    //! @ingroup group-Sequence
+    //!
+    //!
+    //! Example
+    //! -------
+    //! @include example/take_back_c.cpp
+#ifdef BOOST_HANA_DOXYGEN_INVOKED
+    template <std::size_t n>
+    constexpr auto take_back_c = [](auto&& xs) {
+        return hana::take_back(forwarded(xs), hana::size_c<n>);
+    };
+#else
+    template <std::size_t n>
+    struct take_back_c_t;
+
+    template <std::size_t n>
+    constexpr take_back_c_t<n> take_back_c{};
+#endif
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_TAKE_BACK_HPP

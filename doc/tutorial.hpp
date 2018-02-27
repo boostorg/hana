@@ -82,11 +82,10 @@ environment for development in the [README][Hana.hacking].
 a `HanaConfig.cmake` file for use with CMake and a `hana.pc` file for use with
 [pkg-config][].
 
-- Do not mix a system-wide installation of Hana with a system-wide installation
-of Boost, because both installations will clash. You won't know which version of
-Hana is being used, and that could break libraries that depend on the version of
-Hana provided with Boost (or vice-versa). Generally speaking, you should favor
-local installations whenever possible.
+- Do not mix a standalone installation of Hana (i.e. Hana not installed through
+  Boost) with a full installation of Boost. The Hana provided within Boost and
+  the standalone one may clash, and you won't know which version is used where.
+  This is asking for trouble.
 
 @subsection tutorial-installation-cmake Note for CMake users
 

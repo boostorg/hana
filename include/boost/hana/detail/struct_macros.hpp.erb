@@ -7,15 +7,18 @@
 
         export MAX_NUMBER_OF_MEMBERS=55; erb struct_macros.hpp.erb
 
-    'MAX_NUMBER_OF_MEMBERS' must be <= 62, otherwise an error is triggered.
-    In case 'MAX_NUMBER_OF_MEMBERS' is not specified, it defaults to 40.
+    'MAX_NUMBER_OF_MEMBERS' must be greater than 0. In case 'MAX_NUMBER_OF_MEMBERS'
+    is not specified, it defaults to 40. To regenerate the default struct macros,
+    issue the following command from the root of the project:
+
+      erb include/boost/hana/detail/struct_macros.hpp.erb > include/boost/hana/detail/struct_macros.hpp
 
     [1]: http://en.wikipedia.org/wiki/ERuby
 %>
 
 <%
     MAX_NUMBER_OF_MEMBERS = (ENV["MAX_NUMBER_OF_MEMBERS"] || 40).to_i
-    raise "MAX_NUMBER_OF_MEMBERS must be <= 62" if MAX_NUMBER_OF_MEMBERS > 62
+    raise "MAX_NUMBER_OF_MEMBERS must be > 0" if not MAX_NUMBER_OF_MEMBERS > 0
 %>
 
 /*!
@@ -74,6 +77,49 @@ BOOST_HANA_NAMESPACE_BEGIN namespace struct_detail {
         return prepare_member_name_impl<n, Names>(std::make_index_sequence<len>{});
     }
 } BOOST_HANA_NAMESPACE_END
+
+//////////////////////////////////////////////////////////////////////////////
+// BOOST_HANA_PP_NARG
+//////////////////////////////////////////////////////////////////////////////
+//! @ingroup group-details
+//! Macro expanding to the number of arguments it is passed.
+//!
+//! Specifically, `BOOST_HANA_PP_NARG(x1, ..., xn)` expands to `n`. It is
+//! an error to call this macro with 0 arguments.
+#define BOOST_HANA_PP_NARG(...) \
+    BOOST_HANA_PP_NARG_IMPL(__VA_ARGS__, <%= (1..MAX_NUMBER_OF_MEMBERS).to_a.reverse.join(',') %>,)
+
+#define BOOST_HANA_PP_NARG_IMPL(<%= (1..MAX_NUMBER_OF_MEMBERS).to_a.map { |i| "e#{i}" }.join(',') %>, N, ...) N
+
+//////////////////////////////////////////////////////////////////////////////
+// BOOST_HANA_PP_BACK
+//////////////////////////////////////////////////////////////////////////////
+//! @ingroup group-details
+//! Expands to its last argument.
+#define BOOST_HANA_PP_BACK(...) \
+    BOOST_HANA_PP_BACK_IMPL(BOOST_HANA_PP_NARG(__VA_ARGS__), __VA_ARGS__)
+
+#define BOOST_HANA_PP_BACK_IMPL(N, ...) \
+    BOOST_HANA_PP_CONCAT(BOOST_HANA_PP_BACK_IMPL_, N)(__VA_ARGS__)
+
+<% (1..MAX_NUMBER_OF_MEMBERS).each do |n| %>
+#define BOOST_HANA_PP_BACK_IMPL_<%= n %>(<%= (1..n).to_a.map { |i| "e#{i}" }.join(', ') %>) e<%= n %>
+<% end %>
+
+//////////////////////////////////////////////////////////////////////////////
+// BOOST_HANA_PP_DROP_BACK
+//////////////////////////////////////////////////////////////////////////////
+//! @ingroup group-details
+//! Expands to all of its arguments, except for the last one.
+#define BOOST_HANA_PP_DROP_BACK(...) \
+    BOOST_HANA_PP_DROP_BACK_IMPL(BOOST_HANA_PP_NARG(__VA_ARGS__), __VA_ARGS__)
+
+#define BOOST_HANA_PP_DROP_BACK_IMPL(N, ...) \
+    BOOST_HANA_PP_CONCAT(BOOST_HANA_PP_DROP_BACK_IMPL_, N)(__VA_ARGS__)
+
+<% (1..MAX_NUMBER_OF_MEMBERS).each do |n| %>
+#define BOOST_HANA_PP_DROP_BACK_IMPL_<%= n %>(<%= (1..n).to_a.map { |i| "e#{i}" }.join(', ') %>)<%= (1..n-1).to_a.map { |i| "e#{i}" }.join(', ') %>
+<% end %>
 
 //////////////////////////////////////////////////////////////////////////////
 // BOOST_HANA_ADAPT_STRUCT

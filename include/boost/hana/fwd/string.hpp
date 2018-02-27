@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/fwd/core/make.hpp>
+#include <boost/hana/fwd/core/to.hpp>
 
 
 BOOST_HANA_NAMESPACE_BEGIN
@@ -94,16 +95,23 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! concepts as `hana::string` does.
     //! @include example/string/to.cpp
     //!
+    //! Conversion from any Constant holding a `char const*`
+    //! ----------------------------------------------------
+    //! A `hana::string` can be created from any `Constant` whose underlying
+    //! value is convertible to a `char const*` by using `hana::to`. The
+    //! contents of the `char const*` are used to build the content of the
+    //! `hana::string`.
+    //! @include example/string/from_c_str.cpp
     //!
-    //! > #### Rationale for `hana::string` not being a `Constant`
-    //! > The underlying type held by a `hana::string` could be either
-    //! > `char const*` or some other constexpr-enabled string-like container.
-    //! > In the first case, `hana::string` can not be a `Constant` because
-    //! > the models of several concepts would not be respected by the
-    //! > underlying type, causing `value` not to be structure-preserving.
-    //! > Providing an underlying value of constexpr-enabled string-like
-    //! > container type like `std::string_view` would be great, but that's
-    //! > a bit complicated for the time being.
+    //! Rationale for `hana::string` not being a `Constant` itself
+    //! ----------------------------------------------------------
+    //! The underlying type held by a `hana::string` could be either `char const*`
+    //! or some other constexpr-enabled string-like container. In the first case,
+    //! `hana::string` can not be a `Constant` because the models of several
+    //! concepts would not be respected by the underlying type, causing `value`
+    //! not to be structure-preserving. Providing an underlying value of
+    //! constexpr-enabled string-like container type like `std::string_view`
+    //! would be great, but that's a bit complicated for the time being.
     template <typename implementation_defined>
     struct string {
         // Default-construct a `hana::string`; no-op since `hana::string` is stateless.
@@ -179,6 +187,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Alias to `make<string_tag>`; provided for convenience.
     //! @relates hana::string
     constexpr auto make_string = make<string_tag>;
+
+    //! Equivalent to `to<string_tag>`; provided for convenience.
+    //! @relates hana::string
+    constexpr auto to_string = to<string_tag>;
 
     //! Create a compile-time string from a parameter pack of characters.
     //! @relates hana::string

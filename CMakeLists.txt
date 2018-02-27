@@ -2,7 +2,7 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.9)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 ##############################################################################
@@ -49,23 +49,22 @@ include(CheckCxxCompilerSupport)
 ##############################################################################
 include(CheckCXXCompilerFlag)
 add_library(hana INTERFACE)
-target_include_directories(hana INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>"
-                                          $<INSTALL_INTERFACE:include>)
-# With Clang on Windows, the -std=c++14 flag is incorrectly set and the compiler
-# complains about the unknown option. TODO: Remove this workaround once the
-# underlying bug is fixed in CMake: https://gitlab.kitware.com/cmake/cmake/issues/17015
-if (NOT (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang"))
-    if (BOOST_HANA_ENABLE_CPP17)
-        target_compile_features(hana INTERFACE cxx_std_17)
-    else()
-        target_compile_features(hana INTERFACE cxx_std_14)
-    endif()
+target_include_directories(hana INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>")
+if (BOOST_HANA_ENABLE_CPP17)
+    target_compile_features(hana INTERFACE cxx_std_17)
+else()
+    target_compile_features(hana INTERFACE cxx_std_14)
 endif()
 
 # Export the `hana` library into a HanaConfig.cmake file
-install(TARGETS hana EXPORT HanaConfig)
-install(EXPORT HanaConfig       DESTINATION lib/cmake/hana)
-install(DIRECTORY include/boost DESTINATION include FILES_MATCHING PATTERN "*.hpp")
+install(TARGETS hana
+        EXPORT HanaConfig
+        INCLUDES DESTINATION include)
+install(EXPORT HanaConfig
+        DESTINATION lib/cmake/hana)
+install(DIRECTORY include/boost
+        DESTINATION include
+        FILES_MATCHING PATTERN "*.hpp")
 
 # Also install an optional pkg-config file
 configure_file(cmake/hana.pc.in hana.pc @ONLY)
@@ -121,7 +120,7 @@ endfunction()
 ##############################################################################
 # Look for the rest of Boost, which is an optional dependency of some tests.
 ##############################################################################
-find_package(Boost 1.59)
+find_package(Boost 1.64)
 if (NOT Boost_FOUND)
     message(WARNING "The rest of Boost was not found; some tests and examples will be disabled.")
 endif()
@@ -158,7 +157,8 @@ endfunction()
 add_custom_target(check
     COMMAND ${CMAKE_CTEST_COMMAND} --output-on-failure
     WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}"
-    COMMENT "Build and then run all the tests and examples.")
+    COMMENT "Build and then run all the tests and examples."
+    USES_TERMINAL)
 
 
 ##############################################################################

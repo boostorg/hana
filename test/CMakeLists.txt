@@ -28,17 +28,6 @@ if (NOT Boost_FOUND)
     list(APPEND EXCLUDED_PUBLIC_HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST})
 endif()
 
-# The std::tuple adapter is not supported with Clang < 3.7.0
-if (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
-    "${CMAKE_CXX_COMPILER_VERSION}" VERSION_LESS "3.7.0")
-
-    list(APPEND EXCLUDED_UNIT_TESTS "ext/std/tuple.cpp")
-
-    list(APPEND EXCLUDED_PUBLIC_HEADERS
-        "boost/hana/fwd/ext/std/tuple.hpp"
-        "boost/hana/ext/std/tuple.hpp")
-endif()
-
 # The experimental::type_name test is only supported on Clang >= 3.6 and
 # AppleClang >= 7.0
 if (NOT ((${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
@@ -66,29 +55,29 @@ endif()
 # Generate tests that include each public header.
 # The headers that were excluded above due to caveats are ignored here.
 ##############################################################################
+add_custom_target(test.headers COMMENT "Build all the header-inclusion unit tests.")
+add_dependencies(tests test.headers)
+
 file(GLOB_RECURSE PUBLIC_HEADERS
     RELATIVE "${Boost.Hana_SOURCE_DIR}/include"
     "${Boost.Hana_SOURCE_DIR}/include/*.hpp"
 )
 list(REMOVE_ITEM PUBLIC_HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST})
 
-add_custom_target(test.headers COMMENT "Build all the header-inclusion unit tests.")
-add_dependencies(tests test.headers)
 include(TestHeaders)
-generate_standalone_header_tests(
-    HEADERS ${PUBLIC_HEADERS}
-    EXCLUDE ${EXCLUDED_PUBLIC_HEADERS}
-    LINK_LIBRARIES hana
-    MASTER_TARGET test.headers
-    EXCLUDE_FROM_ALL
-)
-generate_standalone_header_tests(
-    HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST}
-    EXCLUDE ${EXCLUDED_PUBLIC_HEADERS}
-    LINK_LIBRARIES hana Boost::boost
-    MASTER_TARGET test.headers
-    EXCLUDE_FROM_ALL
-)
+add_header_test(test.headers.standalone EXCLUDE_FROM_ALL
+                                        HEADERS ${PUBLIC_HEADERS}
+                                        EXCLUDE ${EXCLUDED_PUBLIC_HEADERS})
+target_link_libraries(test.headers.standalone PRIVATE hana)
+add_dependencies(test.headers test.headers.standalone)
+
+if (Boost_FOUND)
+    add_header_test(test.headers.boost EXCLUDE_FROM_ALL
+                                       HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST}
+                                       EXCLUDE ${EXCLUDED_PUBLIC_HEADERS})
+    target_link_libraries(test.headers.boost PRIVATE hana Boost::boost)
+    add_dependencies(test.headers test.headers.boost)
+endif()
 
 
 ##############################################################################
@@ -121,3 +110,36 @@ foreach(_file IN LISTS UNIT_TESTS)
     add_test(${_target} "${CMAKE_CURRENT_BINARY_DIR}/${_target}")
     add_dependencies(tests ${_target})
 endforeach()
+
+
+##############################################################################
+# Add the deployment test, which checks that we can indeed install `hana` and
+# then use the provided `HanaConfig.cmake` config file to use `hana` from an
+# external project.
+##############################################################################
+include(ExternalProject)
+set(HANA_FAKE_INSTALL_DIR "${CMAKE_CURRENT_BINARY_DIR}/deploy/fakeroot")
+ExternalProject_Add(test.deploy.fakeroot
+  SOURCE_DIR "${PROJECT_SOURCE_DIR}"
+  EXCLUDE_FROM_ALL TRUE
+  BUILD_ALWAYS TRUE
+  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${HANA_FAKE_INSTALL_DIR}
+             -DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}
+             -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
+  TEST_COMMAND ""      # Disable test step
+  UPDATE_COMMAND ""    # Disable source work-tree update
+)
+
+add_custom_target(test.deploy
+  DEPENDS test.deploy.fakeroot
+  COMMAND ${CMAKE_COMMAND} -E make_directory "${CMAKE_CURRENT_BINARY_DIR}/deploy/build"
+  COMMAND ${CMAKE_COMMAND} -E chdir "${CMAKE_CURRENT_BINARY_DIR}/deploy/build"
+            ${CMAKE_COMMAND} "${CMAKE_CURRENT_SOURCE_DIR}/deploy"
+                             -DCMAKE_CXX_COMPILER="${CMAKE_CXX_COMPILER}"
+                             -DCMAKE_PREFIX_PATH="${HANA_FAKE_INSTALL_DIR}"
+                             -DCMAKE_GENERATOR=${CMAKE_GENERATOR}
+                             -DCMAKE_TOOLCHAIN_FILE="${CMAKE_TOOLCHAIN_FILE}"
+  COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_BINARY_DIR}/deploy/build"
+  USES_TERMINAL
+)
+add_dependencies(check test.deploy)
