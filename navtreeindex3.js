@@ -1,5 +1,7 @@
 var NAVTREEINDEX3 =
 {
+"group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0":[1,2,3],
+"group__group-functional.html#ga49ea872ade5ac8f6c10052c495302e89":[1,2,5],
 "group__group-functional.html#ga6acc765a35c4dc85f0deab4785831a3d":[1,2,2],
 "group__group-functional.html#ga6e648f0d3fc0209ec024e9d759a5e8f8":[1,2,18],
 "group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf":[1,2,16],
@@ -247,7 +249,5 @@ var NAVTREEINDEX3 =
 "structboost_1_1hana_1_1integral__constant.html#a65df6bbd2d90432bdcdc709cdbca9921":[1,1,0,23],
 "structboost_1_1hana_1_1integral__constant.html#a673f1d9212ae61e8cee093af002bc110":[1,1,0,30],
 "structboost_1_1hana_1_1integral__constant.html#a69a1bcadc259af364eb87d634c76c12e":[1,1,0,5],
-"structboost_1_1hana_1_1integral__constant.html#a6be175332d55b7bfcf1afc33856d9b7d":[1,1,0,29],
-"structboost_1_1hana_1_1integral__constant.html#a79f45e3c2411db1d36127c1341673ffb":[1,1,0,21],
-"structboost_1_1hana_1_1integral__constant.html#a7d9f9e5adeb222e676ee02d6f28198ee":[1,1,0,37]
+"structboost_1_1hana_1_1integral__constant.html#a6be175332d55b7bfcf1afc33856d9b7d":[1,1,0,29]
 };

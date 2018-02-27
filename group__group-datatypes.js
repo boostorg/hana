@@ -150,6 +150,7 @@ var group__group_datatypes =
     [ "string", "structboost_1_1hana_1_1string.html", [
       [ "make< string_tag >", "structboost_1_1hana_1_1string.html#a75de1ad7b14dc576a98d759dc3176ae9", null ],
       [ "make_string", "structboost_1_1hana_1_1string.html#acd99ab02697909eba5eb76caf1ca7a8b", null ],
+      [ "to_string", "structboost_1_1hana_1_1string.html#aa3fb479070239c86673c624a21a845b6", null ],
       [ "string_c", "structboost_1_1hana_1_1string.html#a810915f5e494decfe47b047a3500c577", null ],
       [ "operator==", "structboost_1_1hana_1_1string.html#a27607958295e6da8a0ba602a2db468f1", null ],
       [ "operator!=", "structboost_1_1hana_1_1string.html#a0cae3af55edb3eb05bfa184bda633f7d", null ],

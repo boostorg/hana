@@ -200,6 +200,7 @@ var NAVTREEINDEX1 =
 "fwd_2symmetric__difference_8hpp.html":[3,0,0,6,127],
 "fwd_2take__back_8hpp.html":[3,0,0,6,128],
 "fwd_2take__back_8hpp.html#ga8d302de01b94b4b17f3bd81e09f42920":[3,0,0,6,128,0],
+"fwd_2take__back_8hpp.html#gaa4d4818952083e3b27c83b0ed645e322":[3,0,0,6,128,1],
 "fwd_2take__front_8hpp.html":[3,0,0,6,129],
 "fwd_2take__front_8hpp.html#ga3779f62fea92af00113a9290f1c680eb":[3,0,0,6,129,1],
 "fwd_2take__front_8hpp.html#ga5112e6070d29b4f7fde3f44825da3316":[3,0,0,6,129,0],
@@ -248,6 +249,5 @@ var NAVTREEINDEX1 =
 "group__group-Applicative.html":[1,0,0],
 "group__group-Applicative.html#ga6176a32953dbbdee96e3ab3c73e4c890":[1,0,0,0],
 "group__group-Applicative.html#ga712038d7abbc7159f8792788f7cd0c73":[1,0,0,1],
-"group__group-Comonad.html":[1,0,1],
-"group__group-Comonad.html#ga181751278bd19a4bfc3c08bd7ddef399":[1,0,1,0]
+"group__group-Comonad.html":[1,0,1]
 };

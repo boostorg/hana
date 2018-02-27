@@ -29,7 +29,7 @@ var dir_0a4844ac9cb2026bd07faf42b116b549 =
     [ "nested_to_fwd.hpp", "nested__to__fwd_8hpp.html", null ],
     [ "preprocessor.hpp", "preprocessor_8hpp.html", "preprocessor_8hpp" ],
     [ "std_common_type.hpp", "std__common__type_8hpp.html", null ],
-    [ "struct_macros.hpp", "struct__macros_8hpp.html", null ],
+    [ "struct_macros.hpp", "struct__macros_8hpp.html", "struct__macros_8hpp" ],
     [ "type_at.hpp", "type__at_8hpp.html", null ],
     [ "type_foldl1.hpp", "type__foldl1_8hpp.html", null ],
     [ "type_foldr1.hpp", "type__foldr1_8hpp.html", null ],

@@ -63,7 +63,7 @@ MathJax.Hub.Config({
   <td id="projectlogo"><img alt="Logo" src="Boost.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Boost.Hana
-   &#160;<span id="projectnumber">1.3.0</span>
+   &#160;<span id="projectnumber">1.4.0</span>
    </div>
    <div id="projectbrief">Your standard library for metaprogramming</div>
   </td>
@@ -122,7 +122,8 @@ $(document).ready(function(){initNavTree('struct__macros_8hpp.html','');});
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a>  </div>
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#define-members">Macros</a>  </div>
   <div class="headertitle">
 <div class="title">struct_macros.hpp File Reference</div>  </div>
 </div><!--header-->
@@ -136,6 +137,20 @@ Namespaces</h2></td></tr>
 <tr class="memitem:namespaceboost_1_1hana"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceboost_1_1hana.html">boost::hana</a></td></tr>
 <tr class="memdesc:namespaceboost_1_1hana"><td class="mdescLeft">&#160;</td><td class="mdescRight">Namespace containing everything in the library. <br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
+Macros</h2></td></tr>
+<tr class="memitem:ga62fe3327023c37706c827cc82624998b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga62fe3327023c37706c827cc82624998b">BOOST_HANA_PP_NARG</a>(...)&#160;&#160;&#160;BOOST_HANA_PP_NARG_IMPL(__VA_ARGS__, 40,39,38,37,36,35,34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,)</td></tr>
+<tr class="memdesc:ga62fe3327023c37706c827cc82624998b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Macro expanding to the number of arguments it is passed.  <a href="group__group-details.html#ga62fe3327023c37706c827cc82624998b">More...</a><br /></td></tr>
+<tr class="separator:ga62fe3327023c37706c827cc82624998b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga1be7a4bd805ffff2882fe54995dc41bd"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#ga1be7a4bd805ffff2882fe54995dc41bd">BOOST_HANA_PP_BACK</a>(...)&#160;&#160;&#160;BOOST_HANA_PP_BACK_IMPL(<a class="el" href="group__group-details.html#ga62fe3327023c37706c827cc82624998b">BOOST_HANA_PP_NARG</a>(__VA_ARGS__), __VA_ARGS__)</td></tr>
+<tr class="memdesc:ga1be7a4bd805ffff2882fe54995dc41bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to its last argument. <br /></td></tr>
+<tr class="separator:ga1be7a4bd805ffff2882fe54995dc41bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gadcf0cf5cb650681b8cac90d94ce52d44"><td class="memItemLeft" align="right" valign="top">
+#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="group__group-details.html#gadcf0cf5cb650681b8cac90d94ce52d44">BOOST_HANA_PP_DROP_BACK</a>(...)&#160;&#160;&#160;BOOST_HANA_PP_DROP_BACK_IMPL(<a class="el" href="group__group-details.html#ga62fe3327023c37706c827cc82624998b">BOOST_HANA_PP_NARG</a>(__VA_ARGS__), __VA_ARGS__)</td></tr>
+<tr class="memdesc:gadcf0cf5cb650681b8cac90d94ce52d44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Expands to all of its arguments, except for the last one. <br /></td></tr>
+<tr class="separator:gadcf0cf5cb650681b8cac90d94ce52d44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Defines the <code>BOOST_HANA_DEFINE_STRUCT</code>, <code>BOOST_HANA_ADAPT_STRUCT</code>, and <code>BOOST_HANA_ADAPT_ADT</code> macros. </p>
