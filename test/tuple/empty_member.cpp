@@ -12,22 +12,22 @@ struct B { };
 int main() {
     {
         using T = hana::tuple<int, A>;
-        static_assert((sizeof(T) == sizeof(int)), "");
+        static_assert(sizeof(T) == sizeof(int), "");
     }
     {
         using T = hana::tuple<A, int>;
-        static_assert((sizeof(T) == sizeof(int)), "");
+        static_assert(sizeof(T) == sizeof(int), "");
     }
     {
         using T = hana::tuple<A, int, B>;
-        static_assert((sizeof(T) == sizeof(int)), "");
+        static_assert(sizeof(T) == sizeof(int), "");
     }
     {
         using T = hana::tuple<A, B, int>;
-        static_assert((sizeof(T) == sizeof(int)), "");
+        static_assert(sizeof(T) == sizeof(int), "");
     }
     {
         using T = hana::tuple<int, A, B>;
-        static_assert((sizeof(T) == sizeof(int)), "");
+        static_assert(sizeof(T) == sizeof(int), "");
     }
 }

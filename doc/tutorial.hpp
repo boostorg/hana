@@ -2024,7 +2024,10 @@ a container unspecified; they are explained in the
 [rationales](@ref tutorial-rationales-container_representation).
 When the representation of a container is implementation-defined, one must
 be careful not to make any assumptions about it, unless those assumption
-are explicitly allowed in the documentation of the container.
+are explicitly allowed in the documentation of the container. For example,
+assuming that one can safely inherit from a container or that the elements
+in the container are stored in the same order as specified in its template
+argument list is generally not safe.
 
 
 @subsubsection tutorial-containers-types-overloading Overloading on container types

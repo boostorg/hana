@@ -56,7 +56,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //////////////////////////////////////////////////////////////////////////
     //! @cond
     template <typename ...Xs>
-    struct set
+    struct set final
         : detail::operators::adl<set<Xs...>>
         , detail::searchable_operators<set<Xs...>>
     {
