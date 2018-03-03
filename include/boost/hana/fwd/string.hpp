@@ -40,7 +40,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! In particular, one should not take for granted that the template
     //! parameters are `char`s. The proper way to access the contents of
     //! a `hana::string` as character constants is to use `hana::unpack`,
-    //! `.c_str()` or `hana::to<char const*>`, as documented below.
+    //! `.c_str()` or `hana::to<char const*>`, as documented below. More
+    //! details [in the tutorial](@ref tutorial-containers-types).
     //!
     //!
     //! Modeled concepts

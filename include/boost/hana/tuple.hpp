@@ -75,7 +75,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     // tuple
     //////////////////////////////////////////////////////////////////////////
     template <>
-    struct tuple<>
+    struct tuple<> final
         : detail::operators::adl<tuple<>>
         , detail::iterable_operators<tuple<>>
     {
@@ -84,7 +84,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename ...Xn>
-    struct tuple
+    struct tuple final
         : detail::operators::adl<tuple<Xn...>>
         , detail::iterable_operators<tuple<Xn...>>
     {

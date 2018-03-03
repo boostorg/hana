@@ -35,7 +35,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! The representation of `hana::range` is implementation defined. In
     //! particular, one should not take for granted the number and types
     //! of template parameters. The proper way to create a `hana::range`
-    //! is to use `hana::range_c` or `hana::make_range`.
+    //! is to use `hana::range_c` or `hana::make_range`. More details
+    //! [in the tutorial](@ref tutorial-containers-types).
     //!
     //!
     //! Modeled concepts

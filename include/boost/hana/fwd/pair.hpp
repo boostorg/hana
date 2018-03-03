@@ -24,6 +24,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Instead, one must use the `hana::first` and `hana::second` free
     //! functions to access the elements of a pair.
     //!
+    //! @note
+    //! When you use a container, remember not to make assumptions about its
+    //! representation, unless the documentation gives you those guarantees.
+    //! More details [in the tutorial](@ref tutorial-containers-types).
+    //!
     //!
     //! Modeled concepts
     //! ----------------
