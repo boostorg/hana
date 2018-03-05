@@ -212,7 +212,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!
     //! This macro is a more convenient alternative to `string_c` for creating
     //! compile-time strings. However, since this macro uses a lambda
-    //! internally, it can't be used in an unevaluated context.
+    //! internally, it can't be used in an unevaluated context, or where
+    //! a constant expression is expected before C++17.
     //!
     //!
     //! Example
