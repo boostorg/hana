@@ -49,7 +49,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct lift_impl : lift_impl<A, when<true>> { };
 
     template <typename A>
-    struct lift_t;
+    struct lift_t {
+        template <typename X>
+        constexpr auto operator()(X&& x) const;
+    };
 
     template <typename A>
     constexpr lift_t<A> lift{};
