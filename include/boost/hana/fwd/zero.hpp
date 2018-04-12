@@ -35,7 +35,9 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct zero_impl : zero_impl<M, when<true>> { };
 
     template <typename M>
-    struct zero_t;
+    struct zero_t {
+        constexpr decltype(auto) operator()() const;
+    };
 
     template <typename M>
     constexpr zero_t<M> zero{};

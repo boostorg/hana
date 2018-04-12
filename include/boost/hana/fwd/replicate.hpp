@@ -65,7 +65,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct replicate_impl : replicate_impl<M, when<true>> { };
 
     template <typename M>
-    struct replicate_t;
+    struct replicate_t {
+        template <typename X, typename N>
+        constexpr auto operator()(X&& x, N const& n) const;
+    };
 
     template <typename M>
     constexpr replicate_t<M> replicate{};
