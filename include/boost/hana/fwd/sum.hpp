@@ -69,7 +69,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct sum_impl : sum_impl<T, when<true>> { };
 
     template <typename M>
-    struct sum_t;
+    struct sum_t {
+        template <typename Xs>
+        constexpr decltype(auto) operator()(Xs&& xs) const;
+    };
 
     template <typename M = integral_constant_tag<int>>
     constexpr sum_t<M> sum{};

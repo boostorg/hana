@@ -96,7 +96,13 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct monadic_fold_right_impl : monadic_fold_right_impl<T, when<true>> { };
 
     template <typename M>
-    struct monadic_fold_right_t;
+    struct monadic_fold_right_t {
+        template <typename Xs, typename State, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, State&& state, F&& f) const;
+
+        template <typename Xs, typename F>
+        constexpr decltype(auto) operator()(Xs&& xs, F&& f) const;
+    };
 
     template <typename M>
     constexpr monadic_fold_right_t<M> monadic_fold_right{};

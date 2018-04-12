@@ -55,7 +55,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct tap_impl : tap_impl<M, when<true>> { };
 
     template <typename M>
-    struct tap_t;
+    struct tap_t {
+        template <typename F>
+        constexpr auto operator()(F&& f) const;
+    };
 
     template <typename M>
     constexpr tap_t<M> tap{};
