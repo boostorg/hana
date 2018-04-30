@@ -13,7 +13,7 @@ namespace hana = boost::hana;
 
 int main() {
     BOOST_HANA_CONSTANT_CHECK(
-        hana::to_tuple(hana::tuple_c<int, 0, 1, 2>)
+        hana::tuple_c<int, 0, 1, 2>
             ==
         hana::make_tuple(hana::int_c<0>, hana::int_c<1>, hana::int_c<2>)
     );
