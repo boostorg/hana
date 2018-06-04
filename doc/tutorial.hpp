@@ -1703,7 +1703,7 @@ that type and cast it to `void`, for the same reason as we did for non-static
 members.
 
 
-@subsubsection tutorial-introspection-is_valid-typename Nested type names
+@subsubsection tutorial-introspection-is_valid-nested-typename Nested type names
 
 Checking for a nested type name is not hard, but it is slightly more
 convoluted than the previous cases:
@@ -1716,13 +1716,28 @@ support types that can't be returned from functions, like array types or
 incomplete types.
 
 
-@subsubsection tutorial-introspection-is_valid-template Nested templates
+@subsubsection tutorial-introspection-is_valid-nested-template Nested templates
 
 Checking for a nested template name is similar to checking for a nested type
 name, except we use the `template_<...>` variable template instead of
 `type<...>` in the generic lambda:
 
 @snippet example/tutorial/introspection.cpp nested_template
+
+
+@subsubsection tutorial-introspection-is_valid-template Template specializations
+
+Checking whether a template specialization is valid can be done too, but we
+now pass a `template_<...>` to `is_valid` instead of a `type<...>`, because
+that's what we want to make the check on:
+
+@snippet example/tutorial/introspection.cpp template_specialization
+
+@note
+Doing this will not cause the template to be instantiated. Hence, it will only
+check whether the given template can be mentioned with the provided template
+arguments, not whether the instantiation of the template with those arguments
+is valid. Generally speaking, there is no way to check that programmatically.
 
 
 @subsection tutorial-introspection-sfinae Taking control of SFINAE
