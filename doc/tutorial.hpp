@@ -2820,9 +2820,12 @@ very useful for porting existing code from e.g. Fusion/MPL to Hana:
 @snippet example/tutorial/ext/fusion_to_hana.cpp main
 
 @note
-At this time, only adapters to use data types from other libraries inside Hana
-are provided; adapters for the other way around (using Hana containers inside
-other libraries) are not provided.
+- At this time, only adapters to use data types from other libraries inside Hana
+  are provided; adapters for the other way around (using Hana containers inside
+  other libraries) are not provided.
+
+- The Fusion and MPL adapters are only guaranteed to work on the version of
+  Boost matching the version of Hana being used.
 
 However, using external adapters has a couple of pitfalls. For example, after
 a while using Hana, you might become used to comparing Hana tuples using the
