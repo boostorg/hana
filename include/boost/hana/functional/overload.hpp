@@ -48,7 +48,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         using overload_t<F>::type::operator();
         using overload_t<G...>::type::operator();
 
-        template <typename F_, typename ...G_, 
+        template <typename F_, typename ...G_,
                   typename = std::enable_if_t<
                      !std::is_same<overload_t,std::decay_t<F_>>::value
                  >>
