@@ -33,8 +33,9 @@ var NAVTREE =
         [ "Checking expression validity", "index.html#tutorial-introspection-is_valid", [
           [ "Non-static members", "index.html#tutorial-introspection-is_valid-non_static", null ],
           [ "Static members", "index.html#tutorial-introspection-is_valid-static", null ],
-          [ "Nested type names", "index.html#tutorial-introspection-is_valid-typename", null ],
-          [ "Nested templates", "index.html#tutorial-introspection-is_valid-template", null ]
+          [ "Nested type names", "index.html#tutorial-introspection-is_valid-nested-typename", null ],
+          [ "Nested templates", "index.html#tutorial-introspection-is_valid-nested-template", null ],
+          [ "Template specializations", "index.html#tutorial-introspection-is_valid-template", null ]
         ] ],
         [ "Taking control of SFINAE", "index.html#tutorial-introspection-sfinae", null ],
         [ "Introspecting user-defined types", "index.html#tutorial-introspection-adapting", null ],
@@ -109,7 +110,7 @@ var NAVTREEINDEX =
 "fwd_2count_8hpp.html",
 "group__group-Comonad.html#ga181751278bd19a4bfc3c08bd7ddef399",
 "group__group-functional.html#ga41ada6b336e9d5bcb101ff0c737acbd0",
-"structboost_1_1hana_1_1integral__constant.html#a79f45e3c2411db1d36127c1341673ffb"
+"structboost_1_1hana_1_1integral__constant.html#a6be175332d55b7bfcf1afc33856d9b7d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

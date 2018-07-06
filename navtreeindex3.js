@@ -68,10 +68,11 @@ var NAVTREEINDEX3 =
 "index.html#tutorial-introspection":[0,9],
 "index.html#tutorial-introspection-adapting":[0,9,2],
 "index.html#tutorial-introspection-is_valid":[0,9,0],
+"index.html#tutorial-introspection-is_valid-nested-template":[0,9,0,3],
+"index.html#tutorial-introspection-is_valid-nested-typename":[0,9,0,2],
 "index.html#tutorial-introspection-is_valid-non_static":[0,9,0,0],
 "index.html#tutorial-introspection-is_valid-static":[0,9,0,1],
-"index.html#tutorial-introspection-is_valid-template":[0,9,0,3],
-"index.html#tutorial-introspection-is_valid-typename":[0,9,0,2],
+"index.html#tutorial-introspection-is_valid-template":[0,9,0,4],
 "index.html#tutorial-introspection-json":[0,9,3],
 "index.html#tutorial-introspection-sfinae":[0,9,1],
 "index.html#tutorial-performance":[0,12],
@@ -248,6 +249,5 @@ var NAVTREEINDEX3 =
 "structboost_1_1hana_1_1integral__constant.html#a53817979990da799e659b2576799a79a":[1,1,0,40],
 "structboost_1_1hana_1_1integral__constant.html#a65df6bbd2d90432bdcdc709cdbca9921":[1,1,0,23],
 "structboost_1_1hana_1_1integral__constant.html#a673f1d9212ae61e8cee093af002bc110":[1,1,0,30],
-"structboost_1_1hana_1_1integral__constant.html#a69a1bcadc259af364eb87d634c76c12e":[1,1,0,5],
-"structboost_1_1hana_1_1integral__constant.html#a6be175332d55b7bfcf1afc33856d9b7d":[1,1,0,29]
+"structboost_1_1hana_1_1integral__constant.html#a69a1bcadc259af364eb87d634c76c12e":[1,1,0,5]
 };

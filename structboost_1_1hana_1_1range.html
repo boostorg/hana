@@ -63,7 +63,7 @@ MathJax.Hub.Config({
   <td id="projectlogo"><img alt="Logo" src="Boost.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Boost.Hana
-   &#160;<span id="projectnumber">1.4.0</span>
+   &#160;<span id="projectnumber">1.5.0</span>
    </div>
    <div id="projectbrief">Your standard library for metaprogramming</div>
   </td>
@@ -137,7 +137,7 @@ struct boost::hana::range&lt; T, from, to &gt;</h3>
 <p>Compile-time half-open interval of <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code>s. </p>
 <p>A <code>range</code> represents a half-open interval of the form <code>[from, to)</code> containing <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code>s of a given type. The <code>[from, to)</code> notation represents the values starting at <code>from</code> (inclusively) up to but excluding <code>from</code>. In other words, it is a bit like the list <code>from, from+1, ..., to-1</code>.</p>
 <p>In particular, note that the bounds of the range can be any <code><a class="el" href="structboost_1_1hana_1_1integral__constant.html" title="Compile-time value of an integral type. ">hana::integral_constant</a></code>s (negative numbers are allowed) and the range does not have to start at zero. The only requirement is that <code>from &lt;= to</code>.</p>
-<dl class="section note"><dt>Note</dt><dd>The representation of <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> is implementation defined. In particular, one should not take for granted the number and types of template parameters. The proper way to create a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> is to use <code>hana::range_c</code> or <code>hana::make_range</code>.</dd></dl>
+<dl class="section note"><dt>Note</dt><dd>The representation of <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> is implementation defined. In particular, one should not take for granted the number and types of template parameters. The proper way to create a <code><a class="el" href="structboost_1_1hana_1_1range.html" title="Compile-time half-open interval of hana::integral_constants. ">hana::range</a></code> is to use <code>hana::range_c</code> or <code>hana::make_range</code>. More details <a class="el" href="index.html#tutorial-containers-types">in the tutorial</a>.</dd></dl>
 <h2>Modeled concepts </h2>
 <ol type="1">
 <li><code>Comparable</code><br />
