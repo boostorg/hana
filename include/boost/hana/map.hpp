@@ -124,7 +124,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         };
 
         template <typename HashTable, typename Storage>
-        struct map_impl
+        struct map_impl final
             : detail::searchable_operators<map_impl<HashTable, Storage>>
             , detail::operators::adl<map_impl<HashTable, Storage>>
         {

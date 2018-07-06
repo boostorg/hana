@@ -36,21 +36,23 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! keys must be `Hashable`, and any two keys with equal hashes must be
     //! `Comparable` with each other at compile-time.
     //!
-    //! Note that the actual representation of a `hana::map` is an implementation
+    //! @note
+    //! The actual representation of a `hana::map` is an implementation
     //! detail. As such, one should not assume anything more than what is
     //! explicitly documented as being part of the interface of a map,
     //! such as:
     //! - the presence of additional constructors
     //! - the presence of additional assignment operators
     //! - the fact that `hana::map<Pairs...>` is, or is not, a dependent type
-    //!
+    //! .
     //! In particular, the last point is very important; `hana::map<Pairs...>`
     //! is basically equivalent to
     //! @code
     //!     decltype(hana::make_pair(std::declval<Pairs>()...))
     //! @endcode
     //! which is not something that can be pattern-matched on during template
-    //! argument deduction, for example.
+    //! argument deduction, for example. More details [in the tutorial]
+    //! (@ref tutorial-containers-types).
     //!
     //!
     //! Modeled concepts

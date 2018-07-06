@@ -20,22 +20,22 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 BOOST_HANA_NAMESPACE_BEGIN
+    //! @cond
     template <typename M>
-    struct tap_t {
+    template <typename F>
+    constexpr auto tap_t<M>::operator()(F&& f) const {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(hana::Monad<M>::value,
         "hana::tap<M> requires 'M' to be a Monad");
     #endif
 
-        template <typename F>
-        constexpr auto operator()(F&& f) const {
-            using Tap = BOOST_HANA_DISPATCH_IF(tap_impl<M>,
-                hana::Monad<M>::value
-            );
+        using Tap = BOOST_HANA_DISPATCH_IF(tap_impl<M>,
+            hana::Monad<M>::value
+        );
 
-            return Tap::apply(static_cast<F&&>(f));
-        }
-    };
+        return Tap::apply(static_cast<F&&>(f));
+    }
+    //! @endcond
 
     namespace detail {
         template <typename M>

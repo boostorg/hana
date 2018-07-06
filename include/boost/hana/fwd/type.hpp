@@ -394,15 +394,13 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @endcode
     //!
     //! @note
-    //! `template_` can't be SFINAE-friendly right now because of
-    //! [Core issue 1430][1].
+    //! In a SFINAE context, the expression `template_<f>(type_c<x>...)` is
+    //! valid whenever the expression `f<x...>` is valid.
     //!
     //!
     //! Example
     //! -------
     //! @include example/type/template.cpp
-    //!
-    //! [1]: http://www.open-std.org/jtc1/sc22/wg21/docs/cwg_active.html#1430
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
     template <template <typename ...> class F>
     constexpr auto template_ = [](basic_type<T>...) {
@@ -425,6 +423,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!     metafunction<f>(type_c<x>...) == type_c<f<x...>::type>
     //!     decltype(metafunction<f>)::apply<x...>::type == f<x...>::type
     //! @endcode
+    //!
+    //! @note
+    //! In a SFINAE context, the expression `metafunction<f>(type_c<x>...)` is
+    //! valid whenever the expression `f<x...>::%type` is valid.
     //!
     //!
     //! Example
@@ -453,6 +455,10 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!     decltype(metafunction_class<f>)::apply<x...>::type == f::apply<x...>::type
     //! @endcode
     //!
+    //! @note
+    //! In a SFINAE context, the expression `metafunction_class<f>(type_c<x>...)`
+    //! is valid whenever the expression `f::apply<x...>::%type` is valid.
+    //!
     //!
     //! Example
     //! -------
@@ -464,9 +470,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 #else
     template <typename F>
-    struct metafunction_class_t
-        : metafunction_t<F::template apply>
-    { };
+    struct metafunction_class_t;
 
     template <typename F>
     constexpr metafunction_class_t<F> metafunction_class{};
@@ -497,6 +501,9 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!   `std::integral_constant`s, don't forget to include the
     //!   boost/hana/ext/std/integral_constant.hpp header to ensure
     //!   Hana can interoperate with the result.
+    //!
+    //! - In a SFINAE context, the expression `integral(f)(t...)` is valid
+    //!   whenever the expression `decltype(f(t...))::%type` is valid.
     //!
     //!
     //! Example

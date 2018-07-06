@@ -38,6 +38,11 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! by the compiler. This makes `hana::optional` well suited for static
     //! metaprogramming tasks, but very poor for anything dynamic.
     //!
+    //! @note
+    //! When you use a container, remember not to make assumptions about its
+    //! representation, unless the documentation gives you those guarantees.
+    //! More details [in the tutorial](@ref tutorial-containers-types).
+    //!
     //!
     //! Interoperation with `type`s
     //! ---------------------------

@@ -139,3 +139,20 @@ BOOST_HANA_CONSTANT_CHECK(has_member(hana::type_c<Foo>));
 BOOST_HANA_CONSTANT_CHECK(!has_member(hana::type_c<Bar>));
 //! [nested_template]
 }
+
+namespace template_specialization {
+//! [template_specialization]
+template <typename T, typename U>
+struct Foo;
+
+template <typename T>
+struct Bar;
+
+auto is_binary_template = hana::is_valid([](auto trait) -> decltype(
+  trait(hana::type_c<void>, hana::type_c<void>)
+) { });
+
+BOOST_HANA_CONSTANT_CHECK(is_binary_template(hana::template_<Foo>));
+BOOST_HANA_CONSTANT_CHECK(!is_binary_template(hana::template_<Bar>));
+//! [template_specialization]
+}

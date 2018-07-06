@@ -10,24 +10,23 @@
 
 #include <string>
 namespace hana = boost::hana;
-using namespace hana::literals;
 
 
-constexpr auto m1 = hana::make_map(
-    hana::make_pair("key1"_s, hana::type_c<std::string>),
-    hana::make_pair("key2"_s, hana::type_c<std::string>)
+static auto m1 = hana::make_map(
+    hana::make_pair(BOOST_HANA_STRING("key1"), hana::type_c<std::string>),
+    hana::make_pair(BOOST_HANA_STRING("key2"), hana::type_c<std::string>)
 );
 
-constexpr auto m2 = hana::make_map(
-    hana::make_pair("key3"_s, hana::type_c<std::string>),
-    hana::make_pair("key4"_s, hana::type_c<std::string>),
-    hana::make_pair("key5"_s, hana::type_c<std::string>)
+static auto m2 = hana::make_map(
+    hana::make_pair(BOOST_HANA_STRING("key3"), hana::type_c<std::string>),
+    hana::make_pair(BOOST_HANA_STRING("key4"), hana::type_c<std::string>),
+    hana::make_pair(BOOST_HANA_STRING("key5"), hana::type_c<std::string>)
 );
 
-constexpr auto m3 = hana::make_map(
-    hana::make_pair("key1"_s, hana::type_c<std::string>),
-    hana::make_pair("key4"_s, hana::type_c<int>),
-    hana::make_pair("key2"_s, hana::type_c<long long>)
+static auto m3 = hana::make_map(
+    hana::make_pair(BOOST_HANA_STRING("key1"), hana::type_c<std::string>),
+    hana::make_pair(BOOST_HANA_STRING("key4"), hana::type_c<int>),
+    hana::make_pair(BOOST_HANA_STRING("key2"), hana::type_c<long long>)
 );
 
 int main() {
@@ -36,11 +35,11 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(hana::difference(m1, m3) == hana::make_map());
 
     BOOST_HANA_CONSTANT_CHECK(hana::difference(m3, m1) == hana::make_map(
-        hana::make_pair("key4"_s, hana::type_c<int>)
+        hana::make_pair(BOOST_HANA_STRING("key4"), hana::type_c<int>)
     ));
 
     BOOST_HANA_CONSTANT_CHECK(hana::difference(m2, m3) == hana::make_map(
-        hana::make_pair("key3"_s, hana::type_c<std::string>),
-        hana::make_pair("key5"_s, hana::type_c<std::string>)
+        hana::make_pair(BOOST_HANA_STRING("key3"), hana::type_c<std::string>),
+        hana::make_pair(BOOST_HANA_STRING("key5"), hana::type_c<std::string>)
     ));
 }

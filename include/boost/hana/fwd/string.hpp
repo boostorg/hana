@@ -40,7 +40,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! In particular, one should not take for granted that the template
     //! parameters are `char`s. The proper way to access the contents of
     //! a `hana::string` as character constants is to use `hana::unpack`,
-    //! `.c_str()` or `hana::to<char const*>`, as documented below.
+    //! `.c_str()` or `hana::to<char const*>`, as documented below. More
+    //! details [in the tutorial](@ref tutorial-containers-types).
     //!
     //!
     //! Modeled concepts
@@ -212,7 +213,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     //!
     //! This macro is a more convenient alternative to `string_c` for creating
     //! compile-time strings. However, since this macro uses a lambda
-    //! internally, it can't be used in an unevaluated context.
+    //! internally, it can't be used in an unevaluated context, or where
+    //! a constant expression is expected before C++17.
     //!
     //!
     //! Example
