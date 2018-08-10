@@ -20,7 +20,9 @@ template <int i>
 struct Trap {
     Trap() = default;
     Trap(Trap const&) = default;
+#ifndef BOOST_HANA_WORKAROUND_MSVC_MULTIPLECTOR_106654
     Trap(Trap&) = default;
+#endif
     Trap(Trap&&) = default;
 
     template <typename X>
