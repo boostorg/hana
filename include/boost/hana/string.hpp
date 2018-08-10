@@ -271,7 +271,11 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <char ...xs, typename N>
         static constexpr auto apply(string<xs...> const& s, N const&) {
             return helper<N::value>(s, std::make_index_sequence<
+#ifdef BOOST_HANA_WORKAROUND_MSVC_RDPARSER_TEMPLATEID_616568
+                (N::value < sizeof...(xs)) ? sizeof...(xs) - N::value : 0
+#else
                 N::value < sizeof...(xs) ? sizeof...(xs) - N::value : 0
+#endif
             >{});
         }
 
