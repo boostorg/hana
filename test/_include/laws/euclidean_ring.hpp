@@ -39,6 +39,10 @@ namespace boost { namespace hana { namespace test {
                 static_assert(EuclideanRing<decltype(x)>{}, "");
             });
 
+#ifdef BOOST_HANA_WORKAROUND_MSVC_DECLTYPEAUTO_RETURNTYPE_662735
+            zero<D>(); // force adding zero<D>'s member function to pending temploid list
+#endif
+
             foreach2(xs, [](auto a, auto b) {
 
                 // commutativity

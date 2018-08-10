@@ -29,6 +29,10 @@ namespace boost { namespace hana { namespace test {
                 static_assert(Group<decltype(x)>{}, "");
             });
 
+#ifdef BOOST_HANA_WORKAROUND_MSVC_DECLTYPEAUTO_RETURNTYPE_662735
+            zero<G>(); // force adding zero<G>'s member function to pending temploid list
+#endif
+
             foreach2(xs, [](auto x, auto y) {
 
                 // left inverse
