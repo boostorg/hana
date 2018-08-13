@@ -20,32 +20,28 @@ Distributed under the Boost Software License, Version 1.0.
 #if defined(_MSC_VER) && !defined(__clang__) // MSVC
     // This must be checked first, because otherwise it produces a fatal
     // error due to unrecognized #warning directives used below.
-#if _MSC_VER < 1915
-#   pragma message("Warning: the native Microsoft compiler is not supported due to lack of proper C++14 support.")
-#else
-// 1. Active issues
-// Multiple copy/move ctors
-#define BOOST_HANA_WORKAROUND_MSVC_MULTIPLECTOR_106654
 
-// Forward declaration of class template member function returning decltype(auto)
-#define BOOST_HANA_WORKAROUND_MSVC_DECLTYPEAUTO_RETURNTYPE_662735
+#   if _MSC_VER < 1915
+#      pragma message("Warning: the native Microsoft compiler is not supported due to lack of proper C++14 support.")
+#   else
+        // 1. Active issues
+        // Multiple copy/move ctors
+#       define BOOST_HANA_WORKAROUND_MSVC_MULTIPLECTOR_106654
 
-// 2. Issues fixed in the development branch of MSVC
-// RDParser incorrectly parses a comparison operation as a template id
-// This issue only impacts /permissive- or /std:c++17
-#define BOOST_HANA_WORKAROUND_MSVC_RDPARSER_TEMPLATEID_616568
+        // Forward declaration of class template member function returning decltype(auto)
+#       define BOOST_HANA_WORKAROUND_MSVC_DECLTYPEAUTO_RETURNTYPE_662735
 
-// 3. Issues fixed conditionally
-// Requires __declspec(empty_bases)
-// Empty base optimization
-#define BOOST_HANA_WORKAROUND_MSVC_EMPTYBASE
+        // 2. Issues fixed conditionally
+        // Requires __declspec(empty_bases)
+        // Empty base optimization
+#       define BOOST_HANA_WORKAROUND_MSVC_EMPTYBASE
 
-#if !defined(_MSVC_TRADITIONAL) || _MSVC_TRADITIONAL
-// Requires /experimental:preprocessor
-// Variadic macro expansion
-#define BOOST_HANA_WORKAROUND_MSVC_PREPROCESSOR_616033
-#endif
-#endif
+        // Requires /experimental:preprocessor
+        // Variadic macro expansion
+#       if !defined(_MSVC_TRADITIONAL) || _MSVC_TRADITIONAL
+#           define BOOST_HANA_WORKAROUND_MSVC_PREPROCESSOR_616033
+#       endif
+#   endif
 
 #elif defined(__clang__) && defined(_MSC_VER) // Clang-cl (Clang for Windows)
 
@@ -97,9 +93,9 @@ Distributed under the Boost Software License, Version 1.0.
 //////////////////////////////////////////////////////////////////////////////
 #if (__cplusplus < 201400)
 #   if defined(_MSC_VER)
-#if _MSC_VER < 1915
-#       pragma message("Warning: Your compiler doesn't provide C++14 or higher capabilities. Try adding the compiler flag '-std=c++14' or '-std=c++1y'.")
-#endif
+#       if _MSC_VER < 1915
+#           pragma message("Warning: Your compiler doesn't provide C++14 or higher capabilities. Try adding the compiler flag '-std=c++14' or '-std=c++1y'.")
+#       endif
 #   else
 #       warning "Your compiler doesn't provide C++14 or higher capabilities. Try adding the compiler flag '-std=c++14' or '-std=c++1y'."
 #   endif

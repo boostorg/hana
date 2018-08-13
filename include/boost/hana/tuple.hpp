@@ -264,11 +264,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr auto apply(Xs&& xs, N const&) {
             constexpr std::size_t len = decltype(hana::length(xs))::value;
             return helper<N::value>(static_cast<Xs&&>(xs), std::make_index_sequence<
-#ifdef BOOST_HANA_WORKAROUND_MSVC_RDPARSER_TEMPLATEID_616568
                 (N::value < len) ? len - N::value : 0
-#else
-                N::value < len ? len - N::value : 0
-#endif
             >{});
         }
     };
