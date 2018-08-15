@@ -22,16 +22,17 @@ Distributed under the Boost Software License, Version 1.0.
     // error due to unrecognized #warning directives used below.
 
 #   if _MSC_VER < 1915
-#      pragma message("Warning: the native Microsoft compiler is not supported due to lack of proper C++14 support.")
+#       pragma message("Warning: the native Microsoft compiler is not supported due to lack of proper C++14 support.")
 #   else
         // 1. Active issues
         // Multiple copy/move ctors
 #       define BOOST_HANA_WORKAROUND_MSVC_MULTIPLECTOR_106654
 
+        // 2. Issues fixed in the development branch of MSVC
         // Forward declaration of class template member function returning decltype(auto)
 #       define BOOST_HANA_WORKAROUND_MSVC_DECLTYPEAUTO_RETURNTYPE_662735
 
-        // 2. Issues fixed conditionally
+        // 3. Issues fixed conditionally
         // Requires __declspec(empty_bases)
         // Empty base optimization
 #       define BOOST_HANA_WORKAROUND_MSVC_EMPTYBASE
