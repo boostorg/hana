@@ -271,7 +271,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <char ...xs, typename N>
         static constexpr auto apply(string<xs...> const& s, N const&) {
             return helper<N::value>(s, std::make_index_sequence<
-                N::value < sizeof...(xs) ? sizeof...(xs) - N::value : 0
+                (N::value < sizeof...(xs)) ? sizeof...(xs) - N::value : 0
             >{});
         }
 

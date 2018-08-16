@@ -46,6 +46,10 @@ namespace boost { namespace hana { namespace test {
     struct TestMonadPlus<M, laws> {
         template <typename Xs, typename Predicates, typename Values>
         TestMonadPlus(Xs xs, Predicates predicates, Values values) {
+#ifdef BOOST_HANA_WORKAROUND_MSVC_DECLTYPEAUTO_RETURNTYPE_662735
+            empty<M>(); // force adding empty<M>'s member function to pending temploid list
+#endif
+
             hana::for_each(xs, [](auto a) {
                 static_assert(MonadPlus<decltype(a)>{}, "");
 

@@ -26,6 +26,10 @@ namespace boost { namespace hana { namespace test {
     struct TestMonoid<M, laws> {
         template <typename Xs>
         TestMonoid(Xs xs) {
+#ifdef BOOST_HANA_WORKAROUND_MSVC_DECLTYPEAUTO_RETURNTYPE_662735
+            zero<M>(); // force adding zero<M>'s member function to pending temploid list
+#endif
+
             hana::for_each(xs, hana::capture(xs)([](auto xs, auto a) {
                 static_assert(Monoid<decltype(a)>{}, "");
 
