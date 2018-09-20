@@ -3,7 +3,7 @@
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 add_custom_target(tests COMMENT "Build all the unit tests.")
-add_dependencies(check tests)
+add_dependencies(hana_check tests)
 
 
 ##############################################################################
@@ -142,4 +142,4 @@ add_custom_target(test.deploy
   COMMAND ${CMAKE_COMMAND} --build "${CMAKE_CURRENT_BINARY_DIR}/deploy/build"
   USES_TERMINAL
 )
-add_dependencies(check test.deploy)
+add_dependencies(hana_check test.deploy)
