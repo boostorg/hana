@@ -1401,7 +1401,7 @@ looked like:
 @code{cpp}
 template <typename T>
 constexpr auto add_pointer(hana::basic_type<T> const&) {
-  return hana::type<T*>;
+  return hana::type_c<T*>;
 }
 @endcode
 
