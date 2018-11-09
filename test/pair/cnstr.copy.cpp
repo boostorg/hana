@@ -64,13 +64,13 @@ int main() {
         Target p1(p1_); (void)p1;
 
         auto p2_ = hana::make_pair(implicit_to<target1>{}, target2{});
-        Target p2(p2_);
+        Target p2(p2_); (void)p2;
 
         auto p3_ = hana::make_pair(target1{}, implicit_to<target2>{});
-        Target p3(p3_);
+        Target p3(p3_); (void)p3;
 
         auto p4_ = hana::make_pair(implicit_to<target1>{}, implicit_to<target2>{});
-        Target p4(p4_);
+        Target p4(p4_); (void)p4;
     }
 
     // And also constexpr across pair types
@@ -84,11 +84,11 @@ int main() {
     // Make sure we don't define the copy constructor when it shouldn't be defined.
     {
         using Pair1 = hana::pair<NoCopy, NoCopy>;
-        Pair1 pair1;
+        Pair1 pair1; (void)pair1;
         static_assert(!std::is_copy_constructible<Pair1>::value, "");
 
         using Pair2 = hana::pair<NoCopy_nonempty, NoCopy_nonempty>;
-        Pair2 pair2;
+        Pair2 pair2; (void)pair2;
         static_assert(!std::is_copy_constructible<Pair2>::value, "");
     }
 }

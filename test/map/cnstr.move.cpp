@@ -113,11 +113,11 @@ int main() {
 
     {
         using Map1 = hana::map<hana::pair<NoMove, NoMove>>;
-        Map1 map1;
+        Map1 map1; (void)map1;
         static_assert(!std::is_move_constructible<Map1>::value, "");
 
         using Map2 = hana::map<hana::pair<NoMove_nonempty, NoMove_nonempty>>;
-        Map2 map2;
+        Map2 map2; (void)map2;
         static_assert(!std::is_move_constructible<Map2>::value, "");
     }
 }

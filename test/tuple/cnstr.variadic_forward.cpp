@@ -51,7 +51,7 @@ int main() {
         BOOST_HANA_RUNTIME_CHECK(hana::at_c<2>(t) == 2);
     }
     {
-        constexpr hana::tuple<Empty> t0{Empty()};
+        constexpr hana::tuple<Empty> t0{Empty()}; (void)t0;
     }
     {
         constexpr hana::tuple<A, A> t(3, 2);
