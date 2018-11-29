@@ -846,7 +846,7 @@ constexpr auto operator"" _c() {
   // parse the digits and return an integral_constant
 }
 
-auto three = 1_c + 3_c;
+auto three = 1_c + 2_c;
 @endcode
 
 Hana provides its own `integral_constant`s, which define arithmetic operators
@@ -860,7 +860,7 @@ your namespace before using it:
 @code{cpp}
 using namespace hana::literals;
 
-auto three = 1_c + 3_c;
+auto three = 1_c + 2_c;
 @endcode
 
 This way, you may do compile-time arithmetic without having to struggle with
