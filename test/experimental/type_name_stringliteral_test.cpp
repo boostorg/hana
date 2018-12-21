@@ -7,7 +7,6 @@
 
 namespace type_name_details = boost::hana::experimental::type_name_details;
 
-
 #ifdef _HANA_TN_CAN_CONSTEXPR
     #define RUN_ONE_TYPE_TEST_COMPILE_TIME(type_definition, type_string_literal)    \
         static_assert(                                                              \
