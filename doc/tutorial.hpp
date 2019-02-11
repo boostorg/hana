@@ -122,7 +122,6 @@ Compiler/Toolchain | Status
 Clang >= 3.5.0     | Fully working; tested on each push to GitHub
 Xcode >= 6.3       | Fully working; tested on each push to GitHub
 GCC >= 6.0.0       | Fully working; tested on each push to GitHub
-VS2017 >= Update 7 | Fully working; tested on each push to GitHub
 
 More specifically, Hana requires a compiler/standard library supporting the
 following C++14 features (non-exhaustively):
