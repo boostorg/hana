@@ -10,7 +10,6 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 ##############################################################################
 option(BOOST_HANA_ENABLE_CONCEPT_CHECKS "Enable concept checking in the interface methods." ON)
 option(BOOST_HANA_ENABLE_DEBUG_MODE "Enable Hana's debug mode." OFF)
-option(BOOST_HANA_ENABLE_CPP17 "Build with C++17 instead of usual required C++ standard. Useful for testing." OFF)
 
 option(BOOST_HANA_ENABLE_STRING_UDL
 "Enable the GNU extension allowing the special string literal operator\
@@ -50,11 +49,7 @@ include(CheckCxxCompilerSupport)
 include(CheckCXXCompilerFlag)
 add_library(hana INTERFACE)
 target_include_directories(hana INTERFACE "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>")
-if (BOOST_HANA_ENABLE_CPP17)
-    target_compile_features(hana INTERFACE cxx_std_17)
-else()
-    target_compile_features(hana INTERFACE cxx_std_14)
-endif()
+target_compile_features(hana INTERFACE cxx_std_14)
 
 # Export the `hana` library into a HanaConfig.cmake file
 install(TARGETS hana
