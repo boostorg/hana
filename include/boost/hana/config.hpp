@@ -62,7 +62,7 @@ Distributed under the Boost Software License, Version 1.0.
 #   if __apple_build_version__ >= 6020049
 #       define BOOST_HANA_CONFIG_CLANG BOOST_HANA_CONFIG_VERSION(3, 6, 0)
 #   else
-#       warning "Versions of Apple's Clang prior to the one shipped with Xcode 6.3 are not supported by Hana."
+#       warning "Versions of Apple's Clang prior to the one shipped with Xcode 6.3 are known not to be able to compile Hana."
 #   endif
 
 #elif defined(__clang__) // genuine Clang

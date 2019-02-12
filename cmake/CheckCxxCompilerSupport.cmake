@@ -41,7 +41,7 @@ elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang")
         message(WARNING "
     ### You appear to be using Apple's Clang ${CMAKE_CXX_COMPILER_VERSION}, which is
     ### shipped with Xcode < 6.3. Unfortunately, only Apple's Clang
-    ### >= 6.1.0 (shipped with Xcode >= 6.3) is supported by Hana.
+    ### >= 6.1.0 (shipped with Xcode >= 6.3) can compile Hana.
     ### You should consider updating to Xcode >= 6.3 (requires Yosemite)
     ### or using a non-Apple Clang >= 3.5.0, which can be installed via
     ### Homebrew with
