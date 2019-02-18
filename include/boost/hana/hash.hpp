@@ -80,6 +80,16 @@ BOOST_HANA_NAMESPACE_BEGIN
             }
         };
 
+        template <typename T>
+        struct hash_integral_helper<T,
+            typename std::enable_if<std::is_enum<T>::value>::type
+        > {
+            template <typename X>
+            static constexpr auto apply(X const&) {
+                return hana::type_c<X>;
+            }
+        };
+
         template <>
         struct hash_integral_helper<bool> {
             template <typename X>
