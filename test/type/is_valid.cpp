@@ -40,6 +40,24 @@ int main() {
         BOOST_HANA_CONSTANT_CHECK(hana::not_(from_object(no{})));
     }
 
+    // Check for a non-static member function
+    {
+        struct yes { int member() const; };
+        struct no { };
+
+        auto from_type = hana::is_valid([](auto t) -> decltype(
+            hana::traits::declval(t).member()
+        ) { });
+        BOOST_HANA_CONSTANT_CHECK(from_type(hana::type_c<yes>));
+        BOOST_HANA_CONSTANT_CHECK(hana::not_(from_type(hana::type_c<no>)));
+
+        auto from_object = hana::is_valid([](auto&& t) -> decltype(
+            t.member()
+        ) { });
+        BOOST_HANA_CONSTANT_CHECK(from_object(yes{}));
+        BOOST_HANA_CONSTANT_CHECK(hana::not_(from_object(no{})));
+    }
+
     // Check for a static member
     {
         using yes = static_nested_member;
