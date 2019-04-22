@@ -4168,7 +4168,7 @@ modified as little as possible to work with this reimplementation.
 [Chandler.MeetingC++]: https://youtu.be/qkzaZumt_uk?t=4478
 [CMake]: http://www.cmake.org
 [constexpr_throw]: http://stackoverflow.com/a/8626450/627587
-[CopyConstructible]: http://en.cppreference.com/w/cpp/concept/CopyConstructible
+[CopyConstructible]: http://en.cppreference.com/w/cpp/named_req/CopyConstructible
 [CppCon]: http://cppcon.org
 [GOTW]: http://www.gotw.ca/gotw/index.htm
 [GSoC]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014
@@ -4191,7 +4191,7 @@ modified as little as possible to work with this reimplementation.
 [N4461]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4461.html
 [N4487]: https://isocpp.org/files/papers/N4487.pdf
 [pkg-config]: http://www.freedesktop.org/wiki/Software/pkg-config/
-[POD]: http://en.cppreference.com/w/cpp/concept/PODType
+[POD]: http://en.cppreference.com/w/cpp/named_req/PODType
 [SFINAE]: http://en.cppreference.com/w/cpp/language/sfinae
 [slides.inst_must_go1]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go.pdf
 [slides.inst_must_go2]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go_2.pdf
