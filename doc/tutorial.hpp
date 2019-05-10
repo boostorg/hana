@@ -120,8 +120,9 @@ comments regarding support for Hana:
 Compiler/Toolchain | Status
 ------------------ | ------
 Clang >= 3.5.0     | Fully working; tested on each push to GitHub
-Xcode >= 6.3       | Fully working; tested on each push to GitHub
+Xcode >= 8.3       | Fully working; tested on each push to GitHub
 GCC >= 6.0.0       | Fully working; tested on each push to GitHub
+VS2017 >= Update 7 | Fully working; tested on each push to GitHub
 
 More specifically, Hana requires a compiler/standard library supporting the
 following C++14 features (non-exhaustively):
@@ -845,7 +846,7 @@ constexpr auto operator"" _c() {
   // parse the digits and return an integral_constant
 }
 
-auto three = 1_c + 3_c;
+auto three = 1_c + 2_c;
 @endcode
 
 Hana provides its own `integral_constant`s, which define arithmetic operators
@@ -859,7 +860,7 @@ your namespace before using it:
 @code{cpp}
 using namespace hana::literals;
 
-auto three = 1_c + 3_c;
+auto three = 1_c + 2_c;
 @endcode
 
 This way, you may do compile-time arithmetic without having to struggle with
@@ -1401,7 +1402,7 @@ looked like:
 @code{cpp}
 template <typename T>
 constexpr auto add_pointer(hana::basic_type<T> const&) {
-  return hana::type<T*>;
+  return hana::type_c<T*>;
 }
 @endcode
 
@@ -4167,7 +4168,7 @@ modified as little as possible to work with this reimplementation.
 [Chandler.MeetingC++]: https://youtu.be/qkzaZumt_uk?t=4478
 [CMake]: http://www.cmake.org
 [constexpr_throw]: http://stackoverflow.com/a/8626450/627587
-[CopyConstructible]: http://en.cppreference.com/w/cpp/concept/CopyConstructible
+[CopyConstructible]: http://en.cppreference.com/w/cpp/named_req/CopyConstructible
 [CppCon]: http://cppcon.org
 [GOTW]: http://www.gotw.ca/gotw/index.htm
 [GSoC]: http://www.google-melange.com/gsoc/homepage/google/gsoc2014
@@ -4190,7 +4191,7 @@ modified as little as possible to work with this reimplementation.
 [N4461]: http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2015/n4461.html
 [N4487]: https://isocpp.org/files/papers/N4487.pdf
 [pkg-config]: http://www.freedesktop.org/wiki/Software/pkg-config/
-[POD]: http://en.cppreference.com/w/cpp/concept/PODType
+[POD]: http://en.cppreference.com/w/cpp/named_req/PODType
 [SFINAE]: http://en.cppreference.com/w/cpp/language/sfinae
 [slides.inst_must_go1]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go.pdf
 [slides.inst_must_go2]: https://github.com/boostcon/2010_presentations/raw/master/mon/instantiations_must_go_2.pdf

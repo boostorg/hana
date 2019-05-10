@@ -48,7 +48,15 @@ matrix:
 
     # Clang 5.0
     - env: UNIT_TESTS=true COMPILER=clang++-5.0 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: &defaults { apt: { packages: ["clang-5.0", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-5.0"] } }
+      addons: { apt: { packages: ["clang-5.0", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-5.0"] } }
+
+    # Clang 6.0
+    - env: UNIT_TESTS=true COMPILER=clang++-6.0 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: { apt: { packages: ["clang-6.0", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-6.0"] } }
+
+    # Clang 7.0
+    - env: UNIT_TESTS=true COMPILER=clang++-7 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: &defaults { apt: { packages: ["clang-7", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-7"] } }
 
     # GCC 6
     - env: UNIT_TESTS=true COMPILER=g++-6 BOOST_VERSION=default ENABLE_MEMCHECK=true
@@ -58,15 +66,9 @@ matrix:
     - env: UNIT_TESTS=true COMPILER=g++-7 BOOST_VERSION=default ENABLE_MEMCHECK=true
       addons: { apt: { packages: ["g++-7", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
 
-    # Xcode 6.4
-    - os: osx
-      env: UNIT_TESTS=true BOOST_VERSION=default
-      osx_image: xcode6.4
-
-    # Xcode 7.3
-    - os: osx
-      env: UNIT_TESTS=true BOOST_VERSION=default
-      osx_image: xcode7.3
+    # GCC 8
+    - env: UNIT_TESTS=true COMPILER=g++-8 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: { apt: { packages: ["g++-8", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
 
     # Xcode 8.3
     - os: osx
@@ -81,12 +83,12 @@ matrix:
     ##########################################################################
     # Build with variations in the configuration
     ##########################################################################
-    # With C++17 instead of C++14, on Clang
-    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CPP17=ON"
+    # With C++17, on Clang
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON"
       addons: *defaults
 
-    # With C++17 instead of C++14, on GCC
-    - env: UNIT_TESTS=true COMPILER=g++-6     BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CPP17=ON"
+    # With C++17, on GCC
+    - env: UNIT_TESTS=true COMPILER=g++-6     BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON"
       addons: { apt: { packages: ["g++-6", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
 
     # Without concept checks
@@ -161,7 +163,7 @@ install:
   ############################################################################
   # Setup default versions and override CXX set by Travis if needed
   ############################################################################
-  - if [[ "${COMPILER}" == "default" ]]; then COMPILER=clang++-5.0; fi
+  - if [[ "${COMPILER}" == "default" ]]; then COMPILER=clang++-7; fi
   - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.66.0; fi
 
   - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
@@ -222,7 +224,9 @@ install:
       elif [[ "${CXX}" == "clang++-3.8" ]]; then LLVM_VERSION="3.8.1";
       elif [[ "${CXX}" == "clang++-3.9" ]]; then LLVM_VERSION="3.9.1";
       elif [[ "${CXX}" == "clang++-4.0" ]]; then LLVM_VERSION="4.0.1";
-      elif [[ "${CXX}" == "clang++-5.0" ]]; then LLVM_VERSION="5.0.1";
+      elif [[ "${CXX}" == "clang++-5.0" ]]; then LLVM_VERSION="5.0.2";
+      elif [[ "${CXX}" == "clang++-6.0" ]]; then LLVM_VERSION="6.0.1";
+      elif [[ "${CXX}" == "clang++-7" ]];   then LLVM_VERSION="7.0.1";
       fi
 
       LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"

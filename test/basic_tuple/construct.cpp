@@ -13,7 +13,7 @@ struct x { };
 int main() {
     constexpr hana::basic_tuple<> empty{}; (void)empty;
 
-    constexpr hana::basic_tuple<int, float> xs{1, 2.3f};
+    constexpr hana::basic_tuple<int, float> xs{1, 2.3f}; (void)xs;
     constexpr auto ys = hana::basic_tuple<int, float>{1, 2.3f};
     constexpr auto copy = ys; (void)copy;
 }

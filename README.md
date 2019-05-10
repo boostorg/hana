@@ -182,7 +182,8 @@ git tag -a --file=- v<version> <<EOM
 EOM
 ```
 
-Then, push the tag and create a new GitHub release pointing to that tag.
+Then, push the tag and create a new GitHub release pointing to that tag. Make
+sure to include the release notes in `RELEASE_NOTES.md` in that GitHub release.
 Once that is done, bump the version number in `include/boost/hana/version.hpp`
 so that it matches the next _planned_ release. Finally, do not forget to update
 the [Homebrew formula][] to point to the latest version.

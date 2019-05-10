@@ -35,6 +35,10 @@ namespace boost { namespace hana { namespace test {
     struct TestRing<R, laws> {
         template <typename Xs>
         TestRing(Xs xs) {
+#ifdef BOOST_HANA_WORKAROUND_MSVC_DECLTYPEAUTO_RETURNTYPE_662735
+            one<R>(); // force adding one<R>'s member function to pending temploid list
+#endif
+
             hana::for_each(xs, hana::capture(xs)([](auto xs, auto x) {
                 static_assert(Ring<decltype(x)>{}, "");
 

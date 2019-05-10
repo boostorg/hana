@@ -22,6 +22,7 @@ template <int i = 0>
 struct undefined { };
 
 struct move_only {
+    move_only() = default;
     move_only(move_only&&) = default;
     move_only(move_only const&) = delete;
 };

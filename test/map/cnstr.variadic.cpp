@@ -28,6 +28,7 @@ constexpr bool in_constexpr_context() {
         hana::make_pair(ConstexprMoveOnly<2>{}, ConstexprMoveOnly<20>{}),
         hana::make_pair(ConstexprMoveOnly<3>{}, ConstexprMoveOnly<30>{})
     };
+    (void)map;
     return true;
 }
 

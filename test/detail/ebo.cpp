@@ -15,7 +15,11 @@ using hana::detail::ebo;
 
 template <int> struct empty { };
 template <int> struct idx;
+#ifdef BOOST_HANA_WORKAROUND_MSVC_EMPTYBASE
+template <typename ...Bases> struct __declspec(empty_bases) inherit : Bases... { };
+#else
 template <typename ...Bases> struct inherit : Bases... { };
+#endif
 
 static_assert(sizeof(inherit<>) == sizeof(inherit<ebo<idx<0>, empty<0>>>), "");
 static_assert(sizeof(inherit<>) == sizeof(inherit<ebo<idx<0>, empty<0>>, ebo<idx<1>, empty<1>>>), "");

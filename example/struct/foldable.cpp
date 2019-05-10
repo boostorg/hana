@@ -9,21 +9,23 @@
 namespace hana = boost::hana;
 
 
-struct Classroom {
-    BOOST_HANA_DEFINE_STRUCT(Classroom,
-        (unsigned short, boys),
-        (unsigned short, girls)
+struct Kitten {
+    BOOST_HANA_DEFINE_STRUCT(Kitten,
+        (int, extremely_cute),
+        (int, cute),
+        (int, not_so_cute)
     );
 };
 
 int main() {
-    constexpr Classroom compsci{20, 3};
+    constexpr Kitten kitten{5, 10, 0};
 
     BOOST_HANA_CONSTEXPR_CHECK(
-        hana::fold_left(compsci, 0, [](auto total, auto member) {
+        hana::fold_left(kitten, 0, [](auto total, auto member) {
             // first(member) is the name of the member, here
-            // "boys" or "girls", and second(member) is its value.
+            // "extremely_cute", or "cute" or "not_so_cute",
+            // and second(member) is its value.
             return hana::second(member) + total;
-        }) == 23
+        }) == (5 + 10 + 0)
     );
 }
