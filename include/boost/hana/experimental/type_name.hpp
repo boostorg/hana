@@ -12,52 +12,39 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/string.hpp>
+#include <boost/hana/experimental/detail/type_name_pretty_function.hpp>
 
-#include <cstddef>
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
-    namespace detail {
-        struct cstring {
-            char const* ptr;
-            std::size_t length;
-        };
-
-        // Note: We substract the null terminator from the string sizes below.
-        template <typename T>
-        constexpr cstring type_name_impl2() {
-
-        #if defined(__clang__)
-            constexpr char const* pretty_function = __PRETTY_FUNCTION__;
-            constexpr std::size_t total_size = sizeof(__PRETTY_FUNCTION__) - 1;
-            constexpr std::size_t prefix_size = sizeof("boost::hana::experimental::detail::cstring boost::hana::experimental::detail::type_name_impl2() [T = ") - 1;
-            constexpr std::size_t suffix_size = sizeof("]") - 1;
-        #else
-            #error "No support for this compiler."
-        #endif
-
-            return {pretty_function + prefix_size, total_size - prefix_size - suffix_size};
-        }
-
+BOOST_HANA_NAMESPACE_BEGIN  namespace experimental {
+    namespace type_name_details {
         template <typename T, std::size_t ...i>
-        auto type_name_impl1(std::index_sequence<i...>) {
-            constexpr auto name = detail::type_name_impl2<T>();
-            return hana::string<*(name.ptr + i)...>{};
+        auto type_name_impl(std::index_sequence<i...>) {
+            constexpr auto name = type_name_details::type_name_impl_stringliteral<T>();
+            return boost::hana::string<*(name.ptr + i)...>{};
         }
-    } // end namespace detail
+    } // end namespace type_name_details
 
     //! @ingroup group-experimental
     //! Returns a `hana::string` representing the name of the given type, at
-    //! compile-time.
+    //! compile-time. This works on Clang and MSVC 2017.
     //!
-    //! This only works on Clang (and apparently MSVC, but Hana does not work
-    //! there as of writing this). Original idea taken from
-    //! https://github.com/Manu343726/ctti.
+    //! It also works on GCC, but only at run time and it will return
+    //! a `std::string`.
+    //!
+    //! Other compilers are not supported as of writing this.
+    //! Original idea taken from https://github.com/Manu343726/ctti.
     template <typename T>
     auto type_name() {
-        constexpr auto name = detail::type_name_impl2<T>();
-        return detail::type_name_impl1<T>(std::make_index_sequence<name.length>{});
+        #ifdef _HANA_TN_CAN_CONSTEXPR
+            constexpr auto name = type_name_details::type_name_impl_stringliteral<T>();
+            return type_name_details::type_name_impl<T>(std::make_index_sequence<name.length>{});
+        #else
+            return  type_name_details::stringliteral_to_string(
+                type_name_details::type_name_impl_stringliteral<T>()
+            );
+        #endif
     }
 } BOOST_HANA_NAMESPACE_END
 
