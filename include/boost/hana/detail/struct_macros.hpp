@@ -29,15 +29,20 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/tuple.hpp>
 
 #include <cstddef>
+#include <type_traits>
 #include <utility>
 
 
 BOOST_HANA_NAMESPACE_BEGIN namespace struct_detail {
     template <typename Memptr, Memptr ptr>
     struct member_ptr {
-        template <typename T>
+        template <typename T, typename = std::enable_if_t<!std::is_member_function_pointer_v<Memptr>>>
         constexpr decltype(auto) operator()(T&& t) const
         { return static_cast<T&&>(t).*ptr; }
+
+        template <typename T, typename ... Args, typename = std::enable_if_t<std::is_member_function_pointer_v<Memptr>>>
+        constexpr decltype(auto) operator()(T&& t, Args&&... args) const
+        { return (static_cast<T&&>(t).*ptr)(std::forward<Args>(args)...); }
     };
 
     constexpr std::size_t strlen(char const* s) {
