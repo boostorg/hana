@@ -36,17 +36,13 @@ Distributed under the Boost Software License, Version 1.0.
 BOOST_HANA_NAMESPACE_BEGIN namespace struct_detail {
     template <typename Memptr, Memptr ptr>
     struct member_ptr {
-        template <typename Memptr2, typename T, std::enable_if_t<std::is_member_object_pointer_v<Memptr2>, int> = 0>
-        constexpr decltype(auto) dispatch(T && t) const
+        template <typename T, typename Memptr2 = Memptr, std::enable_if_t<std::is_member_object_pointer_v<Memptr2>, int> = 0>
+        constexpr decltype(auto) operator()(T && t) const
         { return static_cast<T&&>(t).*ptr; }
 
-        template <typename Memptr2, typename T, std::enable_if_t<std::is_member_function_pointer_v<Memptr2>, int> = 0>
-        constexpr decltype(auto) dispatch(T && t) const
-        { return [&](auto ... args) { return static_cast<T&&>(t).*ptr(args); }; }
-
-        template <typename T>
+        template <typename T, typename Memptr2 = Memptr, std::enable_if_t<std::is_member_function_pointer_v<Memptr2>, int> = 0>
         constexpr decltype(auto) operator()(T && t) const
-        { return dispatch<Memptr>(t); }
+        { return [&](auto ... args) { return static_cast<T&&>(t).*ptr(args...); }; }
     };
 
     constexpr std::size_t strlen(char const* s) {
