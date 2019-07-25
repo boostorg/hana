@@ -103,48 +103,6 @@ Distributed under the Boost Software License, Version 1.0.
 #endif
 
 //////////////////////////////////////////////////////////////////////////////
-// Detect the standard library
-//////////////////////////////////////////////////////////////////////////////
-
-// We include this header, which normally defines the proper detection macros.
-// At least, libc++ and libstdc++ do.
-#include <cstddef>
-
-#if defined(_LIBCPP_VERSION)
-
-#   define BOOST_HANA_CONFIG_LIBCPP BOOST_HANA_CONFIG_VERSION(              \
-                ((_LIBCPP_VERSION) / 1000) % 10, 0, (_LIBCPP_VERSION) % 1000)
-
-#   if BOOST_HANA_CONFIG_LIBCPP < BOOST_HANA_CONFIG_VERSION(1, 0, 101)
-#       warning "Versions of libc++ prior to the one shipped with Clang 3.5.0 are not supported by Hana."
-#   endif
-
-#elif defined(__GLIBCXX__)
-
-// We do not define a macro to keep track of libstdc++'s version, because
-// we have no scalable way of associating a value of __GLIBCXX__ to the
-// corresponding GCC release. Instead, we just check that the release date
-// of the libstdc++ in use is recent enough, which should indicate that it
-// was released with a GCC >= 5.1, which in turn indicates good enough C++14
-// support.
-#   if __GLIBCXX__ < 20150422 // --> the libstdc++ shipped with GCC 5.1.0
-#       warning "Versions of libstdc++ prior to the one shipped with GCC 5.1.0 are not supported by Hana for lack of full C++14 support."
-#   endif
-
-#   define BOOST_HANA_CONFIG_LIBSTDCXX
-
-#elif defined(_MSC_VER)
-
-#   define BOOST_HANA_CONFIG_LIBMSVCCXX
-
-#else
-
-#   warning "Your standard library is not officially supported by Hana or it was not detected properly."
-
-#endif
-
-
-//////////////////////////////////////////////////////////////////////////////
 // Caveats and other compiler-dependent options
 //////////////////////////////////////////////////////////////////////////////
 
