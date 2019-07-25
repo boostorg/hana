@@ -23,13 +23,10 @@
       "data": <%= time_compilation('compile.std.array.erb.cpp', hana) %>
     }
 
-    <% if not ("@CMAKE_CXX_COMPILER_ID@" == "Clang" &&
-               "@CMAKE_CXX_COMPILER_VERSION@" == "3.5.0") %>
     , {
       "name": "std::tuple",
       "data": <%= time_compilation('compile.std.tuple.erb.cpp', std) %>
     }
-    <% end %>
 
     <% if cmake_bool("@Boost_FOUND@") %>
     , {
