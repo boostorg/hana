@@ -116,7 +116,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr make_curry_t<n> curry_or_call{};
 
         template <>
-        constexpr auto curry_or_call<0> = apply;
+        static constexpr auto curry_or_call<0> = apply;
     }
 
     template <std::size_t n, typename F>
