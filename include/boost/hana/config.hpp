@@ -168,12 +168,6 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONSTEXPR_LAMBDA /* nothing */
 #endif
 
-// There's a bug in std::tuple_cat in libc++ right now.
-// See http://llvm.org/bugs/show_bug.cgi?id=22806.
-#if defined(BOOST_HANA_CONFIG_LIBCPP)
-#   define BOOST_HANA_CONFIG_LIBCPP_HAS_BUG_22806
-#endif
-
 //////////////////////////////////////////////////////////////////////////////
 // Namespace macros
 //////////////////////////////////////////////////////////////////////////////
