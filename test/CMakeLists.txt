@@ -28,10 +28,8 @@ if (NOT Boost_FOUND)
     list(APPEND EXCLUDED_PUBLIC_HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST})
 endif()
 
-# The experimental::type_name test is only supported on Clang >= 3.6 and
-# AppleClang >= 7.0
-if (NOT ((${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang" AND
-          NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 3.6)
+# The experimental::type_name test is only supported on Clang and AppleClang >= 7.0
+if (NOT (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang"
         OR (${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang" AND
             NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 7)))
     list(APPEND EXCLUDED_PUBLIC_HEADERS
