@@ -57,6 +57,7 @@ struct Trap3 {
 };
 
 struct Trap4 {
+    Trap4() = default;
     template <typename Args>
     constexpr explicit Trap4(Args&&) {
         static_assert(sizeof(Args) && false, "must never be instantiated");
