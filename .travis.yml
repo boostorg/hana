@@ -133,6 +133,7 @@ matrix:
     # Generate the documentation
     ##########################################################################
     - env: DOCUMENTATION=true COMPILER=default BOOST_VERSION=default
+      dist: xenial
       addons: *defaults
 
     ##########################################################################
