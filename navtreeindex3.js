@@ -32,7 +32,6 @@ var NAVTREEINDEX3 =
 "index.html#tutorial-algorithms-effects":[0,11,3],
 "index.html#tutorial-algorithms-laziness":[0,11,1],
 "index.html#tutorial-algorithms-value":[0,11,0],
-"index.html#tutorial-appendix-MPL":[0,22],
 "index.html#tutorial-appendix-constexpr":[0,21],
 "index.html#tutorial-appendix-constexpr-effects":[0,21,2],
 "index.html#tutorial-appendix-constexpr-stripping":[0,21,0],
@@ -243,11 +242,12 @@ var NAVTREEINDEX3 =
 "structboost_1_1hana_1_1integral__constant.html#a217459eb4ffdd9580b5d8e1bf36d7ac4":[1,1,0,4],
 "structboost_1_1hana_1_1integral__constant.html#a27607958295e6da8a0ba602a2db468f1":[1,1,0,33],
 "structboost_1_1hana_1_1integral__constant.html#a41f541c4b34b1972d0e84bf10f7908e1":[1,1,0,8],
-"structboost_1_1hana_1_1integral__constant.html#a47d2d5df22fc559270029d5eabaae61a":[1,1,0,36],
 "structboost_1_1hana_1_1integral__constant.html#a5071dd223185718f85da1db48fb95d80":[1,1,0,7],
 "structboost_1_1hana_1_1integral__constant.html#a51facf9760bb93d63efdca06dcf859ad":[1,1,0,28],
 "structboost_1_1hana_1_1integral__constant.html#a53817979990da799e659b2576799a79a":[1,1,0,40],
+"structboost_1_1hana_1_1integral__constant.html#a5f4b91589df01b625ffb92499ab27876":[1,1,0,30],
 "structboost_1_1hana_1_1integral__constant.html#a65df6bbd2d90432bdcdc709cdbca9921":[1,1,0,23],
-"structboost_1_1hana_1_1integral__constant.html#a673f1d9212ae61e8cee093af002bc110":[1,1,0,30],
-"structboost_1_1hana_1_1integral__constant.html#a69a1bcadc259af364eb87d634c76c12e":[1,1,0,5]
+"structboost_1_1hana_1_1integral__constant.html#a69a1bcadc259af364eb87d634c76c12e":[1,1,0,5],
+"structboost_1_1hana_1_1integral__constant.html#a6be175332d55b7bfcf1afc33856d9b7d":[1,1,0,29],
+"structboost_1_1hana_1_1integral__constant.html#a6eb151945e888d45427d4195a549a57c":[1,1,0,36]
 };

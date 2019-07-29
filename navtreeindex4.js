@@ -1,6 +1,5 @@
 var NAVTREEINDEX4 =
 {
-"structboost_1_1hana_1_1integral__constant.html#a6be175332d55b7bfcf1afc33856d9b7d":[1,1,0,29],
 "structboost_1_1hana_1_1integral__constant.html#a79f45e3c2411db1d36127c1341673ffb":[1,1,0,21],
 "structboost_1_1hana_1_1integral__constant.html#a7d9f9e5adeb222e676ee02d6f28198ee":[1,1,0,37],
 "structboost_1_1hana_1_1integral__constant.html#a81c86537a0d36b8788cba2188314febc":[1,1,0,24],
@@ -60,9 +59,9 @@ var NAVTREEINDEX4 =
 "structboost_1_1hana_1_1optional.html#a0cae3af55edb3eb05bfa184bda633f7d":[1,1,4,10],
 "structboost_1_1hana_1_1optional.html#a1047a69893a62cd36eb0d2934f85e0e7":[1,1,4,6],
 "structboost_1_1hana_1_1optional.html#a1f511267d94c178e4ef955da60f0888d":[1,1,4,20],
+"structboost_1_1hana_1_1optional.html#a237b2147dd9b72bb2dfa4a268056e4c2":[1,1,4,19],
 "structboost_1_1hana_1_1optional.html#a27607958295e6da8a0ba602a2db468f1":[1,1,4,9],
 "structboost_1_1hana_1_1optional.html#a2b04ee87c0ac58621edf3ad5476a2949":[1,1,4,24],
-"structboost_1_1hana_1_1optional.html#a3132b919ab7710d79155674272961d4b":[1,1,4,19],
 "structboost_1_1hana_1_1optional.html#a4eb266d123883c23853f7731a6c5953f":[1,1,4,7],
 "structboost_1_1hana_1_1optional.html#a52057c5da4b9aee49ee15a167459fc9a":[1,1,4,16],
 "structboost_1_1hana_1_1optional.html#a53817979990da799e659b2576799a79a":[1,1,4,13],
@@ -162,9 +161,9 @@ var NAVTREEINDEX4 =
 "structboost_1_1hana_1_1type.html#a0ade557ac4240552c92bf47c7e04dfd4":[1,1,10,2],
 "structboost_1_1hana_1_1type.html#a0c0e00c0ffe63703f3a04960d13c7b1c":[1,1,10,4],
 "structboost_1_1hana_1_1type.html#a0cae3af55edb3eb05bfa184bda633f7d":[1,1,10,9],
+"structboost_1_1hana_1_1type.html#a228c1b24d16b2c765c816f816a09337c":[1,1,10,10],
 "structboost_1_1hana_1_1type.html#a26b702b280ca02f118affaaca9112a8c":[1,1,10,5],
 "structboost_1_1hana_1_1type.html#a27607958295e6da8a0ba602a2db468f1":[1,1,10,8],
-"structboost_1_1hana_1_1type.html#a2c3bef01b2e0342264c62a67cc471592":[1,1,10,10],
 "structboost_1_1hana_1_1type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b":[1,1,10,7],
 "structboost_1_1hana_1_1type.html#a66f97c1903dcb6f227b29f3e35e68a56":[1,1,10,3],
 "structboost_1_1hana_1_1type.html#a6fd9ac456f4b5574dcb16384dbb85736":[1,1,10,6],

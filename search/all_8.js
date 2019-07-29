@@ -9,9 +9,7 @@ var searchData=
   ['has_5fduplicates_2ehpp',['has_duplicates.hpp',['../has__duplicates_8hpp.html',1,'']]],
   ['has_5fnontrivial_5fcommon_5fembedding',['has_nontrivial_common_embedding',['../group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4',1,'boost::hana::detail']]],
   ['hash',['hash',['../group__group-Hashable.html#ga6e906f44f47b210615491385e5c8a7b5',1,'boost::hana']]],
-  ['hash_2ehpp',['hash.hpp',['../fwd_2hash_8hpp.html',1,'']]],
-  ['hash_2ehpp',['hash.hpp',['../hash_8hpp.html',1,'']]],
+  ['hash_2ehpp',['hash.hpp',['../fwd_2hash_8hpp.html',1,'(Global Namespace)'],['../hash_8hpp.html',1,'(Global Namespace)']]],
   ['hash_5ftable_2ehpp',['hash_table.hpp',['../hash__table_8hpp.html',1,'']]],
-  ['hashable_2ehpp',['hashable.hpp',['../fwd_2concept_2hashable_8hpp.html',1,'']]],
-  ['hashable_2ehpp',['hashable.hpp',['../concept_2hashable_8hpp.html',1,'']]]
+  ['hashable_2ehpp',['hashable.hpp',['../concept_2hashable_8hpp.html',1,'(Global Namespace)'],['../fwd_2concept_2hashable_8hpp.html',1,'(Global Namespace)']]]
 ];

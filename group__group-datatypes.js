@@ -31,13 +31,13 @@ var group__group_datatypes =
       [ "operator+", "structboost_1_1hana_1_1integral__constant.html#a077af435df78fdb178f98b109c8c4297", null ],
       [ "operator-", "structboost_1_1hana_1_1integral__constant.html#a51facf9760bb93d63efdca06dcf859ad", null ],
       [ "operator-", "structboost_1_1hana_1_1integral__constant.html#a6be175332d55b7bfcf1afc33856d9b7d", null ],
-      [ "operator*", "structboost_1_1hana_1_1integral__constant.html#a673f1d9212ae61e8cee093af002bc110", null ],
+      [ "operator *", "structboost_1_1hana_1_1integral__constant.html#a5f4b91589df01b625ffb92499ab27876", null ],
       [ "operator/", "structboost_1_1hana_1_1integral__constant.html#ab8b66ff58605e53149aad7eca0922ad7", null ],
       [ "operator%", "structboost_1_1hana_1_1integral__constant.html#ad2fabb33632e115e96d0b7474670e6a1", null ],
       [ "operator==", "structboost_1_1hana_1_1integral__constant.html#a27607958295e6da8a0ba602a2db468f1", null ],
       [ "operator!=", "structboost_1_1hana_1_1integral__constant.html#a0cae3af55edb3eb05bfa184bda633f7d", null ],
       [ "operator||", "structboost_1_1hana_1_1integral__constant.html#a883a869b5e96e32744ebf75d63c763ae", null ],
-      [ "operator&&", "structboost_1_1hana_1_1integral__constant.html#a47d2d5df22fc559270029d5eabaae61a", null ],
+      [ "operator &&", "structboost_1_1hana_1_1integral__constant.html#a6eb151945e888d45427d4195a549a57c", null ],
       [ "operator!", "structboost_1_1hana_1_1integral__constant.html#a7d9f9e5adeb222e676ee02d6f28198ee", null ],
       [ "operator<", "structboost_1_1hana_1_1integral__constant.html#ada078dcf9e68b8e9a82b33c75dde8457", null ],
       [ "operator>", "structboost_1_1hana_1_1integral__constant.html#aedd11fddefddbbbb87d3b24c7117528f", null ],
@@ -97,7 +97,7 @@ var group__group_datatypes =
       [ "operator=", "structboost_1_1hana_1_1optional.html#a52057c5da4b9aee49ee15a167459fc9a", null ],
       [ "operator->", "structboost_1_1hana_1_1optional.html#a6eeef1512294d408857805eb3a790230", null ],
       [ "value", "structboost_1_1hana_1_1optional.html#acdcf71b43d4e27d5efbf0ad875d0be58", null ],
-      [ "operator*", "structboost_1_1hana_1_1optional.html#a3132b919ab7710d79155674272961d4b", null ],
+      [ "operator *", "structboost_1_1hana_1_1optional.html#a237b2147dd9b72bb2dfa4a268056e4c2", null ],
       [ "value_or", "structboost_1_1hana_1_1optional.html#a1f511267d94c178e4ef955da60f0888d", null ],
       [ "optional", "structboost_1_1hana_1_1optional.html#aefbd278cf7bb9e921707d6d827014bcb", null ],
       [ "optional", "structboost_1_1hana_1_1optional.html#a9074406adb54a6a848ba482895c51d1f", null ],
@@ -196,6 +196,6 @@ var group__group_datatypes =
       [ "is_valid", "structboost_1_1hana_1_1type.html#a2d2e7e08e284f7e0bd1bd9c3ad0e0a2b", null ],
       [ "operator==", "structboost_1_1hana_1_1type.html#a27607958295e6da8a0ba602a2db468f1", null ],
       [ "operator!=", "structboost_1_1hana_1_1type.html#a0cae3af55edb3eb05bfa184bda633f7d", null ],
-      [ "operator+", "structboost_1_1hana_1_1type.html#a2c3bef01b2e0342264c62a67cc471592", null ]
+      [ "operator+", "structboost_1_1hana_1_1type.html#a228c1b24d16b2c765c816f816a09337c", null ]
     ] ]
 ];
