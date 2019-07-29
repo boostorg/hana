@@ -1506,8 +1506,7 @@ and simplifying many tasks.
 
 @note
 Curious or skeptical readers should consider checking the minimal
-reimplementation of the MPL presented in the [appendices]
-(@ref tutorial-appendix-MPL).
+reimplementation of the MPL presented in the appendices.
 
 
 
@@ -3397,13 +3396,13 @@ some container defines what algorithms can be used with such a container.
 More specifically, the structure of the reference (available in the menu to
 the left) goes as follow:
 
-- @ref group-core\n
+- @ref group-core \n
   Documentation for the core module, which contains everything needed to
   create concepts, data types and related utilities. This is relevant
   if you need to extend the library, but otherwise you can probably
   ignore this.
 
-- @ref group-concepts\n
+- @ref group-concepts \n
   Documentation for all the concepts provided with the library. Each concept:
   - Documents which functions must be implemented absolutely in order to
     model that concept. The set of functions that must be provided is called
@@ -3421,25 +3420,25 @@ the left) goes as follow:
     automatically. When this happens, it will be documented but you don't have
     to do anything special to get that model.
 
-- @ref group-datatypes\n
+- @ref group-datatypes \n
   Documentation for all the data structures provided with the library. Each
   data structure documents the concept(s) it models, and how it does so. It
   also documents the methods tied to it but not to any concept, for example
   `maybe` for `optional`.
 
-- @ref group-functional\n
+- @ref group-functional \n
   General purpose function objects that are generally useful in a purely
   functional setting. These are currently not tied to any concept or container.
 
-- @ref group-ext\n
+- @ref group-ext \n
   Documentation for all the adapters for external libraries. These adapters
   are documented as if they were native types provided by Hana, but obviously
   Hana only provides the compatibility layer between them and the library.
 
-- @ref group-config\n
+- @ref group-config \n
   Macros that can be used to tweak the global behavior of the library.
 
-- @ref group-assertions\n
+- @ref group-assertions \n
   Macros to perform various types of assertions.
 
 - [<b>Alphabetical index</b>](functions.html)\n
@@ -3448,7 +3447,7 @@ the left) goes as follow:
 - [<b>Headers</b>](files.html)\n
   A list of all the headers provided by the library.
 
-- @ref group-details\n
+- @ref group-details \n
   Implementation details; don't go there. Anything not documented at all or
   documented in this group is not guaranteed to be stable.
 

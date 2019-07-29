@@ -133,6 +133,7 @@ matrix:
     # Generate the documentation
     ##########################################################################
     - env: DOCUMENTATION=true COMPILER=default BOOST_VERSION=default
+      dist: xenial
       addons: *defaults
 
     ##########################################################################
@@ -251,7 +252,7 @@ install:
   ############################################################################
   - |
     if [[ "${DOCUMENTATION}" == "true" ]]; then
-      DOXYGEN_URL="http://doxygen.nl/files/doxygen-1.8.14.linux.bin.tar.gz"
+      DOXYGEN_URL="http://doxygen.nl/files/doxygen-1.8.15.linux.bin.tar.gz"
       mkdir doxygen && travis_retry wget --quiet -O - ${DOXYGEN_URL} | tar --strip-components=1 -xz -C doxygen
       export PATH=${DEPS_DIR}/doxygen/bin:${PATH}
       doxygen --version
