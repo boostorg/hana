@@ -17,7 +17,7 @@ window.onload = function() {
 
   $(".benchmark-chart").each(function(index, div) {
     var dataset = div.getAttribute("data-dataset");
-    $.getJSON("benchmarks/release/clang-3.8.0/" + dataset, function(options) {
+    $.getJSON("benchmarks/release/clang-7.1.0/" + dataset, function(options) {
       Hana.initChart($(div), options);
     });
   });
