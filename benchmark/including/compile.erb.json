@@ -1,9 +1,9 @@
 <%
-  def avg(xs)
+  def self.avg(xs)
     xs.inject(0, :+) / xs.length
   end
 
-  def amortize(file)
+  def self.amortize(file)
     # We remove the first one to mitigate cache effects
     times = time_compilation(file, 6.times)
     times.shift

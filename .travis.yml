@@ -22,22 +22,6 @@ matrix:
     # Note that we only use the memory checker on the main configuration to
     # speed up Travis builds.
     ##########################################################################
-    # Clang 3.5
-    - env: UNIT_TESTS=true COMPILER=clang++-3.5 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: { apt: { packages: ["clang-3.5", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.5"] } }
-
-    # Clang 3.6
-    - env: UNIT_TESTS=true COMPILER=clang++-3.6 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: { apt: { packages: ["clang-3.6", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.6"] } }
-
-    # Clang 3.7
-    - env: UNIT_TESTS=true COMPILER=clang++-3.7 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: { apt: { packages: ["clang-3.7", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.7"] } }
-
-    # Clang 3.8
-    - env: UNIT_TESTS=true COMPILER=clang++-3.8 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: { apt: { packages: ["clang-3.8", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-precise-3.8"] } }
-
     # Clang 3.9
     - env: UNIT_TESTS=true COMPILER=clang++-3.9 BOOST_VERSION=default ENABLE_MEMCHECK=true
       addons: { apt: { packages: ["clang-3.9", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-3.9"] } }
@@ -69,11 +53,6 @@ matrix:
     # GCC 8
     - env: UNIT_TESTS=true COMPILER=g++-8 BOOST_VERSION=default ENABLE_MEMCHECK=true
       addons: { apt: { packages: ["g++-8", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
-
-    # Xcode 8.3
-    - os: osx
-      env: UNIT_TESTS=true BOOST_VERSION=default
-      osx_image: xcode8.3
 
     # Xcode 9.1
     - os: osx
@@ -219,11 +198,7 @@ install:
   ############################################################################
   - |
     if [[ "${CXX%%+*}" == "clang" ]]; then
-      if   [[ "${CXX}" == "clang++-3.5" ]]; then LLVM_VERSION="3.5.2";
-      elif [[ "${CXX}" == "clang++-3.6" ]]; then LLVM_VERSION="3.6.2";
-      elif [[ "${CXX}" == "clang++-3.7" ]]; then LLVM_VERSION="3.7.1";
-      elif [[ "${CXX}" == "clang++-3.8" ]]; then LLVM_VERSION="3.8.1";
-      elif [[ "${CXX}" == "clang++-3.9" ]]; then LLVM_VERSION="3.9.1";
+        if [[ "${CXX}" == "clang++-3.9" ]]; then LLVM_VERSION="3.9.1";
       elif [[ "${CXX}" == "clang++-4.0" ]]; then LLVM_VERSION="4.0.1";
       elif [[ "${CXX}" == "clang++-5.0" ]]; then LLVM_VERSION="5.0.2";
       elif [[ "${CXX}" == "clang++-6.0" ]]; then LLVM_VERSION="6.0.1";
