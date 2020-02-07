@@ -20,6 +20,8 @@ option(BOOST_HANA_ENABLE_EXCEPTIONS
  but this switch can be disabled when building the tests to assess that it is\
  really the case." ON)
 
+option(BOOST_HANA_ENABLE_CTEST
+"Add unit tests to ctest" ON)
 
 ##############################################################################
 # Setup project
@@ -173,7 +175,9 @@ endif()
 ##############################################################################
 # Setup subdirectories and testing
 ##############################################################################
-enable_testing()
+if(BOOST_HANA_ENABLE_CTEST)
+    enable_testing()
+endif()
 find_program(MEMORYCHECK_COMMAND valgrind)
 if (MEMORYCHECK_COMMAND)
     message(STATUS "Found Valgrind: ${MEMORYCHECK_COMMAND}")
