@@ -206,7 +206,7 @@ constexpr int factorial(int n) {
 }
 
 template <typename T, std::size_t N, typename F>
-  constexpr std::array<std::result_of_t<F(T)>, N>
+  constexpr std::array<std::invoke_result_t<F, T>, N>
 transform(std::array<T, N> array, F f) {
   // ...
 }

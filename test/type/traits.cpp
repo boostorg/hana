@@ -144,8 +144,6 @@ int main() {
 
     hana::traits::common_type(s, s);
     hana::traits::underlying_type(e);
-    using FunctionPointer = void(*)();
-    hana::traits::result_of(hana::type_c<FunctionPointer(void)>);
 
     ///////////////////////
     // Utilities
