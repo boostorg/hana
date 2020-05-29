@@ -111,9 +111,8 @@ matrix:
     ##########################################################################
     # Generate the documentation
     ##########################################################################
-    - env: DOCUMENTATION=true COMPILER=default BOOST_VERSION=default
-      dist: xenial
-      addons: *defaults
+    - os: osx
+      env: DOCUMENTATION=true BOOST_VERSION=default
 
     ##########################################################################
     # Benchmarks
@@ -227,9 +226,7 @@ install:
   ############################################################################
   - |
     if [[ "${DOCUMENTATION}" == "true" ]]; then
-      DOXYGEN_URL="http://doxygen.nl/files/doxygen-1.8.18.linux.bin.tar.gz"
-      mkdir doxygen && travis_retry wget --quiet -O - ${DOXYGEN_URL} | tar --strip-components=1 -xz -C doxygen
-      export PATH=${DEPS_DIR}/doxygen/bin:${PATH}
+      brew install doxygen
       doxygen --version
     fi
 
@@ -284,7 +281,7 @@ script:
   ############################################################################
   - |
     if [[ "${DOCUMENTATION}" == "true" ]]; then
-      (cd build && ! make doc 2>&1 | grep -E "warning|error") || exit 1
+      (cd build && ! make doc 2>&1 | grep -E "error") || exit 1
 
       if [[ "${TRAVIS_PULL_REQUEST}" == "false" && "${TRAVIS_BRANCH}" == "master" ]]; then
         # Suppress output to avoid leaking the token when the command fails
