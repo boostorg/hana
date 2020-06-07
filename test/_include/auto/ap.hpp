@@ -71,6 +71,23 @@ TestCase test_ap{[]{
         MAKE_TUPLE(f(ct_eq<0>{}), f(ct_eq<1>{}), f(ct_eq<2>{}),
                    g(ct_eq<0>{}), g(ct_eq<1>{}), g(ct_eq<2>{}))
     ));
+
+    BOOST_HANA_CONSTANT_CHECK(hana::equal(
+        hana::ap(MAKE_TUPLE(f, g),
+                 MAKE_TUPLE(ct_eq<0>{}, ct_eq<1>{}),
+                 MAKE_TUPLE(ct_eq<10>{}, ct_eq<11>{})),
+        MAKE_TUPLE(
+            f(ct_eq<0>{}, ct_eq<10>{}),
+            f(ct_eq<0>{}, ct_eq<11>{}),
+            f(ct_eq<1>{}, ct_eq<10>{}),
+            f(ct_eq<1>{}, ct_eq<11>{}),
+
+            g(ct_eq<0>{}, ct_eq<10>{}),
+            g(ct_eq<0>{}, ct_eq<11>{}),
+            g(ct_eq<1>{}, ct_eq<10>{}),
+            g(ct_eq<1>{}, ct_eq<11>{})
+        )
+    ));
 }};
 
 #endif // !BOOST_HANA_TEST_AUTO_AP_HPP
