@@ -52,13 +52,7 @@ have a couple of options:
 Hana is included in the [Boost][] distribution starting from Boost 1.61.0, so
 installing that will give you access to Hana.
 
-2. __Use Homebrew__\n
-On Mac OS, Hana can be installed with [Homebrew][]:
-@code{.sh}
-brew install hana
-@endcode
-
-3. __Install manually__\n
+2. __Install manually__\n
 You can download the code from the official GitHub [repository][Hana.repository]
 and install the library manually by issuing the following commands from the root
 of the project (requires [CMake][]):
@@ -78,22 +72,18 @@ If you just want to contribute to Hana, you can see how to best setup your
 environment for development in the [README][Hana.hacking].
 
 @note
-- Both the manual installation and the Homebrew installation will also install
-a `HanaConfig.cmake` file for use with CMake and a `hana.pc` file for use with
-[pkg-config][].
-
-- Do not mix a standalone installation of Hana (i.e. Hana not installed through
-  Boost) with a full installation of Boost. The Hana provided within Boost and
-  the standalone one may clash, and you won't know which version is used where.
-  This is asking for trouble.
+Do not mix a standalone installation of Hana (i.e. Hana not installed through
+Boost) with a full installation of Boost. The Hana provided within Boost and
+the standalone one may clash, and you won't know which version is used where.
+This is asking for trouble.
 
 @subsection tutorial-installation-cmake Note for CMake users
 
-If you use [CMake][], depending on Hana has never been so easy. When installed,
-Hana creates a `HanaConfig.cmake` file that exports the `hana` interface library
-target with all the required settings. All you need is to install Hana (through
-Homebrew or manually), use `find_package(Hana)`, and then link your own targets
-against the `hana` target. Here is a minimal example of doing this:
+If you use [CMake][], depending on Hana has never been so easy. When installed
+manually, Hana creates a `HanaConfig.cmake` file that exports the `hana`
+interface library target with all the required settings. All you need is to
+install Hana manually with CMake, use `find_package(Hana)`, and then link your
+own targets against the `hana` target. Here is a minimal example of doing this:
 
 @snippet example/cmake_integration/CMakeLists.txt snip
 
@@ -206,7 +196,7 @@ constexpr int factorial(int n) {
 }
 
 template <typename T, std::size_t N, typename F>
-  constexpr std::array<std::result_of_t<F(T)>, N>
+  constexpr std::array<std::invoke_result_t<F, T>, N>
 transform(std::array<T, N> array, F f) {
   // ...
 }

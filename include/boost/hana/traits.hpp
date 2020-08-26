@@ -194,7 +194,6 @@ BOOST_HANA_NAMESPACE_BEGIN namespace traits {
 
     constexpr auto common_type = metafunction<std::common_type>;
     constexpr auto underlying_type = metafunction<std::underlying_type>;
-    constexpr auto result_of = metafunction<std::result_of>;
 
 
     ///////////////////////
