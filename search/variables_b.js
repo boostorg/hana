@@ -1,4 +1,8 @@
 var searchData=
 [
-  ['keys',['keys',['../structboost_1_1hana_1_1map.html#a0f32260f859b2510dd16235b7bc011ac',1,'boost::hana::map::keys()'],['../group__group-Struct.html#gaf8c7199742581e6e66c8397def68e2d3',1,'boost::hana::keys()']]]
+  ['length_1055',['length',['../group__group-_foldable.html#gaf0f8f717245620dc28cd7d7fa44d7475',1,'boost::hana']]],
+  ['less_1056',['less',['../group__group-_orderable.html#gad510011602bdb14686f1c4ec145301c9',1,'boost::hana']]],
+  ['less_5fequal_1057',['less_equal',['../group__group-_orderable.html#ga9917dd82beb67151bf5657245d37b851',1,'boost::hana']]],
+  ['lift_1058',['lift',['../group__group-_applicative.html#ga712038d7abbc7159f8792788f7cd0c73',1,'boost::hana']]],
+  ['lockstep_1059',['lockstep',['../group__group-functional.html#gafca60c09e1f7a32a2b52baaf6515c279',1,'boost::hana']]]
 ];

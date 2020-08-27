@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['char_5f',['char_',['../structboost_1_1hana_1_1integral__constant.html#a08598ceb1797047d8938049b0cad6ccc',1,'boost::hana::integral_constant']]],
-  ['common_5ft',['common_t',['../group__group-core.html#ga4da46c97755c0f430b063711b66ca05b',1,'boost::hana']]]
+  ['has_5fcommon_5fembedding_1163',['has_common_embedding',['../group__group-details.html#gae85b604ae6c7a386f0fc3631c561091b',1,'boost::hana::detail']]],
+  ['has_5fnontrivial_5fcommon_5fembedding_1164',['has_nontrivial_common_embedding',['../group__group-details.html#ga9acac3c4609cff5f0957572744c61ec4',1,'boost::hana::detail']]]
 ];

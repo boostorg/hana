@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['just',['just',['../structboost_1_1hana_1_1optional.html#a8ad818d6df7379b0adefa45d2ac844d0',1,'boost::hana::optional']]]
+  ['keys_1054',['keys',['../structboost_1_1hana_1_1map.html#a0f32260f859b2510dd16235b7bc011ac',1,'boost::hana::map::keys()'],['../group__group-_struct.html#gaf8c7199742581e6e66c8397def68e2d3',1,'boost::hana::keys()']]]
 ];

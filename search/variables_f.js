@@ -1,9 +1,11 @@
 var searchData=
 [
-  ['on',['on',['../group__group-functional.html#ga35c4fc3c5677b9f558150b90e74d3ab1',1,'boost::hana']]],
-  ['one',['one',['../group__group-Ring.html#gadea531feb3b0a1c5c3d777f7ab45e932',1,'boost::hana']]],
-  ['or_5f',['or_',['../group__group-Logical.html#ga68c00efbeb69339bfa157a78ebdd3f87',1,'boost::hana']]],
-  ['ordering',['ordering',['../group__group-Orderable.html#gaf7e94ba859710cd6ba6152e5dc18977d',1,'boost::hana']]],
-  ['overload',['overload',['../group__group-functional.html#ga83e71bae315e299f9f5f9de77b012139',1,'boost::hana']]],
-  ['overload_5flinearly',['overload_linearly',['../group__group-functional.html#gaa46de6f618d9f14edb1589b36b6e75ec',1,'boost::hana']]]
+  ['partial_1104',['partial',['../group__group-functional.html#ga778b2daa27882e71d28b6f2b38982ddf',1,'boost::hana']]],
+  ['permutations_1105',['permutations',['../group__group-_sequence.html#gac1e182ac088f1990edd739424d30ea07',1,'boost::hana']]],
+  ['plus_1106',['plus',['../group__group-_monoid.html#gaeb5d4a1e967e319712f9e4791948896c',1,'boost::hana']]],
+  ['power_1107',['power',['../group__group-_ring.html#ga0ee3cff9ec646bcc7217f00ee6099b72',1,'boost::hana']]],
+  ['prefix_1108',['prefix',['../group__group-_monad_plus.html#ga3022fdfe454dc9bc1f79b5dfeba13b5e',1,'boost::hana']]],
+  ['prepend_1109',['prepend',['../group__group-_monad_plus.html#ga69afbfd4e91125e3e52fcb409135ca7c',1,'boost::hana']]],
+  ['print_1110',['print',['../group__group-experimental.html#ga660c0769106006a86948b5b355fad050',1,'boost::hana::experimental']]],
+  ['product_1111',['product',['../group__group-_foldable.html#ga17fe9c1982c882807f3358b4138c5744',1,'boost::hana']]]
 ];
