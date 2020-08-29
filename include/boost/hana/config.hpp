@@ -170,4 +170,17 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONFIG_ENABLE_DEBUG_MODE
 #endif
 
+#if defined(BOOST_HANA_DOXYGEN_INVOKED)
+    //! @ingroup group-config
+    //! Enables the definition of `hana::traits::is_pod` from `std::is_pod`.
+    //! `std::is_pod` is deprecated in C++20 and later.
+    //!
+    //! In versions of C++ before `std::is_pod` was deprecated (i.e. C++17 or
+    //! earlier), this macro has no effect.
+    //!
+    //! Without defining this macro, `hana::traits::is_pod` will not be
+    //! available in C++20 and later.
+#   define BOOST_HANA_CONFIG_ENABLE_DEPRECATED_IS_POD
+#endif
+
 #endif // !BOOST_HANA_CONFIG_HPP
