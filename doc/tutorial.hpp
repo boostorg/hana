@@ -3576,41 +3576,41 @@ in pseudo-code, the actual implementation sometimes being slightly hard to
 understand. This section defines terms used in the reference and in the
 pseudo-code used to describe some functions.
 
-@anchor tutorial-glossary-forwarded
-#### `forwarded(x)`
-Means that the object is forwarded optimally. This means that if `x` is a
-parameter, it is `std::forward`ed, and if it is a captured variable, it is
-moved from whenever the enclosing lambda is an rvalue.
+- @anchor tutorial-glossary-forwarded `forwarded(x)`
 
-Also note that when `x` can be moved from, the statement `return forwarded(x);`
-in a function with `decltype(auto)` does not mean that an rvalue reference to
-`x` will be returned, which would create a dangling reference. Rather, it
-means that `x` is returned by value, the value being constructed with the
-`std::forward`ed `x`.
+  Means that the object is forwarded optimally. This means that if `x` is a
+  parameter, it is `std::forward`ed, and if it is a captured variable, it is
+  moved from whenever the enclosing lambda is an rvalue.
 
-@anchor tutorial-glossary-perfect_capture
-#### `perfect-capture`
-This is used in lambdas to signify that the captured variables are
-initialized using perfect forwarding, as if `[x(forwarded(x))...]() { }`
-had been used.
+  Also note that when `x` can be moved from, the statement `return forwarded(x);`
+  in a function with `decltype(auto)` does not mean that an rvalue reference to
+  `x` will be returned, which would create a dangling reference. Rather, it
+  means that `x` is returned by value, the value being constructed with the
+  `std::forward`ed `x`.
 
-@anchor tutorial-glossary-tag_dispatched
-#### `tag-dispatched`
-This means that the documented function uses [tag dispatching]
-(@ref tutorial-core-tag_dispatching), and hence the exact
-implementation depends on the model of the concept associated
-to the function.
+- @anchor tutorial-glossary-perfect_capture `perfect-capture`
 
-@anchor tutorial-glossary-implementation_defined
-#### `implementation-defined`
-This expresses the fact that the exact implementation of an entity (usually a
-type) should not be relied upon by users. In particular, this means that one
-can not assume anything beyond what is written explicitly in the documentation.
-Usually, the concepts satisfied by an implementation-defined entity will be
-documented, because one could otherwise do nothing with it. Concretely,
-assuming too much about an implementation-defined entity will probably
-not kill you, but it will very probably break your code when you update
-to a newer version of Hana.
+  This is used in lambdas to signify that the captured variables are
+  initialized using perfect forwarding, as if `[x(forwarded(x))...]() { }`
+  had been used.
+
+- @anchor tutorial-glossary-tag_dispatched `tag-dispatched`
+
+  This means that the documented function uses [tag dispatching]
+  (@ref tutorial-core-tag_dispatching), and hence the exact
+  implementation depends on the model of the concept associated
+  to the function.
+
+- @anchor tutorial-glossary-implementation_defined `implementation-defined`
+
+  This expresses the fact that the exact implementation of an entity (usually a
+  type) should not be relied upon by users. In particular, this means that one
+  can not assume anything beyond what is written explicitly in the documentation.
+  Usually, the concepts satisfied by an implementation-defined entity will be
+  documented, because one could otherwise do nothing with it. Concretely,
+  assuming too much about an implementation-defined entity will probably
+  not kill you, but it will very probably break your code when you update
+  to a newer version of Hana.
 
 
 
