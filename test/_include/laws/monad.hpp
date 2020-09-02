@@ -38,7 +38,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs, typename XXs>
         TestMonad(Xs xs, XXs xxs) {
             hana::for_each(xs, [](auto m) {
-                static_assert(Monad<decltype(m)>{}, "");
+                static_assert(Monad<hana::tag_of_t<decltype(m)>>{}, "");
 
                 auto f = hana::compose(lift<M>, test::_injection<0>{});
                 auto g = hana::compose(lift<M>, test::_injection<1>{});

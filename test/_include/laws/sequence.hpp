@@ -62,10 +62,10 @@ namespace boost { namespace hana { namespace test {
             //////////////////////////////////////////////////////////////////
             // Check for Sequence<...>
             //////////////////////////////////////////////////////////////////
-            static_assert(Sequence<decltype(list())>{}, "");
-            static_assert(Sequence<decltype(list(1))>{}, "");
-            static_assert(Sequence<decltype(list(1, '2'))>{}, "");
-            static_assert(Sequence<decltype(list(1, '2', 3.4))>{}, "");
+            static_assert(Sequence<hana::tag_of_t<decltype(list())>>{}, "");
+            static_assert(Sequence<hana::tag_of_t<decltype(list(1))>>{}, "");
+            static_assert(Sequence<hana::tag_of_t<decltype(list(1, '2'))>>{}, "");
+            static_assert(Sequence<hana::tag_of_t<decltype(list(1, '2', 3.4))>>{}, "");
 
             //////////////////////////////////////////////////////////////////
             // Check for basic tag consistency

@@ -26,7 +26,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestGroup(Xs xs) {
             hana::for_each(xs, [](auto x) {
-                static_assert(Group<decltype(x)>{}, "");
+                static_assert(Group<hana::tag_of_t<decltype(x)>>{}, "");
             });
 
 #ifdef BOOST_HANA_WORKAROUND_MSVC_DECLTYPEAUTO_RETURNTYPE_662735

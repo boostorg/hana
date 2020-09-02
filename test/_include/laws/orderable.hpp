@@ -39,7 +39,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestOrderable(Xs xs) {
             hana::for_each(xs, [](auto x) {
-                static_assert(Orderable<decltype(x)>{}, "");
+                static_assert(Orderable<hana::tag_of_t<decltype(x)>>{}, "");
             });
 
             foreach2(xs, [](auto a, auto b) {

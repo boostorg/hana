@@ -60,7 +60,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Foldables>
         TestFoldable(Foldables foldables) {
             hana::for_each(foldables, [](auto xs) {
-                static_assert(Foldable<decltype(xs)>{}, "");
+                static_assert(Foldable<hana::tag_of_t<decltype(xs)>>{}, "");
 
                 _injection<0> f{};
                 ct_eq<999> s{};

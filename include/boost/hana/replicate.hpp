@@ -29,16 +29,17 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename M>
     template <typename X, typename N>
     constexpr auto replicate_t<M>::operator()(X&& x, N const& n) const {
+        using Number = typename hana::tag_of<N>::type;
         using Replicate = BOOST_HANA_DISPATCH_IF(replicate_impl<M>,
             hana::MonadPlus<M>::value &&
-            hana::IntegralConstant<N>::value
+            hana::IntegralConstant<Number>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(hana::MonadPlus<M>::value,
         "hana::replicate<M>(x, n) requires 'M' to be a MonadPlus");
 
-        static_assert(hana::IntegralConstant<N>::value,
+        static_assert(hana::IntegralConstant<Number>::value,
         "hana::replicate<M>(x, n) requires 'n' to be an IntegralConstant");
     #endif
 

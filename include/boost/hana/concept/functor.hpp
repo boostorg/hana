@@ -24,8 +24,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename F>
     struct Functor
         : hana::integral_constant<bool,
-            !is_default<transform_impl<typename tag_of<F>::type>>::value ||
-            !is_default<adjust_if_impl<typename tag_of<F>::type>>::value
+            !is_default<transform_impl<F>>::value ||
+            !is_default<adjust_if_impl<F>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END

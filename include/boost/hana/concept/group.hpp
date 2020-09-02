@@ -24,9 +24,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename G>
     struct Group
         : hana::integral_constant<bool,
-            !is_default<negate_impl<typename tag_of<G>::type>>::value ||
-            !is_default<minus_impl<typename tag_of<G>::type,
-                                   typename tag_of<G>::type>>::value
+            !is_default<negate_impl<G>>::value ||
+            !is_default<minus_impl<G, G>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END

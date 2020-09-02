@@ -25,9 +25,9 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename W>
     struct Comonad
         : hana::integral_constant<bool,
-            !is_default<extract_impl<typename tag_of<W>::type>>::value &&
-                (!is_default<duplicate_impl<typename tag_of<W>::type>>::value ||
-                 !is_default<extend_impl<typename tag_of<W>::type>>::value)
+            !is_default<extract_impl<W>>::value &&
+                (!is_default<duplicate_impl<W>>::value ||
+                 !is_default<extend_impl<W>>::value)
         >
     { };
 BOOST_HANA_NAMESPACE_END

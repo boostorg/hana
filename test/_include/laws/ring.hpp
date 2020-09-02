@@ -40,7 +40,7 @@ namespace boost { namespace hana { namespace test {
 #endif
 
             hana::for_each(xs, hana::capture(xs)([](auto xs, auto x) {
-                static_assert(Ring<decltype(x)>{}, "");
+                static_assert(Ring<hana::tag_of_t<decltype(x)>>{}, "");
 
                 foreach2(xs, hana::capture(x)([](auto x, auto y, auto z) {
                     // associativity

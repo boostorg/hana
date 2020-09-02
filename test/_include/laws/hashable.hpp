@@ -30,7 +30,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Xs>
         TestHashable(Xs xs) {
             hana::for_each(xs, [](auto x) {
-                static_assert(Hashable<decltype(x)>{}, "");
+                static_assert(Hashable<hana::tag_of_t<decltype(x)>>{}, "");
             });
 
             hana::for_each(xs, [&](auto const& x) {

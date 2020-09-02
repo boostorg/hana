@@ -27,16 +27,17 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename Xs, typename N, typename Elements>
     constexpr auto insert_range_t::operator()(Xs&& xs, N&& n, Elements&& elements) const {
         using S = typename hana::tag_of<Xs>::type;
+        using ElementsTag = typename hana::tag_of<Elements>::type;
         using InsertRange = BOOST_HANA_DISPATCH_IF(insert_range_impl<S>,
-            hana::Sequence<Xs>::value &&
-            hana::Foldable<Elements>::value
+            hana::Sequence<S>::value &&
+            hana::Foldable<ElementsTag>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
-        static_assert(hana::Sequence<Xs>::value,
+        static_assert(hana::Sequence<S>::value,
         "hana::insert_range(xs, n, elements) requires 'xs' to be a Sequence");
 
-        static_assert(hana::Foldable<Elements>::value,
+        static_assert(hana::Foldable<ElementsTag>::value,
         "hana::insert_range(xs, n, elements) requires 'elements' to be a Foldable");
     #endif
 

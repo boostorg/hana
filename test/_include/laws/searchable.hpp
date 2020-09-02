@@ -52,7 +52,7 @@ namespace boost { namespace hana { namespace test {
         template <typename Searchables, typename Keys>
         TestSearchable(Searchables searchables, Keys keys) {
             hana::for_each(searchables, [](auto xs) {
-                static_assert(Searchable<decltype(xs)>{}, "");
+                static_assert(Searchable<hana::tag_of_t<decltype(xs)>>{}, "");
             });
 
             auto predicates = hana::concat(

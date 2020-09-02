@@ -157,6 +157,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     // mentionning `F<T...>` in a SFINAE-able context because of CWG 1430
     // (http://www.open-std.org/Jtc1/sc22/wg21/docs/cwg_active.html#1430).
     namespace template_detail {
+        struct template_tag;
+
         template <typename ...T> struct args;
         template <typename ...> using always_void = void;
 
@@ -169,7 +171,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         struct specialization_is_valid<F, args<T...>, always_void<F<T...>>>
             : std::true_type
         { };
-    } // end namespace detail
+    } // end namespace template_detail
 
     template <template <typename ...> class F>
     struct template_t {
@@ -183,11 +185,14 @@ BOOST_HANA_NAMESPACE_BEGIN
         >>
         constexpr auto operator()(T const& ...) const
         { return hana::type<F<typename T::type...>>{}; }
+
+        using hana_tag = template_detail::template_tag;
     };
 
     //////////////////////////////////////////////////////////////////////////
     // metafunction
     //////////////////////////////////////////////////////////////////////////
+    namespace detail { struct metafunction_tag; }
     template <template <typename ...> class F>
     struct metafunction_t {
         template <typename ...T>
@@ -196,12 +201,15 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename ...T>
         constexpr hana::type<typename F<typename T::type...>::type>
         operator()(T const& ...) const { return {}; }
+
+        using hana_tag = detail::metafunction_tag;
     };
 
     //////////////////////////////////////////////////////////////////////////
     // metafunction_class
     //////////////////////////////////////////////////////////////////////////
     namespace detail {
+        struct metafunction_class_tag;
         template <typename F, typename ...T>
         struct always_first { using type = F; };
     }
@@ -213,23 +221,25 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename ...T>
         constexpr hana::type<typename detail::always_first<F, T...>::type::template apply<typename T::type...>::type>
         operator()(T const& ...) const { return {}; }
+
+        using hana_tag = detail::metafunction_class_tag;
     };
 
     //////////////////////////////////////////////////////////////////////////
     // Metafunction
     //////////////////////////////////////////////////////////////////////////
-    template <template <typename ...> class F>
-    struct Metafunction<template_t<F>> {
+    template <>
+    struct Metafunction<template_detail::template_tag> {
         static constexpr bool value = true;
     };
 
-    template <template <typename ...> class F>
-    struct Metafunction<metafunction_t<F>> {
+    template <>
+    struct Metafunction<detail::metafunction_tag> {
         static constexpr bool value = true;
     };
 
-    template <typename F>
-    struct Metafunction<metafunction_class_t<F>> {
+    template <>
+    struct Metafunction<detail::metafunction_class_tag> {
         static constexpr bool value = true;
     };
 

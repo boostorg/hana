@@ -24,7 +24,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename T>
     struct Hashable
         : hana::integral_constant<bool,
-            !is_default<hash_impl<typename tag_of<T>::type>>::value
+            !is_default<hash_impl<T>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END

@@ -24,9 +24,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename R>
     struct Ring
         : hana::integral_constant<bool,
-            !is_default<one_impl<typename tag_of<R>::type>>::value &&
-            !is_default<mult_impl<typename tag_of<R>::type,
-                                  typename tag_of<R>::type>>::value
+            !is_default<one_impl<R>>::value &&
+            !is_default<mult_impl<R, R>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END

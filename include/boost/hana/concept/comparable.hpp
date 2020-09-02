@@ -23,8 +23,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename T>
     struct Comparable
         : hana::integral_constant<bool,
-            !is_default<equal_impl<typename tag_of<T>::type,
-                                   typename tag_of<T>::type>>::value
+            !is_default<equal_impl<T, T>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END

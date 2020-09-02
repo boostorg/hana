@@ -32,7 +32,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     zip_shortest_with_t::operator()(F&& f, Xs&& xs, Ys&& ...ys) const {
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(detail::fast_and<
-            hana::Sequence<Xs>::value, hana::Sequence<Ys>::value...
+            hana::Sequence<typename hana::tag_of<Xs>::type>::value,
+            hana::Sequence<typename hana::tag_of<Ys>::type>::value...
         >::value,
         "hana::zip_shortest_with(f, xs, ys...) requires 'xs' and 'ys...' to be Sequences");
     #endif

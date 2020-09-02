@@ -24,8 +24,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename S>
     struct Searchable
         : hana::integral_constant<bool,
-            !is_default<any_of_impl<typename tag_of<S>::type>>::value &&
-            !is_default<find_if_impl<typename tag_of<S>::type>>::value
+            !is_default<any_of_impl<S>>::value &&
+            !is_default<find_if_impl<S>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END

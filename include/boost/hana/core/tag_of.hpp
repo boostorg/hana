@@ -15,6 +15,8 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/when.hpp>
 
+#include <type_traits>
+
 
 BOOST_HANA_NAMESPACE_BEGIN
     //! @cond
@@ -22,13 +24,16 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct tag_of : tag_of<T, when<true>> { };
     //! @endcond
 
+    template <typename T, bool condition>
+    struct tag_of<T, when<condition>> { struct type; };
+
     namespace core_detail {
         template <typename ...>
         struct is_valid { static constexpr bool value = true; };
     }
 
-    template <typename T, bool condition>
-    struct tag_of<T, when<condition>> {
+    template <typename T>
+    struct tag_of<T, when<std::is_fundamental<T>::value>> {
         using type = T;
     };
 

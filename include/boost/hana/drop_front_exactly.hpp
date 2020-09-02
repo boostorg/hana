@@ -27,16 +27,17 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename Xs, typename N>
     constexpr auto drop_front_exactly_t::operator()(Xs&& xs, N const& n) const {
         using It = typename hana::tag_of<Xs>::type;
+        using Number = typename hana::tag_of<N>::type;
         using DropFrontExactly = BOOST_HANA_DISPATCH_IF(drop_front_exactly_impl<It>,
             hana::Iterable<It>::value &&
-            hana::IntegralConstant<N>::value
+            hana::IntegralConstant<Number>::value
         );
 
     #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
         static_assert(hana::Iterable<It>::value,
         "hana::drop_front_exactly(xs, n) requires 'xs' to be an Iterable");
 
-        static_assert(hana::IntegralConstant<N>::value,
+        static_assert(hana::IntegralConstant<Number>::value,
         "hana::drop_front_exactly(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 

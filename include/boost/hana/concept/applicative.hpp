@@ -24,8 +24,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename A>
     struct Applicative
         : hana::integral_constant<bool,
-            !is_default<ap_impl<typename tag_of<A>::type>>::value &&
-            !is_default<lift_impl<typename tag_of<A>::type>>::value
+            !is_default<ap_impl<A>>::value &&
+            !is_default<lift_impl<A>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END

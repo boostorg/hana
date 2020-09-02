@@ -24,9 +24,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename M>
     struct Monoid
         : hana::integral_constant<bool,
-            !is_default<zero_impl<typename tag_of<M>::type>>::value &&
-            !is_default<plus_impl<typename tag_of<M>::type,
-                                  typename tag_of<M>::type>>::value
+            !is_default<zero_impl<M>>::value &&
+            !is_default<plus_impl<M, M>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END

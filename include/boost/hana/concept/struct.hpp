@@ -23,7 +23,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename S>
     struct Struct
         : hana::integral_constant<bool,
-            !is_default<accessors_impl<typename tag_of<S>::type>>::value
+            !is_default<accessors_impl<S>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END

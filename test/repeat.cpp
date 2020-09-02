@@ -10,15 +10,17 @@ namespace hana = boost::hana;
 
 //////////////////////////////////////////////////////////////////////////////
 // Define a simple model of IntegralConstant for use below
+struct constant_tag;
 template <int i>
 struct constant {
     static constexpr int value = i;
     using value_type = int;
+    using hana_tag = constant_tag;
 };
 
 namespace boost { namespace hana {
-    template <int i>
-    struct IntegralConstant<constant<i>> {
+    template <>
+    struct IntegralConstant<constant_tag> {
         static constexpr bool value = true;
     };
 

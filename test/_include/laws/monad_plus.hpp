@@ -51,7 +51,7 @@ namespace boost { namespace hana { namespace test {
 #endif
 
             hana::for_each(xs, [](auto a) {
-                static_assert(MonadPlus<decltype(a)>{}, "");
+                static_assert(MonadPlus<hana::tag_of_t<decltype(a)>>{}, "");
 
                 // left identity
                 BOOST_HANA_CHECK(hana::equal(

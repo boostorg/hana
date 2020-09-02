@@ -4,6 +4,7 @@
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/concept/metafunction.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/not.hpp>
 #include <boost/hana/type.hpp>
@@ -40,8 +41,8 @@ static_assert(std::is_same<F::apply<x1, x2>::type, f<x1, x2>>{}, "");
 static_assert(std::is_same<F::apply<x1, x2, x3>::type, f<x1, x2, x3>>{}, "");
 
 // Make sure we model the Metafunction concept
-static_assert(hana::Metafunction<decltype(hana::template_<f>)>::value, "");
-static_assert(hana::Metafunction<decltype(hana::template_<f>)&>::value, "");
+static_assert(hana::Metafunction<hana::tag_of_t<decltype(hana::template_<f>)>>::value, "");
+static_assert(hana::Metafunction<hana::tag_of_t<decltype(hana::template_<f>)&>>::value, "");
 
 // Make sure we can use aliases
 template <typename T> using alias = T;

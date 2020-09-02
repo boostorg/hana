@@ -24,8 +24,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename P>
     struct Product
         : hana::integral_constant<bool,
-            !is_default<first_impl<typename tag_of<P>::type>>::value &&
-            !is_default<second_impl<typename tag_of<P>::type>>::value
+            !is_default<first_impl<P>>::value &&
+            !is_default<second_impl<P>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END

@@ -4,6 +4,7 @@
 
 #include <boost/hana/assert.hpp>
 #include <boost/hana/concept/metafunction.hpp>
+#include <boost/hana/core/tag_of.hpp>
 #include <boost/hana/equal.hpp>
 #include <boost/hana/not.hpp>
 #include <boost/hana/type.hpp>
@@ -54,8 +55,8 @@ static_assert(!valid_call(hana::metafunction<no_type>), "");
 static_assert(!valid_call(hana::metafunction<no_type>, hana::type_c<x1>), "");
 
 // Make sure we model the Metafunction concept
-static_assert(hana::Metafunction<decltype(hana::metafunction<f>)>::value, "");
-static_assert(hana::Metafunction<decltype(hana::metafunction<f>)&>::value, "");
+static_assert(hana::Metafunction<hana::tag_of_t<decltype(hana::metafunction<f>)>>::value, "");
+static_assert(hana::Metafunction<hana::tag_of_t<decltype(hana::metafunction<f>)&>>::value, "");
 
 // Make sure metafunction is SFINAE-friendly
 template <typename T> struct not_a_metafunction { };

@@ -26,6 +26,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename Xs, typename N>
     constexpr decltype(auto) at_t::operator()(Xs&& xs, N const& n) const {
         using It = typename hana::tag_of<Xs>::type;
+        using Index = typename hana::tag_of<N>::type;
         using At = BOOST_HANA_DISPATCH_IF(at_impl<It>,
             hana::Iterable<It>::value
         );
@@ -34,7 +35,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         static_assert(hana::Iterable<It>::value,
         "hana::at(xs, n) requires 'xs' to be an Iterable");
 
-        static_assert(hana::IntegralConstant<N>::value,
+        static_assert(hana::IntegralConstant<Index>::value,
         "hana::at(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 

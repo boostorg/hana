@@ -223,7 +223,9 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONSTANT_CHECK_MSG(condition, message)                \
         auto BOOST_HANA_PP_CONCAT(__hana_tmp_, __LINE__) = condition;       \
         static_assert(::boost::hana::Constant<                              \
-            decltype(BOOST_HANA_PP_CONCAT(__hana_tmp_, __LINE__))           \
+            ::boost::hana::tag_of_t<                                        \
+                decltype(BOOST_HANA_PP_CONCAT(__hana_tmp_, __LINE__))       \
+            >                                                               \
         >::value,                                                           \
         "the expression " # condition " does not yield a Constant; "        \
         "use BOOST_HANA_RUNTIME_ASSERT instead");                           \
@@ -253,8 +255,9 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CHECK_MSG(condition, message)                         \
     do {                                                                    \
         auto __hana_tmp = condition;                                        \
+        using __hana_tmp_Tag = ::boost::hana::tag_of_t<decltype(__hana_tmp)>; \
         ::boost::hana::if_(::boost::hana::bool_c<                           \
-            ::boost::hana::Constant<decltype(__hana_tmp)>::value>,          \
+            ::boost::hana::Constant<__hana_tmp_Tag>::value>,                \
             [](auto expr) {                                                 \
                 static_assert(::boost::hana::value<decltype(expr)>(),       \
                 message);                                                   \

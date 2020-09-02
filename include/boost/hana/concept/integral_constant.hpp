@@ -18,24 +18,10 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 BOOST_HANA_NAMESPACE_BEGIN
-    namespace detail {
-        template <typename C, typename Tag = typename tag_of<C>::type>
-        struct integral_constant_dispatch
-            : hana::integral_constant<bool,
-                hana::IntegralConstant<Tag>::value
-            >
-        { };
-
-        template <typename C>
-        struct integral_constant_dispatch<C, C>
-            : hana::integral_constant<bool, false>
-        { };
-    }
-
     //! @cond
     template <typename C>
     struct IntegralConstant
-        : detail::integral_constant_dispatch<C>
+        : hana::integral_constant<bool, false>
     { };
     //! @endcond
 BOOST_HANA_NAMESPACE_END

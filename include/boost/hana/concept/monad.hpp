@@ -24,8 +24,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename M>
     struct Monad
         : hana::integral_constant<bool,
-            !is_default<flatten_impl<typename tag_of<M>::type>>::value ||
-            !is_default<chain_impl<typename tag_of<M>::type>>::value
+            !is_default<flatten_impl<M>>::value ||
+            !is_default<chain_impl<M>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END

@@ -33,6 +33,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename Xs, typename N>
     constexpr auto cycle_t::operator()(Xs&& xs, N const& n) const {
         using M = typename hana::tag_of<Xs>::type;
+        using Number = typename hana::tag_of<N>::type;
         using Cycle = BOOST_HANA_DISPATCH_IF(cycle_impl<M>,
             hana::MonadPlus<M>::value
         );
@@ -41,7 +42,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         static_assert(hana::MonadPlus<M>::value,
         "hana::cycle(xs, n) requires 'xs' to be a MonadPlus");
 
-        static_assert(hana::IntegralConstant<N>::value,
+        static_assert(hana::IntegralConstant<Number>::value,
         "hana::cycle(xs, n) requires 'n' to be an IntegralConstant");
     #endif
 

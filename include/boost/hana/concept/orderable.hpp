@@ -23,8 +23,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename Ord>
     struct Orderable
         : hana::integral_constant<bool,
-            !is_default<less_impl<typename tag_of<Ord>::type,
-                                  typename tag_of<Ord>::type>>::value
+            !is_default<less_impl<Ord, Ord>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END

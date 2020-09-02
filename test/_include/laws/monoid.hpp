@@ -31,7 +31,7 @@ namespace boost { namespace hana { namespace test {
 #endif
 
             hana::for_each(xs, hana::capture(xs)([](auto xs, auto a) {
-                static_assert(Monoid<decltype(a)>{}, "");
+                static_assert(Monoid<hana::tag_of_t<decltype(a)>>{}, "");
 
                 // left identity
                 BOOST_HANA_CHECK(hana::equal(

@@ -24,8 +24,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename M>
     struct MonadPlus
         : hana::integral_constant<bool,
-            !is_default<concat_impl<typename tag_of<M>::type>>::value &&
-            !is_default<empty_impl<typename tag_of<M>::type>>::value
+            !is_default<concat_impl<M>>::value &&
+            !is_default<empty_impl<M>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END

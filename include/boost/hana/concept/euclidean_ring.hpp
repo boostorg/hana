@@ -24,10 +24,8 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename R>
     struct EuclideanRing
         : hana::integral_constant<bool,
-            !is_default<mod_impl<typename tag_of<R>::type,
-                                 typename tag_of<R>::type>>::value &&
-            !is_default<div_impl<typename tag_of<R>::type,
-                                 typename tag_of<R>::type>>::value
+            !is_default<mod_impl<R, R>>::value &&
+            !is_default<div_impl<R, R>>::value
         >
     { };
 BOOST_HANA_NAMESPACE_END
