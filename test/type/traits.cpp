@@ -53,7 +53,9 @@ int main() {
     hana::traits::is_trivial(s);
     hana::traits::is_trivially_copyable(s);
     hana::traits::is_standard_layout(s);
+#if __cplusplus < 202002L
     hana::traits::is_pod(s);
+#endif
     hana::traits::is_literal_type(s);
     hana::traits::is_empty(s);
     hana::traits::is_polymorphic(s);

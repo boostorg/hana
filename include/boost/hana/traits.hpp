@@ -67,7 +67,9 @@ BOOST_HANA_NAMESPACE_BEGIN namespace traits {
     constexpr auto is_trivial = detail::hana_trait<std::is_trivial>{};
     constexpr auto is_trivially_copyable = detail::hana_trait<std::is_trivially_copyable>{};
     constexpr auto is_standard_layout = detail::hana_trait<std::is_standard_layout>{};
+#if __cplusplus < 202002L
     constexpr auto is_pod = detail::hana_trait<std::is_pod>{};
+#endif
     constexpr auto is_literal_type = detail::hana_trait<std::is_literal_type>{};
     constexpr auto is_empty = detail::hana_trait<std::is_empty>{};
     constexpr auto is_polymorphic = detail::hana_trait<std::is_polymorphic>{};
