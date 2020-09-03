@@ -109,7 +109,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(Xs&& xs, Predicate&& pred) const;
     };
 
-    constexpr minimum_t minimum{};
+    BOOST_HANA_INLINE_VARIABLE constexpr minimum_t minimum{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

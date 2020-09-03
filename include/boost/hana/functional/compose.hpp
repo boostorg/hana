@@ -101,7 +101,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
     };
 
-    constexpr _make_compose compose{};
+    BOOST_HANA_INLINE_VARIABLE constexpr _make_compose compose{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

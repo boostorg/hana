@@ -50,7 +50,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(W_&& w) const;
     };
 
-    constexpr duplicate_t duplicate{};
+    BOOST_HANA_INLINE_VARIABLE constexpr duplicate_t duplicate{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

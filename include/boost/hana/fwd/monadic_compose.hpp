@@ -68,7 +68,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(F&& f, G&& g) const;
     };
 
-    constexpr monadic_compose_t monadic_compose{};
+    BOOST_HANA_INLINE_VARIABLE constexpr monadic_compose_t monadic_compose{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

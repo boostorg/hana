@@ -43,7 +43,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct accessors_t;
 
     template <typename S>
-    constexpr accessors_t<S> accessors{};
+    BOOST_HANA_INLINE_VARIABLE constexpr accessors_t<S> accessors{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

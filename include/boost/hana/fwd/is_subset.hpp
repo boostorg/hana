@@ -72,7 +72,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, Ys&& ys) const;
     };
 
-    constexpr auto is_subset = hana::infix(is_subset_t{});
+    BOOST_HANA_INLINE_VARIABLE constexpr auto is_subset = hana::infix(is_subset_t{});
 #endif
 BOOST_HANA_NAMESPACE_END
 

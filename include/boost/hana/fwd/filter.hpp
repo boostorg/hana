@@ -74,7 +74,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, Pred&& pred) const;
     };
 
-    constexpr filter_t filter{};
+    BOOST_HANA_INLINE_VARIABLE constexpr filter_t filter{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

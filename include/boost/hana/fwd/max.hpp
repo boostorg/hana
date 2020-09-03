@@ -37,7 +37,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(X&& x, Y&& y) const;
     };
 
-    constexpr max_t max{};
+    BOOST_HANA_INLINE_VARIABLE constexpr max_t max{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

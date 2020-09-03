@@ -104,6 +104,15 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONSTEXPR_LAMBDA /* nothing */
 #endif
 
+// `BOOST_HANA_INLINE_VARIABLE` expands to `inline` when C++17 inline variables
+// are supported, and to nothing otherwise. This allows marking global variables
+// defined in a header as `inline` to avoid potential ODR violations.
+#if defined(__cplusplus) && __cplusplus > 201402L
+#   define BOOST_HANA_INLINE_VARIABLE inline
+#else
+#   define BOOST_HANA_INLINE_VARIABLE /* nothing */
+#endif
+
 //////////////////////////////////////////////////////////////////////////////
 // Namespace macros
 //////////////////////////////////////////////////////////////////////////////

@@ -43,7 +43,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct is_a_t;
 
     template <typename Tag, typename ...T>
-    constexpr is_a_t<Tag, T...> is_a{};
+    BOOST_HANA_INLINE_VARIABLE constexpr is_a_t<Tag, T...> is_a{};
 #endif
 
     //! @ingroup group-core
@@ -54,7 +54,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr auto is_an = is_a<Tag, T...>;
 #else
     template <typename Tag, typename ...T>
-    constexpr is_a_t<Tag, T...> is_an{};
+    BOOST_HANA_INLINE_VARIABLE constexpr is_a_t<Tag, T...> is_an{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

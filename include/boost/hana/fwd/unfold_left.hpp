@@ -78,7 +78,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct unfold_left_t;
 
     template <typename S>
-    constexpr unfold_left_t<S> unfold_left{};
+    BOOST_HANA_INLINE_VARIABLE constexpr unfold_left_t<S> unfold_left{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

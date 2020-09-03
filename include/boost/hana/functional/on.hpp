@@ -76,7 +76,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
     };
 
-    constexpr auto on = infix(detail::create<on_t>{});
+    BOOST_HANA_INLINE_VARIABLE constexpr auto on = infix(detail::create<on_t>{});
 #endif
 BOOST_HANA_NAMESPACE_END
 

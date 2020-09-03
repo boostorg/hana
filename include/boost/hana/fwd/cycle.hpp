@@ -69,7 +69,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, N const& n) const;
     };
 
-    constexpr cycle_t cycle{};
+    BOOST_HANA_INLINE_VARIABLE constexpr cycle_t cycle{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

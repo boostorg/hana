@@ -49,7 +49,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, Pred&& pred) const;
     };
 
-    constexpr take_while_t take_while{};
+    BOOST_HANA_INLINE_VARIABLE constexpr take_while_t take_while{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

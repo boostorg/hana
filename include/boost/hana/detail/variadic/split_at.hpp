@@ -147,7 +147,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail { namespace variadic {
     };
 
     template <std::size_t n>
-    constexpr _makesplit_at_t<n> split_at{};
+    BOOST_HANA_INLINE_VARIABLE constexpr _makesplit_at_t<n> split_at{};
 }} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_SPLIT_AT_HPP

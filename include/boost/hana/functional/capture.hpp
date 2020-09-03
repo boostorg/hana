@@ -105,7 +105,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
     };
 
-    constexpr make_capture_t capture{};
+    BOOST_HANA_INLINE_VARIABLE constexpr make_capture_t capture{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

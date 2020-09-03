@@ -34,7 +34,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail { namespace variadic {
     };
 
     template <std::size_t n>
-    constexpr at_type<n> at{};
+    BOOST_HANA_INLINE_VARIABLE constexpr at_type<n> at{};
 }} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_AT_HPP

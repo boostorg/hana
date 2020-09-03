@@ -60,7 +60,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const;
     };
 
-    constexpr chain_t chain{};
+    BOOST_HANA_INLINE_VARIABLE constexpr chain_t chain{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

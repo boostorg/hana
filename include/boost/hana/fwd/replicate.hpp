@@ -71,7 +71,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename M>
-    constexpr replicate_t<M> replicate{};
+    BOOST_HANA_INLINE_VARIABLE constexpr replicate_t<M> replicate{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

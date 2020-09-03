@@ -36,7 +36,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! -------
     //! @snippet example/integral_constant.cpp integral_c
     template <typename T, T v>
-    constexpr integral_constant<T, v> integral_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr integral_constant<T, v> integral_c{};
 
 
     //! @relates hana::integral_constant
@@ -45,19 +45,19 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! @relates hana::integral_constant
     template <bool b>
-    constexpr bool_<b> bool_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr bool_<b> bool_c{};
 
     //! @relates hana::integral_constant
     using true_ = bool_<true>;
 
     //! @relates hana::integral_constant
-    constexpr auto true_c = bool_c<true>;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto true_c = bool_c<true>;
 
     //! @relates hana::integral_constant
     using false_ = bool_<false>;
 
     //! @relates hana::integral_constant
-    constexpr auto false_c = bool_c<false>;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto false_c = bool_c<false>;
 
 
     //! @relates hana::integral_constant
@@ -66,7 +66,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! @relates hana::integral_constant
     template <char c>
-    constexpr char_<c> char_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr char_<c> char_c{};
 
 
     //! @relates hana::integral_constant
@@ -75,7 +75,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! @relates hana::integral_constant
     template <short i>
-    constexpr short_<i> short_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr short_<i> short_c{};
 
 
     //! @relates hana::integral_constant
@@ -84,7 +84,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! @relates hana::integral_constant
     template <unsigned short i>
-    constexpr ushort_<i> ushort_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr ushort_<i> ushort_c{};
 
 
     //! @relates hana::integral_constant
@@ -93,7 +93,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! @relates hana::integral_constant
     template <int i>
-    constexpr int_<i> int_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr int_<i> int_c{};
 
 
     //! @relates hana::integral_constant
@@ -102,7 +102,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! @relates hana::integral_constant
     template <unsigned int i>
-    constexpr uint<i> uint_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr uint<i> uint_c{};
 
 
     //! @relates hana::integral_constant
@@ -111,7 +111,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! @relates hana::integral_constant
     template <long i>
-    constexpr long_<i> long_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr long_<i> long_c{};
 
 
     //! @relates hana::integral_constant
@@ -120,7 +120,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! @relates hana::integral_constant
     template <unsigned long i>
-    constexpr ulong<i> ulong_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr ulong<i> ulong_c{};
 
 
     //! @relates hana::integral_constant
@@ -129,7 +129,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! @relates hana::integral_constant
     template <long long i>
-    constexpr llong<i> llong_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr llong<i> llong_c{};
 
 
     //! @relates hana::integral_constant
@@ -138,7 +138,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! @relates hana::integral_constant
     template <unsigned long long i>
-    constexpr ullong<i> ullong_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr ullong<i> ullong_c{};
 
 
     //! @relates hana::integral_constant
@@ -147,7 +147,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! @relates hana::integral_constant
     template <std::size_t i>
-    constexpr size_t<i> size_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr size_t<i> size_c{};
 
 
     namespace literals {

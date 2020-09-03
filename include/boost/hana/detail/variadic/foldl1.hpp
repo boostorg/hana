@@ -207,8 +207,8 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail { namespace variadic {
         }
     };
 
-    constexpr foldl1_t foldl1{};
-    constexpr auto foldl = foldl1;
+    BOOST_HANA_INLINE_VARIABLE constexpr foldl1_t foldl1{};
+    BOOST_HANA_INLINE_VARIABLE constexpr auto foldl = foldl1;
 }} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_FOLDL1_HPP

@@ -80,8 +80,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail { namespace variadic {
         }
     };
 
-    constexpr reverse_apply_unrolled_impl reverse_apply_unrolled{};
-
+    BOOST_HANA_INLINE_VARIABLE constexpr reverse_apply_unrolled_impl reverse_apply_unrolled{};
 }} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_REVERSE_APPLY_UNROLLED_HPP

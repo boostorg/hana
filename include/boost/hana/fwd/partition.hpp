@@ -74,7 +74,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, Pred&& pred) const;
     };
 
-    constexpr partition_t partition{};
+    BOOST_HANA_INLINE_VARIABLE constexpr partition_t partition{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

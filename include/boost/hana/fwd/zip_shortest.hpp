@@ -54,7 +54,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, Ys&& ...ys) const;
     };
 
-    constexpr zip_shortest_t zip_shortest{};
+    BOOST_HANA_INLINE_VARIABLE constexpr zip_shortest_t zip_shortest{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

@@ -98,7 +98,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, F const& f) const;
     };
 
-    constexpr scan_left_t scan_left{};
+    BOOST_HANA_INLINE_VARIABLE constexpr scan_left_t scan_left{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

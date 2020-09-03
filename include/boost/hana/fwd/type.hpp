@@ -125,7 +125,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Creates an object representing the C++ type `T`.
     //! @relates hana::type
     template <typename T>
-    constexpr type<T> type_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr type<T> type_c{};
 
     //! `decltype` keyword, lifted to Hana.
     //! @relates hana::type
@@ -194,7 +194,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(T&&) const;
     };
 
-    constexpr decltype_t decltype_{};
+    BOOST_HANA_INLINE_VARIABLE constexpr decltype_t decltype_{};
 #endif
 
     //! Returns a `hana::type` representing the type of a given object.
@@ -237,7 +237,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(T&&) const;
     };
 
-    constexpr typeid_t typeid_{};
+    BOOST_HANA_INLINE_VARIABLE constexpr typeid_t typeid_{};
 #endif
 
 #ifdef BOOST_HANA_DOXYGEN_INVOKED
@@ -259,7 +259,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example
     //! -------
     //! @include example/type/make.cpp
-    constexpr auto make_type = hana::make<type_tag>;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto make_type = hana::make<type_tag>;
 
     //! `sizeof` keyword, lifted to Hana.
     //! @relates hana::type
@@ -297,7 +297,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(T&&) const;
     };
 
-    constexpr sizeof_t sizeof_{};
+    BOOST_HANA_INLINE_VARIABLE constexpr sizeof_t sizeof_{};
 #endif
 
     //! `alignof` keyword, lifted to Hana.
@@ -333,7 +333,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(T&&) const;
     };
 
-    constexpr alignof_t alignof_{};
+    BOOST_HANA_INLINE_VARIABLE constexpr alignof_t alignof_{};
 #endif
 
     //! Checks whether a SFINAE-friendly expression is valid.
@@ -380,7 +380,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(F&&, Args&&...) const;
     };
 
-    constexpr is_valid_t is_valid{};
+    BOOST_HANA_INLINE_VARIABLE constexpr is_valid_t is_valid{};
 #endif
 
     //! Lift a template to a Metafunction.
@@ -411,7 +411,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct template_t;
 
     template <template <typename ...> class F>
-    constexpr template_t<F> template_{};
+    BOOST_HANA_INLINE_VARIABLE constexpr template_t<F> template_{};
 #endif
 
     //! Lift a MPL-style metafunction to a Metafunction.
@@ -442,7 +442,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct metafunction_t;
 
     template <template <typename ...> class f>
-    constexpr metafunction_t<f> metafunction{};
+    BOOST_HANA_INLINE_VARIABLE constexpr metafunction_t<f> metafunction{};
 #endif
 
     //! Lift a MPL-style metafunction class to a Metafunction.
@@ -473,7 +473,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct metafunction_class_t;
 
     template <typename F>
-    constexpr metafunction_class_t<F> metafunction_class{};
+    BOOST_HANA_INLINE_VARIABLE constexpr metafunction_class_t<F> metafunction_class{};
 #endif
 
     //! Turn a `Metafunction` into a function taking `type`s and returning a
@@ -525,7 +525,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         { return {}; }
     };
 
-    constexpr make_integral_t integral{};
+    BOOST_HANA_INLINE_VARIABLE constexpr make_integral_t integral{};
 #endif
 
     //! Alias to `integral(metafunction<F>)`, provided for convenience.
@@ -536,7 +536,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! -------
     //! @include example/type/trait.cpp
     template <template <typename ...> class F>
-    constexpr auto trait = hana::integral(hana::metafunction<F>);
+    BOOST_HANA_INLINE_VARIABLE constexpr auto trait = hana::integral(hana::metafunction<F>);
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_TYPE_HPP

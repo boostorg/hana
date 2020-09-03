@@ -262,7 +262,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
     };
 
-    constexpr make_pre_demux_t demux{};
+    BOOST_HANA_INLINE_VARIABLE constexpr make_pre_demux_t demux{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

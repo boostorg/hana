@@ -152,7 +152,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example
     //! -------
     //! @include example/pair/make.cpp
-    constexpr auto make_pair = make<pair_tag>;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto make_pair = make<pair_tag>;
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_PAIR_HPP

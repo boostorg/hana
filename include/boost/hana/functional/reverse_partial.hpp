@@ -96,7 +96,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
     };
 
-    constexpr make_reverse_partial_t reverse_partial{};
+    BOOST_HANA_INLINE_VARIABLE constexpr make_reverse_partial_t reverse_partial{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

@@ -103,7 +103,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename M>
-    constexpr monadic_fold_left_t<M> monadic_fold_left{};
+    BOOST_HANA_INLINE_VARIABLE constexpr monadic_fold_left_t<M> monadic_fold_left{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

@@ -93,7 +93,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         { return hana::value<T>(); }
     };
 
-    constexpr value_of_t value_of{};
+    BOOST_HANA_INLINE_VARIABLE constexpr value_of_t value_of{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

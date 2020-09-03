@@ -58,7 +58,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(F&& f) const;
     };
 
-    constexpr ordering_t ordering{};
+    BOOST_HANA_INLINE_VARIABLE constexpr ordering_t ordering{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

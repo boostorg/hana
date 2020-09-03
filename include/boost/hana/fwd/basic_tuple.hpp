@@ -64,7 +64,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example
     //! -------
     //! @include example/basic_tuple/make.cpp
-    constexpr auto make_basic_tuple = make<basic_tuple_tag>;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto make_basic_tuple = make<basic_tuple_tag>;
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_BASIC_TUPLE_HPP

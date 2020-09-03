@@ -84,7 +84,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, Predicate&& predicate) const;
     };
 
-    constexpr unique_t unique{};
+    BOOST_HANA_INLINE_VARIABLE constexpr unique_t unique{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

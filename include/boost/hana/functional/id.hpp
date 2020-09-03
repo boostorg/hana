@@ -31,7 +31,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
     };
 
-    constexpr id_t id{};
+    BOOST_HANA_INLINE_VARIABLE constexpr id_t id{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

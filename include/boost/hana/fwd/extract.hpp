@@ -51,7 +51,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(W_&& w) const;
     };
 
-    constexpr extract_t extract{};
+    BOOST_HANA_INLINE_VARIABLE constexpr extract_t extract{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

@@ -39,7 +39,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs) const;
     };
 
-    constexpr any_t any{};
+    BOOST_HANA_INLINE_VARIABLE constexpr any_t any{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

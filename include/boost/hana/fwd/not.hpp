@@ -40,7 +40,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(X&& x) const;
     };
 
-    constexpr not_t not_{};
+    BOOST_HANA_INLINE_VARIABLE constexpr not_t not_{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

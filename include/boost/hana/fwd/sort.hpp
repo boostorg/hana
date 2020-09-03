@@ -96,7 +96,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, Predicate&& pred) const;
     };
 
-    constexpr sort_t sort{};
+    BOOST_HANA_INLINE_VARIABLE constexpr sort_t sort{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

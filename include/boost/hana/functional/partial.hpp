@@ -98,7 +98,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
     };
 
-    constexpr make_partial_t partial{};
+    BOOST_HANA_INLINE_VARIABLE constexpr make_partial_t partial{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

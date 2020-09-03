@@ -61,7 +61,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(X const& x) const;
     };
 
-    constexpr hash_t hash{};
+    BOOST_HANA_INLINE_VARIABLE constexpr hash_t hash{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

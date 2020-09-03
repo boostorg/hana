@@ -256,7 +256,7 @@ BOOST_HANA_NAMESPACE_BEGIN
 #undef BOOST_HANA_BINARY_PLACEHOLDER_OP
     } // end namespace placeholder_detail
 
-    constexpr placeholder_detail::placeholder _{};
+    BOOST_HANA_INLINE_VARIABLE constexpr placeholder_detail::placeholder _{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

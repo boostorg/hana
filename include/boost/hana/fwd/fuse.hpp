@@ -48,7 +48,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(F&& f) const;
     };
 
-    constexpr fuse_t fuse{};
+    BOOST_HANA_INLINE_VARIABLE constexpr fuse_t fuse{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

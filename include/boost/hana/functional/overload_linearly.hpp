@@ -103,7 +103,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
     };
 
-    constexpr make_overload_linearly_t overload_linearly{};
+    BOOST_HANA_INLINE_VARIABLE constexpr make_overload_linearly_t overload_linearly{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

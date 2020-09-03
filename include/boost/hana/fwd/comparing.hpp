@@ -58,7 +58,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(F&& f) const;
     };
 
-    constexpr comparing_t comparing{};
+    BOOST_HANA_INLINE_VARIABLE constexpr comparing_t comparing{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

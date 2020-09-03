@@ -43,7 +43,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, Ys&& ys) const;
     };
 
-    constexpr is_disjoint_t is_disjoint{};
+    BOOST_HANA_INLINE_VARIABLE constexpr is_disjoint_t is_disjoint{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

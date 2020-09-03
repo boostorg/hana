@@ -60,7 +60,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(Xs&& xs, Key const& key) const;
     };
 
-    constexpr at_key_t at_key{};
+    BOOST_HANA_INLINE_VARIABLE constexpr at_key_t at_key{};
 #endif
 BOOST_HANA_NAMESPACE_END
 
