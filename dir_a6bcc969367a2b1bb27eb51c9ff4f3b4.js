@@ -1,9 +1,5 @@
 var dir_a6bcc969367a2b1bb27eb51c9ff4f3b4 =
 [
-    [ "<tt>forwarded(x)</tt>", "index.html#autotoc_md443", null ],
-    [ "<tt>perfect-capture</tt>", "index.html#autotoc_md444", null ],
-    [ "<tt>tag-dispatched</tt>", "index.html#autotoc_md445", null ],
-    [ "<tt>implementation-defined</tt>", "index.html#autotoc_md446", null ],
     [ "applicative.hpp", "concept_2applicative_8hpp.html", null ],
     [ "comonad.hpp", "concept_2comonad_8hpp.html", null ],
     [ "comparable.hpp", "concept_2comparable_8hpp.html", null ],

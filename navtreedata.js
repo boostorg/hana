@@ -133,8 +133,8 @@ var NAVTREEINDEX =
 "accessors_8hpp.html",
 "fwd_2cycle_8hpp.html",
 "group__group-_iterable.html#ga5332fd1dd82edf08379958ba21d57a87",
-"index.html#tutorial-installation-requirements",
-"structboost_1_1hana_1_1pair.html#a22bef1b2c14cf393a3a9cb1924d8c8ff"
+"index.html#tutorial-integral-distance",
+"structboost_1_1hana_1_1pair.html#a962bff38110b5c39b1267fc88851198d"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

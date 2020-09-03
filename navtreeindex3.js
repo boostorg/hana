@@ -1,9 +1,5 @@
 var NAVTREEINDEX3 =
 {
-"index.html#tutorial-installation-requirements":[0,1,1],
-"index.html#tutorial-integral":[0,7],
-"index.html#tutorial-integral-arithmetic":[0,7,0],
-"index.html#tutorial-integral-branching":[0,7,2],
 "index.html#tutorial-integral-distance":[0,7,1],
 "index.html#tutorial-integral-more":[0,7,3],
 "index.html#tutorial-introduction":[0,3],
@@ -249,5 +245,9 @@ var NAVTREEINDEX3 =
 "structboost_1_1hana_1_1optional.html#af1105a435d6435a2437cb5dc162ba463":[1,1,4,1],
 "structboost_1_1hana_1_1optional.html#af19873df9190014c0dd09781c210becc":[1,1,4,8],
 "structboost_1_1hana_1_1pair.html":[1,1,5],
-"structboost_1_1hana_1_1pair.html#a1bc322b45af2148a413ba45ee8097045":[1,1,5,1]
+"structboost_1_1hana_1_1pair.html#a1bc322b45af2148a413ba45ee8097045":[1,1,5,1],
+"structboost_1_1hana_1_1pair.html#a22bef1b2c14cf393a3a9cb1924d8c8ff":[1,1,5,2],
+"structboost_1_1hana_1_1pair.html#a3f1a25445fa5380a78bdf524b764e1c7":[1,1,5,9],
+"structboost_1_1hana_1_1pair.html#a4ecea0deb4c00ae2eb0b0713ee0645e9":[1,1,5,3],
+"structboost_1_1hana_1_1pair.html#a65b9400772e651101ae83d7f9f7ba84d":[1,1,5,5]
 };

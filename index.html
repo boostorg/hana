@@ -62,7 +62,7 @@ MathJax.Hub.Config({
   <td id="projectlogo"><img alt="Logo" src="Boost.png"/></td>
   <td style="padding-left: 0.5em;">
    <div id="projectname">Boost.Hana
-   &#160;<span id="projectnumber">1.6.1</span>
+   &#160;<span id="projectnumber">1.7.0</span>
    </div>
    <div id="projectbrief">Your standard library for metaprogramming</div>
   </td>
@@ -205,14 +205,7 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </ul>
 </li>
 <li class="level1"><a href="#tutorial-acknowledgements">Acknowledgements</a></li>
-<li class="level1"><a href="#tutorial-glossary">Glossary</a><ul><ul><ul><li class="level4"><a href="#autotoc_md443">&lt;tt&gt;forwarded(x)&lt;/tt&gt;</a></li>
-<li class="level4"><a href="#autotoc_md444">&lt;tt&gt;perfect-capture&lt;/tt&gt;</a></li>
-<li class="level4"><a href="#autotoc_md445">&lt;tt&gt;tag-dispatched&lt;/tt&gt;</a></li>
-<li class="level4"><a href="#autotoc_md446">&lt;tt&gt;implementation-defined&lt;/tt&gt;</a></li>
-</ul>
-</ul>
-</ul>
-</li>
+<li class="level1"><a href="#tutorial-glossary">Glossary</a></li>
 <li class="level1"><a href="#tutorial-rationales">Rationales/FAQ</a><ul><li class="level2"><a href="#tutorial-rationales-dependencies">Why restrict usage of external dependencies?</a></li>
 <li class="level2"><a href="#tutorial-rationales-iterators">Why no iterators?</a></li>
 <li class="level2"><a href="#tutorial-rationales-container_representation">Why leave some container&#39;s representation implementation-defined?</a></li>
@@ -2221,23 +2214,21 @@ Acknowledgements</h1>
 Glossary</h1>
 <hr  />
 <p> The reference documentation uses a couple of terms that are specific to this library. Also, a simplified implementation of functions is sometimes provided in pseudo-code, the actual implementation sometimes being slightly hard to understand. This section defines terms used in the reference and in the pseudo-code used to describe some functions.</p>
-<p><a class="anchor" id="tutorial-glossary-forwarded"></a></p>
-<h4><a class="anchor" id="autotoc_md443"></a>
-&lt;tt&gt;forwarded(x)&lt;/tt&gt;</h4>
-<p>Means that the object is forwarded optimally. This means that if <code>x</code> is a parameter, it is <code>std::forward</code>ed, and if it is a captured variable, it is moved from whenever the enclosing lambda is an rvalue.</p>
-<p>Also note that when <code>x</code> can be moved from, the statement <code>return forwarded(x);</code> in a function with <code>decltype(auto)</code> does not mean that an rvalue reference to <code>x</code> will be returned, which would create a dangling reference. Rather, it means that <code>x</code> is returned by value, the value being constructed with the <code>std::forward</code>ed <code>x</code>.</p>
-<p><a class="anchor" id="tutorial-glossary-perfect_capture"></a></p>
-<h4><a class="anchor" id="autotoc_md444"></a>
-&lt;tt&gt;perfect-capture&lt;/tt&gt;</h4>
-<p>This is used in lambdas to signify that the captured variables are initialized using perfect forwarding, as if <code>[x(forwarded(x))...]() { }</code> had been used.</p>
-<p><a class="anchor" id="tutorial-glossary-tag_dispatched"></a></p>
-<h4><a class="anchor" id="autotoc_md445"></a>
-&lt;tt&gt;tag-dispatched&lt;/tt&gt;</h4>
-<p>This means that the documented function uses <a class="el" href="index.html#tutorial-core-tag_dispatching">tag dispatching</a>, and hence the exact implementation depends on the model of the concept associated to the function.</p>
-<p><a class="anchor" id="tutorial-glossary-implementation_defined"></a></p>
-<h4><a class="anchor" id="autotoc_md446"></a>
-&lt;tt&gt;implementation-defined&lt;/tt&gt;</h4>
-<p>This expresses the fact that the exact implementation of an entity (usually a type) should not be relied upon by users. In particular, this means that one can not assume anything beyond what is written explicitly in the documentation. Usually, the concepts satisfied by an implementation-defined entity will be documented, because one could otherwise do nothing with it. Concretely, assuming too much about an implementation-defined entity will probably not kill you, but it will very probably break your code when you update to a newer version of Hana.</p>
+<ul>
+<li><p class="startli"><a class="anchor" id="tutorial-glossary-forwarded"></a><code>forwarded(x)</code></p>
+<p class="startli">Means that the object is forwarded optimally. This means that if <code>x</code> is a parameter, it is <code>std::forward</code>ed, and if it is a captured variable, it is moved from whenever the enclosing lambda is an rvalue.</p>
+<p class="startli">Also note that when <code>x</code> can be moved from, the statement <code>return forwarded(x);</code> in a function with <code>decltype(auto)</code> does not mean that an rvalue reference to <code>x</code> will be returned, which would create a dangling reference. Rather, it means that <code>x</code> is returned by value, the value being constructed with the <code>std::forward</code>ed <code>x</code>.</p>
+</li>
+<li><p class="startli"><a class="anchor" id="tutorial-glossary-perfect_capture"></a><code>perfect-capture</code></p>
+<p class="startli">This is used in lambdas to signify that the captured variables are initialized using perfect forwarding, as if <code>[x(forwarded(x))...]() { }</code> had been used.</p>
+</li>
+<li><p class="startli"><a class="anchor" id="tutorial-glossary-tag_dispatched"></a><code>tag-dispatched</code></p>
+<p class="startli">This means that the documented function uses <a class="el" href="index.html#tutorial-core-tag_dispatching">tag dispatching</a>, and hence the exact implementation depends on the model of the concept associated to the function.</p>
+</li>
+<li><p class="startli"><a class="anchor" id="tutorial-glossary-implementation_defined"></a><code>implementation-defined</code></p>
+<p class="startli">This expresses the fact that the exact implementation of an entity (usually a type) should not be relied upon by users. In particular, this means that one can not assume anything beyond what is written explicitly in the documentation. Usually, the concepts satisfied by an implementation-defined entity will be documented, because one could otherwise do nothing with it. Concretely, assuming too much about an implementation-defined entity will probably not kill you, but it will very probably break your code when you update to a newer version of Hana.</p>
+</li>
+</ul>
 <h1><a class="anchor" id="tutorial-rationales"></a>
 Rationales/FAQ</h1>
 <hr  />
