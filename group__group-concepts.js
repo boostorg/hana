@@ -1,14 +1,14 @@
 var group__group_concepts =
 [
     [ "Applicative", "group__group-_applicative.html", "group__group-_applicative" ],
-    [ "Comonad", "group__group-_comonad.html", null ],
+    [ "Comonad", "group__group-_comonad.html", "group__group-_comonad" ],
     [ "Comparable", "group__group-_comparable.html", "group__group-_comparable" ],
     [ "Constant", "group__group-_constant.html", "group__group-_constant" ],
     [ "Euclidean Ring", "group__group-_euclidean_ring.html", "group__group-_euclidean_ring" ],
     [ "Foldable", "group__group-_foldable.html", "group__group-_foldable" ],
-    [ "Functor", "group__group-_functor.html", null ],
+    [ "Functor", "group__group-_functor.html", "group__group-_functor" ],
     [ "Group", "group__group-_group.html", "group__group-_group" ],
-    [ "Hashable", "group__group-_hashable.html", null ],
+    [ "Hashable", "group__group-_hashable.html", "group__group-_hashable" ],
     [ "Iterable", "group__group-_iterable.html", "group__group-_iterable" ],
     [ "Logical", "group__group-_logical.html", "group__group-_logical" ],
     [ "Metafunction", "group__group-_metafunction.html", "group__group-_metafunction" ],

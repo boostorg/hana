@@ -1,5 +1,5 @@
 var group__group__applicative =
 [
-    [ "A", "group__group-_applicative.html#ga4b7188568b24c715ec8e43595de6844d", null ],
+    [ "ap", "group__group-_applicative.html#ga6176a32953dbbdee96e3ab3c73e4c890", null ],
     [ "lift", "group__group-_applicative.html#ga712038d7abbc7159f8792788f7cd0c73", null ]
 ];

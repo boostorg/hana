@@ -1,5 +1,22 @@
 var searchData=
 [
-  ['union_5f_1151',['union_',['../structboost_1_1hana_1_1map.html#acd511f2c01f38405bfba0b6d5b2922e8',1,'boost::hana::map::union_()'],['../structboost_1_1hana_1_1set.html#acd511f2c01f38405bfba0b6d5b2922e8',1,'boost::hana::set::union_()']]],
-  ['unpack_1152',['unpack',['../group__group-_foldable.html#ga7b0c23944364ce61136e10b978ae2170',1,'boost::hana']]]
+  ['take_5fback_1195',['take_back',['../group__group-_sequence.html#ga8d302de01b94b4b17f3bd81e09f42920',1,'boost::hana']]],
+  ['take_5fback_5fc_1196',['take_back_c',['../group__group-_sequence.html#gaa4d4818952083e3b27c83b0ed645e322',1,'boost::hana']]],
+  ['take_5ffront_1197',['take_front',['../group__group-_sequence.html#ga5112e6070d29b4f7fde3f44825da3316',1,'boost::hana']]],
+  ['take_5ffront_5fc_1198',['take_front_c',['../group__group-_sequence.html#ga3779f62fea92af00113a9290f1c680eb',1,'boost::hana']]],
+  ['take_5fwhile_1199',['take_while',['../group__group-_sequence.html#ga2d4db4ec5ec5bc16fe74f57de12697fd',1,'boost::hana']]],
+  ['tap_1200',['tap',['../group__group-_monad.html#ga5e0735de01a24f681c55aedfeb6d13bf',1,'boost::hana']]],
+  ['template_5f_1201',['template_',['../group__group-_metafunction.html#ga246419f6c3263b648412f346106e6543',1,'boost::hana']]],
+  ['then_1202',['then',['../group__group-_monad.html#gaaddd3789de43cf989babb10cdc0b447a',1,'boost::hana']]],
+  ['to_1203',['to',['../group__group-core.html#gadc70755c1d059139297814fb3bfeb91e',1,'boost::hana']]],
+  ['to_5fmap_1204',['to_map',['../structboost_1_1hana_1_1map.html#a4feb32bd0a065a0732908716d4855b57',1,'boost::hana::map']]],
+  ['to_5fset_1205',['to_set',['../structboost_1_1hana_1_1set.html#accbea694d32b341e860dac724c0c6933',1,'boost::hana::set']]],
+  ['to_5fstring_1206',['to_string',['../structboost_1_1hana_1_1string.html#aa3fb479070239c86673c624a21a845b6',1,'boost::hana::string']]],
+  ['to_5ftuple_1207',['to_tuple',['../structboost_1_1hana_1_1tuple.html#a749b564c8f115957837761d75191beac',1,'boost::hana::tuple']]],
+  ['trait_1208',['trait',['../group__group-_metafunction.html#ga6d4093318f46472e62f9539a4dc998a9',1,'boost::hana']]],
+  ['transform_1209',['transform',['../group__group-_functor.html#ga5a8975f6e55375d5b6038a9c36ee63e7',1,'boost::hana']]],
+  ['tuple_5fc_1210',['tuple_c',['../structboost_1_1hana_1_1tuple.html#a85c2f16caa2a1e12eefd1b3f69fa658e',1,'boost::hana::tuple']]],
+  ['tuple_5ft_1211',['tuple_t',['../structboost_1_1hana_1_1tuple.html#a1997546daf58a48cc15498d338a03da3',1,'boost::hana::tuple']]],
+  ['type_5fc_1212',['type_c',['../structboost_1_1hana_1_1type.html#ae35139e732c4b75e91061513cf445628',1,'boost::hana::type']]],
+  ['typeid_5f_1213',['typeid_',['../structboost_1_1hana_1_1type.html#a0ade557ac4240552c92bf47c7e04dfd4',1,'boost::hana::type']]]
 ];
