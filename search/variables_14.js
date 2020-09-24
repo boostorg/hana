@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['unfold_5fleft_1214',['unfold_left',['../group__group-_sequence.html#gaf2128be91ad6d32e45db1b8c61f79818',1,'boost::hana']]],
-  ['unfold_5fright_1215',['unfold_right',['../group__group-_sequence.html#ga497286bf277e6f8e89ddb18661e1033e',1,'boost::hana']]],
-  ['union_5f_1216',['union_',['../structboost_1_1hana_1_1map.html#acd511f2c01f38405bfba0b6d5b2922e8',1,'boost::hana::map::union_()'],['../structboost_1_1hana_1_1set.html#acd511f2c01f38405bfba0b6d5b2922e8',1,'boost::hana::set::union_()']]],
-  ['unique_1217',['unique',['../group__group-_sequence.html#ga35349be79e646c4f5bdd74ec96a846ab',1,'boost::hana']]],
-  ['unpack_1218',['unpack',['../group__group-_foldable.html#ga7b0c23944364ce61136e10b978ae2170',1,'boost::hana']]]
+  ['value_1153',['value',['../group__group-_constant.html#ga1687520692a6b0c49e3a69de2980f388',1,'boost::hana']]],
+  ['value_5fof_1154',['value_of',['../group__group-_constant.html#gab46a092deeb205f2c92c335d4312a991',1,'boost::hana']]],
+  ['values_1155',['values',['../structboost_1_1hana_1_1map.html#a2e016a68e3ec6eb25868fadb7ce80132',1,'boost::hana::map']]]
 ];

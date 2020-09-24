@@ -8,6 +8,5 @@ var group__group__iterable =
     [ "drop_while", "group__group-_iterable.html#ga9f1d02c74a6bdc1db260e0d6a8f1ee56", null ],
     [ "front", "group__group-_iterable.html#ga8a67ea10e8082dbe6705e573fa978444", null ],
     [ "index_if", "group__group-_iterable.html#ga5332fd1dd82edf08379958ba21d57a87", null ],
-    [ "is_empty", "group__group-_iterable.html#ga2a05f564f8a7e4afa04fcbc07ad8f394", null ],
-    [ "lexicographical_compare", "group__group-_iterable.html#ga660b2649d63ac71dacc64c3852c981e5", null ]
+    [ "is_empty", "group__group-_iterable.html#ga2a05f564f8a7e4afa04fcbc07ad8f394", null ]
 ];
