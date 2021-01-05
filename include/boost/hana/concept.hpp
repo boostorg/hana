@@ -31,6 +31,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/concept/ring.hpp>
 #include <boost/hana/concept/searchable.hpp>
 #include <boost/hana/concept/sequence.hpp>
+#include <boost/hana/concept/set_theoretic.hpp>
 #include <boost/hana/concept/struct.hpp>
 
 #endif // !BOOST_HANA_CONCEPT_HPP
