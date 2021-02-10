@@ -32,7 +32,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace struct_detail {
+namespace boost { namespace hana { namespace struct_detail {
     template <typename Memptr, Memptr ptr>
     struct member_ptr {
         template <typename T>
@@ -57,7 +57,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace struct_detail {
         constexpr std::size_t len = strlen(hana::at_c<n>(Names::get()));
         return prepare_member_name_impl<n, Names>(std::make_index_sequence<len>{});
     }
-} BOOST_HANA_NAMESPACE_END
+} }} // end namespace boost::hana
 
 //////////////////////////////////////////////////////////////////////////////
 // BOOST_HANA_PP_NARG

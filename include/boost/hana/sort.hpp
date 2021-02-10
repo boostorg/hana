@@ -24,7 +24,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility> // std::declval, std::index_sequence
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Predicate>
     constexpr auto sort_t::operator()(Xs&& xs, Predicate&& pred) const {
@@ -268,6 +268,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr auto apply(Xs&& xs)
         { return sort_impl::apply(static_cast<Xs&&>(xs), hana::less); }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_SORT_HPP

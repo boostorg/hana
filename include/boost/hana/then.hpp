@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/always.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Before, typename Xs>
     constexpr decltype(auto) then_t::operator()(Before&& before, Xs&& xs) const {
@@ -50,6 +50,6 @@ BOOST_HANA_NAMESPACE_BEGIN
                                hana::always(static_cast<Ys&&>(ys)));
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_THEN_HPP

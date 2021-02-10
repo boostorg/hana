@@ -21,7 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/is_empty.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     template <typename It>
     struct Iterable
         : hana::integral_constant<bool,
@@ -30,6 +30,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             !is_default<is_empty_impl<typename tag_of<It>::type>>::value
         >
     { };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CONCEPT_ITERABLE_HPP

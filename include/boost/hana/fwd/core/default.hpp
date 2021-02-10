@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-core
     //! Mark a tag-dispatched method implementation as a default implementation.
     //!
@@ -51,6 +51,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename T, typename = void>
     struct is_default;
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CORE_DEFAULT_HPP

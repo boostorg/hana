@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! @defgroup group-Orderable Orderable
     //! The `Orderable` concept represents totally ordered data types.
@@ -182,6 +182,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! [4]: http://en.wikipedia.org/wiki/Strict_weak_ordering
     template <typename Ord>
     struct Orderable;
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_ORDERABLE_HPP

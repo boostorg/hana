@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/core/make.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! Generic container for two elements.
     //!
@@ -153,6 +153,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! -------
     //! @include example/pair/make.cpp
     BOOST_HANA_INLINE_VARIABLE constexpr auto make_pair = make<pair_tag>;
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_PAIR_HPP

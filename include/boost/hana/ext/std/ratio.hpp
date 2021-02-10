@@ -60,7 +60,7 @@ namespace std {
 #endif
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     namespace ext { namespace std { struct ratio_tag; }}
 
     template <std::intmax_t num, std::intmax_t den>
@@ -159,6 +159,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr std::ratio<0> apply(R1 const&, R2 const&)
         { return {}; }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_STD_RATIO_HPP

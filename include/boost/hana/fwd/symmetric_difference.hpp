@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     // Note: This function is documented per datatype/concept only.
     //! @cond
     template <typename S, typename = void>
@@ -27,6 +27,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     BOOST_HANA_INLINE_VARIABLE constexpr symmetric_difference_t symmetric_difference{};
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_SYMMETRIC_DIFFERENCE_HPP

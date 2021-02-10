@@ -22,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // common
     //////////////////////////////////////////////////////////////////////////
@@ -104,6 +104,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     >> {
         using type = typename common<A, typename B::value_type>::type;
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_COMMON_HPP

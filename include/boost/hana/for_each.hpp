@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/unpack.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename F>
     constexpr void for_each_t::operator()(Xs&& xs, F&& f) const {
@@ -57,6 +57,6 @@ BOOST_HANA_NAMESPACE_BEGIN
                          detail::on_each<decltype(&f)>{&f});
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FOR_EACH_HPP

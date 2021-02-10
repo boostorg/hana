@@ -25,7 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename N>
     constexpr auto remove_at_t::operator()(Xs&& xs, N const& n) const {
@@ -81,6 +81,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(Xs&& xs) const
         { return hana::remove_at(static_cast<Xs&&>(xs), hana::size_c<n>); }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_REMOVE_AT_HPP

@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! @defgroup group-Metafunction Metafunction
     //! A `Metafunction` is a function that takes `hana::type`s as inputs and
@@ -94,6 +94,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! [2]: http://www.boost.org/doc/libs/release/libs/mpl/doc/refmanual/metafunction-class.html
     template <typename F>
     struct Metafunction;
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_METAFUNCTION_HPP

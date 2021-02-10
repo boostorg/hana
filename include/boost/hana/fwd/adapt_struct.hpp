@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     // Note:
     // The weird definition as a variable seems to exploit a glitch in Doxygen
     // which makes the macro appear in the related objects of Struct (as we
@@ -43,6 +43,6 @@ BOOST_HANA_NAMESPACE_BEGIN
 #else
     // defined in <boost/hana/adapt_struct.hpp>
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_ADAPT_STRUCT_HPP

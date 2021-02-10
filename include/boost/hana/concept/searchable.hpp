@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/find_if.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     template <typename S>
     struct Searchable
         : hana::integral_constant<bool,
@@ -28,6 +28,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             !is_default<find_if_impl<typename tag_of<S>::type>>::value
         >
     { };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CONCEPT_SEARCHABLE_HPP

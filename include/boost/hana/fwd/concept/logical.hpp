@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! @defgroup group-Logical Logical
     //! The `Logical` concept represents types with a truth value.
@@ -161,6 +161,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! [1]: http://en.wikipedia.org/wiki/Boolean_algebra_(structure)
     template <typename L>
     struct Logical;
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_LOGICAL_HPP

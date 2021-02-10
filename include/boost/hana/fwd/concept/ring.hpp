@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! @defgroup group-Ring Ring
     //! The `Ring` concept represents `Group`s that also form a `Monoid`
@@ -101,6 +101,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! [2]: http://en.wikipedia.org/wiki/Ring_homomorphism
     template <typename R>
     struct Ring;
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_RING_HPP

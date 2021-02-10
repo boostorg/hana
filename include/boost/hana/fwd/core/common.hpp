@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-core
     //! %Metafunction returning the common data type between two data types.
     //!
@@ -98,6 +98,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/core/common/common_t.cpp
     template <typename T, typename U>
     using common_t = typename common<T, U>::type;
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CORE_COMMON_HPP

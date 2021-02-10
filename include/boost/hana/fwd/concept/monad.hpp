@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! @defgroup group-Monad Monad
     //! The `Monad` concept represents `Applicative`s with the ability to
@@ -193,6 +193,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! [2]: https://wiki.haskell.org/Typeclassopedia#Monad
     template <typename M>
     struct Monad;
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_MONAD_HPP
