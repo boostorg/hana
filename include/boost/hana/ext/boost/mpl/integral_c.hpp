@@ -41,7 +41,7 @@ namespace boost { namespace mpl {
 #endif
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     namespace ext { namespace boost { namespace mpl {
         template <typename T>
         struct integral_c_tag { using value_type = T; };
@@ -76,6 +76,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             return ::boost::mpl::integral_c<T, N::value>{};
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_BOOST_MPL_INTEGRAL_C_HPP

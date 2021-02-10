@@ -51,7 +51,7 @@ namespace std {
 #endif
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     namespace ext { namespace std { struct tuple_tag; }}
 
     template <typename ...Xs>
@@ -175,6 +175,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct Sequence<ext::std::tuple_tag> {
         static constexpr bool value = true;
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_STD_TUPLE_HPP

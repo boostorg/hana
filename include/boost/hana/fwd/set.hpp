@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/erase_key.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! Basic unordered container requiring unique, `Comparable` and
     //! `Hashable` keys.
@@ -293,6 +293,6 @@ constexpr auto symmetric_difference = [](auto&& xs, auto&& ys) {
 #endif
 
 
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_SET_HPP

@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! @defgroup group-Struct Struct
     //! The `Struct` concept represents `struct`-like user-defined types.
@@ -151,6 +151,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! @include example/struct/searchable.cpp
     template <typename S>
     struct Struct;
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_STRUCT_HPP

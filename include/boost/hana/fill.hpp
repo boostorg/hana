@@ -22,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/unpack.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Value>
     constexpr auto fill_t::operator()(Xs&& xs, Value&& value) const {
@@ -69,6 +69,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             return hana::unpack(xs, filler<V>{v});
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FILL_HPP

@@ -56,7 +56,7 @@ Distributed under the Boost Software License, Version 1.0.
 //       "view" is not cheap to copy, which is inconsistent with the usual
 //       expectations about views.
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
 
 namespace experimental {
     struct view_tag;
@@ -510,6 +510,6 @@ struct less_impl<S, experimental::view_tag, hana::when<hana::Sequence<S>::value>
     }
 };
 
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXPERIMENTAL_VIEW_HPP

@@ -40,7 +40,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
+namespace boost { namespace hana { namespace experimental {
     template <typename T>
     struct Printable;
 
@@ -252,6 +252,6 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
             return "type<" + boost::core::demangle(typeid(Type).name()) + '>';
         }
     };
-} BOOST_HANA_NAMESPACE_END
+} }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXPERIMENTAL_PRINTABLE_HPP

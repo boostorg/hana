@@ -21,7 +21,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/prepend.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Sfx>
     constexpr auto suffix_t::operator()(Xs&& xs, Sfx&& sfx) const {
@@ -47,6 +47,6 @@ BOOST_HANA_NAMESPACE_BEGIN
                 hana::partial(hana::prepend, hana::lift<M>(static_cast<Z&&>(z))));
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_SUFFIX_HPP

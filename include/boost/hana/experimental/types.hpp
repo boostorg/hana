@@ -29,7 +29,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     namespace experimental {
         //! @ingroup group-experimental
         //! Container optimized for holding types.
@@ -153,6 +153,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr hana::false_ apply(Ts const&, Us const&)
         { return {}; }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXPERIMENTAL_TYPES_HPP

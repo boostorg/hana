@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace detail {
+namespace boost { namespace hana { namespace detail {
     template <typename Tag>
     struct comparable_operators {
         static constexpr bool value = false;
@@ -47,6 +47,6 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
         constexpr auto operator!=(X&& x, Y&& y)
         { return hana::not_equal(static_cast<X&&>(x), static_cast<Y&&>(y)); }
     } // end namespace operators
-} BOOST_HANA_NAMESPACE_END
+} }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_OPERATORS_COMPARABLE_HPP

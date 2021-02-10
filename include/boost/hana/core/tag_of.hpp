@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename T, typename>
     struct tag_of : tag_of<T, when<true>> { };
@@ -54,6 +54,6 @@ BOOST_HANA_NAMESPACE_BEGIN
                            std::remove_const_t<std::remove_reference_t<T>>>
         { };
     }
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_TAG_OF_HPP

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/infix.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! Returns whether the key occurs in the structure.
     //! @ingroup group-Searchable
     //!
@@ -68,6 +68,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! -------
     //! @include example/in.cpp
     BOOST_HANA_INLINE_VARIABLE constexpr auto in = hana::infix(hana::flip(hana::contains));
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONTAINS_HPP

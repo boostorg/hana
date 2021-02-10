@@ -25,7 +25,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Indices>
     constexpr auto slice_t::operator()(Xs&& xs, Indices&& indices) const {
@@ -94,6 +94,6 @@ BOOST_HANA_NAMESPACE_BEGIN
                                hana::range_c<std::size_t, from, to>);
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_SLICE_HPP

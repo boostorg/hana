@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace detail {
+namespace boost { namespace hana { namespace detail {
     //! @ingroup group-detail
     //! Equivalent to a type-dependent `std::false_type`.
     //!
@@ -28,6 +28,6 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     //! @include example/detail/wrong.cpp
     template <typename ...>
     struct wrong : std::false_type { };
-} BOOST_HANA_NAMESPACE_END
+} }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_WRONG_HPP

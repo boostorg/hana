@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <cstddef>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! Remove the element at a given index from a sequence.
     //! @ingroup group-Sequence
     //!
@@ -77,6 +77,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <std::size_t n>
     BOOST_HANA_INLINE_VARIABLE constexpr remove_at_c_t<n> remove_at_c{};
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_REMOVE_AT_HPP

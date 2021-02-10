@@ -44,7 +44,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // range<>
     //////////////////////////////////////////////////////////////////////////
@@ -289,6 +289,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             return range<T, from + n, to>{};
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_RANGE_HPP

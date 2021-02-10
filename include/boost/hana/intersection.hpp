@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/dispatch.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Ys>
     constexpr auto intersection_t::operator()(Xs&& xs, Ys&& ys) const {
@@ -34,6 +34,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <typename ...Args>
         static constexpr auto apply(Args&& ...) = delete;
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INTERSECTION_HPP

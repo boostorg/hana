@@ -37,7 +37,7 @@ namespace std {
 #endif
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     namespace ext { namespace std { struct pair_tag; }}
 
     template <typename First, typename Second>
@@ -86,6 +86,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr U&& apply(std::pair<T, U>&& p)
         {  return static_cast<U&&>(p.second); }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_STD_PAIR_HPP

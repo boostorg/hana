@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace detail {
+namespace boost { namespace hana { namespace detail {
     template <typename Tag>
     struct monad_operators {
         static constexpr bool value = false;
@@ -30,6 +30,6 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
         constexpr auto operator|(Xs&& xs, F&& f)
         { return hana::chain(static_cast<Xs&&>(xs), static_cast<F&&>(f)); }
     } // end namespace operators
-} BOOST_HANA_NAMESPACE_END
+} }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_OPERATORS_MONAD_HPP

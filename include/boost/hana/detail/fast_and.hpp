@@ -15,11 +15,11 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace detail {
+namespace boost { namespace hana { namespace detail {
     template <bool ...b>
     struct fast_and
         : std::is_same<fast_and<b...>, fast_and<(b, true)...>>
     { };
-} BOOST_HANA_NAMESPACE_END
+} }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_FAST_AND_HPP

@@ -27,7 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace detail {
+namespace boost { namespace hana { namespace detail {
     template <typename Hash, std::size_t ...i>
     struct bucket { };
 
@@ -140,6 +140,6 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
             bucket<typename decltype(hana::hash(std::declval<KeyAtIndex<i>>()))::type, i>...
         >;
     };
-} BOOST_HANA_NAMESPACE_END
+} }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_HASH_TABLE_HPP

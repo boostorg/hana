@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/not.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto remove_if_t::operator()(Xs&& xs, Pred&& pred) const {
@@ -47,6 +47,6 @@ BOOST_HANA_NAMESPACE_BEGIN
                         hana::compose(hana::not_, static_cast<Pred&&>(pred)));
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_REMOVE_IF_HPP

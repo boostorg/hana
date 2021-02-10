@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace detail {
+namespace boost { namespace hana { namespace detail {
     template <template <typename...> class Concept, typename T, typename U, typename = void>
     struct has_common_embedding_impl : std::false_type { };
 
@@ -64,6 +64,6 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     template <template <typename...> class Concept, typename T, typename U>
     using has_nontrivial_common_embedding =
         typename has_nontrivial_common_embedding_impl<Concept, T, U>::type;
-} BOOST_HANA_NAMESPACE_END
+} }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_HAS_COMMON_EMBEDDING_HPP

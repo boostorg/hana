@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/type.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-datatypes
     //! General purpose index-based heterogeneous sequence with a fixed length.
     //!
@@ -224,6 +224,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename T, T ...v>
     BOOST_HANA_INLINE_VARIABLE constexpr hana::tuple<hana::integral_constant<T, v>...> tuple_c{};
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_TUPLE_HPP

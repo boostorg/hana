@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! @defgroup group-Group Group
     //! The `Group` concept represents `Monoid`s where all objects have
@@ -106,6 +106,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! [2]: http://en.wikipedia.org/wiki/Group_homomorphism
     template <typename G>
     struct Group;
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_GROUP_HPP
