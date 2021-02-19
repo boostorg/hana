@@ -70,6 +70,42 @@ BOOST_HANA_NAMESPACE_BEGIN
 
 
     //! @relates hana::integral_constant
+    template <wchar_t c>
+    using wchar_ = integral_constant<wchar_t, c>;
+
+    //! @relates hana::integral_constant
+    template <wchar_t c>
+    constexpr wchar_<c> wchar_c{};
+
+
+    //! @relates hana::integral_constant
+    template <char16_t c>
+    using char16_ = integral_constant<char16_t, c>;
+
+    //! @relates hana::integral_constant
+    template <char16_t c>
+    constexpr char16_<c> char16_c{};
+
+
+    //! @relates hana::integral_constant
+    template <char32_t c>
+    using char32_ = integral_constant<char32_t, c>;
+
+    //! @relates hana::integral_constant
+    template <char32_t c>
+    constexpr char32_<c> char32_c{};
+
+
+    //! @relates hana::integral_constant
+    template <typename CharT, CharT c>
+    using basic_char_ = integral_constant<CharT, c>;
+
+    //! @relates hana::integral_constant
+    template <typename CharT, CharT c>
+    constexpr basic_char_<CharT, c> basic_char_c{};
+
+
+    //! @relates hana::integral_constant
     template <short i>
     using short_ = integral_constant<short, i>;
 
