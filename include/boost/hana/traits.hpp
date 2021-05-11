@@ -70,7 +70,9 @@ BOOST_HANA_NAMESPACE_BEGIN namespace traits {
 #if __cplusplus < 202002L
     BOOST_HANA_INLINE_VARIABLE constexpr auto is_pod = detail::hana_trait<std::is_pod>{};
 #endif
+#if __cplusplus < 201703L
     BOOST_HANA_INLINE_VARIABLE constexpr auto is_literal_type = detail::hana_trait<std::is_literal_type>{};
+#endif
     BOOST_HANA_INLINE_VARIABLE constexpr auto is_empty = detail::hana_trait<std::is_empty>{};
     BOOST_HANA_INLINE_VARIABLE constexpr auto is_polymorphic = detail::hana_trait<std::is_polymorphic>{};
     BOOST_HANA_INLINE_VARIABLE constexpr auto is_abstract = detail::hana_trait<std::is_abstract>{};
