@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['adl_622',['adl',['../structboost_1_1hana_1_1detail_1_1operators_1_1adl.html',1,'boost::hana::detail::operators']]],
+  ['adl_621',['adl',['../structboost_1_1hana_1_1detail_1_1operators_1_1adl.html',1,'boost::hana::detail::operators']]],
+  ['adl_3c_20tuple_3c_20xn_2e_2e_2e_20_3e_20_3e_622',['adl&lt; tuple&lt; Xn... &gt; &gt;',['../structboost_1_1hana_1_1detail_1_1operators_1_1adl.html',1,'boost::hana::detail::operators']]],
   ['adl_3c_20tuple_3c_3e_20_3e_623',['adl&lt; tuple&lt;&gt; &gt;',['../structboost_1_1hana_1_1detail_1_1operators_1_1adl.html',1,'boost::hana::detail::operators']]],
   ['adl_3c_3e_624',['adl&lt;&gt;',['../structboost_1_1hana_1_1detail_1_1operators_1_1adl.html',1,'boost::hana::detail::operators']]],
   ['any_5fof_625',['any_of',['../structboost_1_1hana_1_1detail_1_1any__of.html',1,'boost::hana::detail']]],
