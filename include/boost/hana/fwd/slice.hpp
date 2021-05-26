@@ -62,7 +62,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, Indices&& indices) const;
     };
 
-    constexpr slice_t slice{};
+    BOOST_HANA_INLINE_VARIABLE constexpr slice_t slice{};
 #endif
 
     //! Shorthand to `slice` a contiguous range of elements.
@@ -98,7 +98,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct slice_c_t;
 
     template <std::size_t from, std::size_t to>
-    constexpr slice_c_t<from, to> slice_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr slice_c_t<from, to> slice_c{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

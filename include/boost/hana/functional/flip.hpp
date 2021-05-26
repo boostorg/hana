@@ -66,7 +66,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
     };
 
-    constexpr detail::create<flip_t> flip{};
+    BOOST_HANA_INLINE_VARIABLE constexpr detail::create<flip_t> flip{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

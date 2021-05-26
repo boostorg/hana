@@ -40,7 +40,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename R>
-    constexpr one_t<R> one{};
+    BOOST_HANA_INLINE_VARIABLE constexpr one_t<R> one{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

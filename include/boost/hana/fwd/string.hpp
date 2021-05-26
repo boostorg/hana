@@ -187,11 +187,11 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! Alias to `make<string_tag>`; provided for convenience.
     //! @relates hana::string
-    constexpr auto make_string = make<string_tag>;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto make_string = make<string_tag>;
 
     //! Equivalent to `to<string_tag>`; provided for convenience.
     //! @relates hana::string
-    constexpr auto to_string = to<string_tag>;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto to_string = to<string_tag>;
 
     //! Create a compile-time string from a parameter pack of characters.
     //! @relates hana::string
@@ -205,7 +205,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr string<implementation_defined> string_c{};
 #else
     template <char ...s>
-    constexpr string<s...> string_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr string<s...> string_c{};
 #endif
 
     //! Create a compile-time string from a string literal.

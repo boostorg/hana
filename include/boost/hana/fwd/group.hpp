@@ -96,7 +96,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, Predicate&& pred) const;
     };
 
-    constexpr group_t group{};
+    BOOST_HANA_INLINE_VARIABLE constexpr group_t group{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

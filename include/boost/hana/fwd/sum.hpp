@@ -75,7 +75,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename M = integral_constant_tag<int>>
-    constexpr sum_t<M> sum{};
+    BOOST_HANA_INLINE_VARIABLE constexpr sum_t<M> sum{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

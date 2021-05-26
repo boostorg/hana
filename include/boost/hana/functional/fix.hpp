@@ -59,7 +59,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename F>
     struct fix_t;
 
-    constexpr detail::create<fix_t> fix{};
+    BOOST_HANA_INLINE_VARIABLE constexpr detail::create<fix_t> fix{};
 
     template <typename F>
     struct fix_t {

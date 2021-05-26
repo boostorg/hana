@@ -77,7 +77,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const;
     };
 
-    constexpr reverse_fold_t reverse_fold{};
+    BOOST_HANA_INLINE_VARIABLE constexpr reverse_fold_t reverse_fold{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

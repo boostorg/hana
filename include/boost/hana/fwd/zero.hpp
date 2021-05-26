@@ -40,7 +40,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename M>
-    constexpr zero_t<M> zero{};
+    BOOST_HANA_INLINE_VARIABLE constexpr zero_t<M> zero{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

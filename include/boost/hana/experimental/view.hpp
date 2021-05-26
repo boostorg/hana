@@ -148,7 +148,7 @@ namespace experimental {
             return {s1, s2};
         }
     };
-    constexpr make_joined_view_t joined{};
+    BOOST_HANA_INLINE_VARIABLE constexpr make_joined_view_t joined{};
 
     namespace detail {
         template <typename Sequence1, typename Sequence2>

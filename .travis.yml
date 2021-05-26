@@ -4,7 +4,7 @@
 
 language: cpp
 os: linux # Jobs are on Linux unless specified otherwise
-dist: trusty # Jobs are on Trusty unless specified otherwise
+dist: xenial
 sudo: false
 
 env:
@@ -22,39 +22,19 @@ matrix:
     # Note that we only use the memory checker on the main configuration to
     # speed up Travis builds.
     ##########################################################################
-    # Clang 3.9
-    - env: UNIT_TESTS=true COMPILER=clang++-3.9 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: { apt: { packages: ["clang-3.9", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-3.9"] } }
-
-    # Clang 4.0
-    - env: UNIT_TESTS=true COMPILER=clang++-4.0 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: { apt: { packages: ["clang-4.0", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-4.0"] } }
-
-    # Clang 5.0
-    - env: UNIT_TESTS=true COMPILER=clang++-5.0 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: { apt: { packages: ["clang-5.0", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-5.0"] } }
-
-    # Clang 6.0
-    - env: UNIT_TESTS=true COMPILER=clang++-6.0 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: { apt: { packages: ["clang-6.0", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-6.0"] } }
-
-    # Clang 7.0
+    # Clang 7
     - env: UNIT_TESTS=true COMPILER=clang++-7 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: &defaults { apt: { packages: ["clang-7", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-7"] } }
+      addons: { apt: { packages: ["clang-7", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-xenial-7"] } }
 
-    # GCC 6
-    - env: UNIT_TESTS=true COMPILER=g++-6 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: { apt: { packages: ["g++-6", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
-
-    # GCC 7
-    - env: UNIT_TESTS=true COMPILER=g++-7 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: { apt: { packages: ["g++-7", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
+    # Clang 8
+    - env: UNIT_TESTS=true COMPILER=clang++-8 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: &defaults { apt: { packages: ["clang-8", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-xenial-8"] } }
 
     # GCC 8
     - env: UNIT_TESTS=true COMPILER=g++-8 BOOST_VERSION=default ENABLE_MEMCHECK=true
       addons: { apt: { packages: ["g++-8", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
 
-    # Xcode 9.1
+    # Xcode 11
     - os: osx
       env: UNIT_TESTS=true BOOST_VERSION=default
       osx_image: xcode11
@@ -66,9 +46,17 @@ matrix:
     - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON"
       addons: *defaults
 
+    # With C++20, on Clang
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_CXX_STANDARD=20 -DCMAKE_CXX_STANDARD_REQUIRED=ON"
+      addons: *defaults
+
     # With C++17, on GCC
-    - env: UNIT_TESTS=true COMPILER=g++-6     BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON"
-      addons: { apt: { packages: ["g++-6", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
+    - env: UNIT_TESTS=true COMPILER=g++-8     BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON"
+      addons: { apt: { packages: ["g++-8", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
+
+    # With C++20, on GCC
+    - env: UNIT_TESTS=true COMPILER=g++-8     BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_CXX_STANDARD=20 -DCMAKE_CXX_STANDARD_REQUIRED=ON"
+      addons: { apt: { packages: ["g++-8", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
 
     # Without concept checks
     - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF"
@@ -87,12 +75,8 @@ matrix:
       env: UNIT_TESTS=true BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_EXCEPTIONS=OFF"
       osx_image: xcode11
 
-    # With Boost 1.64
-    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.64.0
-      addons: *defaults
-
-    # With Boost 1.65.1
-    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.65.1
+    # With Boost 1.76.0
+    - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=1.76.0
       addons: *defaults
 
     # Without Boost (make sure we don't depend on it)
@@ -113,6 +97,7 @@ matrix:
     ##########################################################################
     - os: osx
       env: DOCUMENTATION=true BOOST_VERSION=default
+      osx_image: xcode11
 
     ##########################################################################
     # Benchmarks
@@ -142,8 +127,8 @@ install:
   ############################################################################
   # Setup default versions and override CXX set by Travis if needed
   ############################################################################
-  - if [[ "${COMPILER}" == "default" ]]; then COMPILER=clang++-7; fi
-  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.66.0; fi
+  - if [[ "${COMPILER}" == "default" ]]; then COMPILER=clang++-8; fi
+  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.76.0; fi
 
   - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
   - ${CXX} --version
@@ -159,7 +144,7 @@ install:
         travis_retry git clone --depth 1 --recursive ${BOOST_URL} ${BOOST_DIR} || exit 1
         (cd ${BOOST_DIR} && ./bootstrap.sh && ./b2 headers) || exit 1
       else
-        BOOST_URL="https://dl.bintray.com/boostorg/release/${BOOST_VERSION}/source/boost_${BOOST_VERSION//\./_}.tar.gz"
+        BOOST_URL="https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VERSION}/source/boost_${BOOST_VERSION//\./_}.tar.gz"
         mkdir -p ${BOOST_DIR}
         { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
       fi
@@ -174,7 +159,7 @@ install:
   ############################################################################
   - |
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
-      CMAKE_URL="https://cmake.org/files/v3.10/cmake-3.10.0-Linux-x86_64.tar.gz"
+      CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v3.20.2/cmake-3.20.2.tar.gz"
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
     else
@@ -190,35 +175,6 @@ install:
       (cd ${BOOST_DIR}/tools/build && ./bootstrap.sh && ./b2 install --prefix=${DEPS_DIR}/b2)
       export PATH=${DEPS_DIR}/b2/bin:${PATH}
       b2 --version || true # b2 --version returns 1
-    fi
-
-  ############################################################################
-  # Install libc++ and libc++abi if needed
-  ############################################################################
-  - |
-    if [[ "${CXX%%+*}" == "clang" ]]; then
-        if [[ "${CXX}" == "clang++-3.9" ]]; then LLVM_VERSION="3.9.1";
-      elif [[ "${CXX}" == "clang++-4.0" ]]; then LLVM_VERSION="4.0.1";
-      elif [[ "${CXX}" == "clang++-5.0" ]]; then LLVM_VERSION="5.0.2";
-      elif [[ "${CXX}" == "clang++-6.0" ]]; then LLVM_VERSION="6.0.1";
-      elif [[ "${CXX}" == "clang++-7" ]];   then LLVM_VERSION="7.0.1";
-      fi
-
-      LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
-      LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
-      LIBCXXABI_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxxabi-${LLVM_VERSION}.src.tar.xz"
-
-      mkdir -p llvm llvm/build llvm/projects/libcxx llvm/projects/libcxxabi
-      travis_retry wget -O - ${LLVM_URL} | tar --strip-components=1 -xJ -C llvm || exit 1
-      travis_retry wget -O - ${LIBCXX_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxx || exit 1
-      travis_retry wget -O - ${LIBCXXABI_URL} | tar --strip-components=1 -xJ -C llvm/projects/libcxxabi || exit 1
-      (cd llvm/build && cmake .. -DCMAKE_INSTALL_PREFIX=${DEPS_DIR}/llvm/install) || exit 1
-      (cd llvm/build/projects/libcxx && make install -j2) || exit 1
-      (cd llvm/build/projects/libcxxabi && make install -j2) || exit 1
-
-      export CXXFLAGS="-isystem ${DEPS_DIR}/llvm/install/include/c++/v1"
-      export LDFLAGS="-L ${DEPS_DIR}/llvm/install/lib -l c++ -l c++abi"
-      export LD_LIBRARY_PATH="${LD_LIBRARY_PATH}:${DEPS_DIR}/llvm/install/lib"
     fi
 
   ############################################################################
@@ -358,11 +314,7 @@ script:
 
       # Build tests
       echo "using clang : : ${CXX} ;" > project-config.jam
-      if [[ "${LDFLAGS}" == "" ]]; then
-        (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" include="${BOOST_DIR}") || exit 1
-      else
-        (cd test && b2 toolset=clang cxxflags="-std=c++1y ${CXXFLAGS}" include="${BOOST_DIR}" linkflags="${LDFLAGS}") || exit 1
-      fi
+      (cd test && b2 toolset=clang cxxflags="-std=c++1y" include="${BOOST_DIR}") || exit 1
     fi
 
 

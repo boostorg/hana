@@ -55,7 +55,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, N const& n) const;
     };
 
-    constexpr remove_at_t remove_at{};
+    BOOST_HANA_INLINE_VARIABLE constexpr remove_at_t remove_at{};
 #endif
 
     //! Equivalent to `remove_at`; provided for convenience.
@@ -75,7 +75,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct remove_at_c_t;
 
     template <std::size_t n>
-    constexpr remove_at_c_t<n> remove_at_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr remove_at_c_t<n> remove_at_c{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

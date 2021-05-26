@@ -56,7 +56,9 @@ int main() {
 #if __cplusplus < 202002L
     hana::traits::is_pod(s);
 #endif
+#if __cplusplus < 201703L
     hana::traits::is_literal_type(s);
+#endif
     hana::traits::is_empty(s);
     hana::traits::is_polymorphic(s);
     hana::traits::is_abstract(s);

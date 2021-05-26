@@ -26,7 +26,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(Set&& set, Args&& ...args) const;
     };
 
-    constexpr erase_key_t erase_key{};
+    BOOST_HANA_INLINE_VARIABLE constexpr erase_key_t erase_key{};
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_ERASE_KEY_HPP

@@ -27,7 +27,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example
     //! -------
     //! @include example/size.cpp
-    constexpr auto size = hana::length;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto size = hana::length;
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_SIZE_HPP

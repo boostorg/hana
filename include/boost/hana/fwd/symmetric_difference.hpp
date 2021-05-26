@@ -26,7 +26,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&&, Ys&&) const;
     };
 
-    constexpr symmetric_difference_t symmetric_difference{};
+    BOOST_HANA_INLINE_VARIABLE constexpr symmetric_difference_t symmetric_difference{};
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_SYMMETRIC_DIFFERENCE_HPP

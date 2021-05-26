@@ -26,7 +26,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Map&& map) const;
     };
 
-    constexpr keys_t keys{};
+    BOOST_HANA_INLINE_VARIABLE constexpr keys_t keys{};
 
     //! Returns a `Sequence` containing the name of the members of
     //! the data structure.

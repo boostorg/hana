@@ -51,7 +51,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr void operator()(N const& n, F&& f) const;
     };
 
-    constexpr repeat_t repeat{};
+    BOOST_HANA_INLINE_VARIABLE constexpr repeat_t repeat{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

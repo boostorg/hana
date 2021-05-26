@@ -26,7 +26,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&&, Ys&&) const;
     };
 
-    constexpr intersection_t intersection{};
+    BOOST_HANA_INLINE_VARIABLE constexpr intersection_t intersection{};
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_INTERSECTION_HPP

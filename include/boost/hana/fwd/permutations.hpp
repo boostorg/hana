@@ -43,7 +43,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs) const;
     };
 
-    constexpr permutations_t permutations{};
+    BOOST_HANA_INLINE_VARIABLE constexpr permutations_t permutations{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

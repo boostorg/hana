@@ -63,7 +63,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename Tag>
-    constexpr make_t<Tag> make{};
+    BOOST_HANA_INLINE_VARIABLE constexpr make_t<Tag> make{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

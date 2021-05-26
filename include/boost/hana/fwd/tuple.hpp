@@ -179,11 +179,11 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     //! Alias to `make<tuple_tag>`; provided for convenience.
     //! @relates hana::tuple
-    constexpr auto make_tuple = make<tuple_tag>;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto make_tuple = make<tuple_tag>;
 
     //! Equivalent to `to<tuple_tag>`; provided for convenience.
     //! @relates hana::tuple
-    constexpr auto to_tuple = to<tuple_tag>;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto to_tuple = to<tuple_tag>;
 
     //! Create a tuple specialized for holding `hana::type`s.
     //! @relates hana::tuple
@@ -202,7 +202,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr implementation_defined tuple_t{};
 #else
     template <typename ...T>
-    constexpr hana::tuple<hana::type<T>...> tuple_t{};
+    BOOST_HANA_INLINE_VARIABLE constexpr hana::tuple<hana::type<T>...> tuple_t{};
 #endif
 
     //! Create a tuple specialized for holding `hana::integral_constant`s.
@@ -222,7 +222,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     constexpr implementation_defined tuple_c{};
 #else
     template <typename T, T ...v>
-    constexpr hana::tuple<hana::integral_constant<T, v>...> tuple_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr hana::tuple<hana::integral_constant<T, v>...> tuple_c{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

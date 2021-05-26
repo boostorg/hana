@@ -50,7 +50,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(Cond&& cond, Then&& then, Else&& else_) const;
     };
 
-    constexpr if_t if_{};
+    BOOST_HANA_INLINE_VARIABLE constexpr if_t if_{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

@@ -107,7 +107,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
     };
 
-    constexpr make_pre_lockstep_t lockstep{};
+    BOOST_HANA_INLINE_VARIABLE constexpr make_pre_lockstep_t lockstep{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

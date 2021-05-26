@@ -66,7 +66,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename R = integral_constant_tag<int>>
-    constexpr product_t<R> product{};
+    BOOST_HANA_INLINE_VARIABLE constexpr product_t<R> product{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

@@ -50,7 +50,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, F&& f) const;
     };
 
-    constexpr transform_t transform{};
+    BOOST_HANA_INLINE_VARIABLE constexpr transform_t transform{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

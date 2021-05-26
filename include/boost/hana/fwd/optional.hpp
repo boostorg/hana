@@ -310,7 +310,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example
     //! -------
     //! @include example/optional/make.cpp
-    constexpr auto make_optional = make<optional_tag>;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto make_optional = make<optional_tag>;
 
     //! Create an optional value containing `x`.
     //! @relates hana::optional
@@ -329,7 +329,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(T&&) const;
     };
 
-    constexpr make_just_t just{};
+    BOOST_HANA_INLINE_VARIABLE constexpr make_just_t just{};
 #endif
 
     //! An empty optional value.
@@ -366,7 +366,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr U&& value_or(U&& u) const;
     };
 
-    constexpr optional<> nothing{};
+    BOOST_HANA_INLINE_VARIABLE constexpr optional<> nothing{};
 #endif
 
     //! Apply a function to the contents of an optional, with a fallback
@@ -421,7 +421,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         { return static_cast<Def&&>(def); }
     };
 
-    constexpr maybe_t maybe{};
+    BOOST_HANA_INLINE_VARIABLE constexpr maybe_t maybe{};
 #endif
 
     //! Calls a function if the call expression is well-formed.
@@ -462,7 +462,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(F&& f) const;
     };
 
-    constexpr sfinae_t sfinae{};
+    BOOST_HANA_INLINE_VARIABLE constexpr sfinae_t sfinae{};
 #endif
 
     //! Return whether an `optional` contains a value.
@@ -485,7 +485,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(optional<T...> const&) const;
     };
 
-    constexpr is_just_t is_just{};
+    BOOST_HANA_INLINE_VARIABLE constexpr is_just_t is_just{};
 #endif
 
     //! Return whether an `optional` is empty.
@@ -508,7 +508,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(optional<T...> const&) const;
     };
 
-    constexpr is_nothing_t is_nothing{};
+    BOOST_HANA_INLINE_VARIABLE constexpr is_nothing_t is_nothing{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

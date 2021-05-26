@@ -109,7 +109,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <std::size_t n>
-    constexpr make_curry_t<n> curry{};
+    BOOST_HANA_INLINE_VARIABLE constexpr make_curry_t<n> curry{};
 
     namespace curry_detail { namespace {
         template <std::size_t n>

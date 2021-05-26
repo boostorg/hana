@@ -63,7 +63,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(X&& x, Y&& y) const;
     };
 
-    constexpr not_equal_t not_equal{};
+    BOOST_HANA_INLINE_VARIABLE constexpr not_equal_t not_equal{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

@@ -32,7 +32,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example
     //! -------
     //! @include example/fold.cpp
-    constexpr auto fold = fold_left;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto fold = fold_left;
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_FOLD_HPP

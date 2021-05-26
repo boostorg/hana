@@ -41,7 +41,7 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail { namespace variadic {
     };
 
     template <std::size_t n>
-    constexpr make_dropper<n> drop_into{};
+    BOOST_HANA_INLINE_VARIABLE constexpr make_dropper<n> drop_into{};
 }} BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_DROP_INTO_HPP

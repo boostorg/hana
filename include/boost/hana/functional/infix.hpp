@@ -178,7 +178,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         }
     } // end namespace infix_detail
 
-    constexpr infix_detail::make_infix<false, false> infix{};
+    BOOST_HANA_INLINE_VARIABLE constexpr infix_detail::make_infix<false, false> infix{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

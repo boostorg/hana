@@ -134,7 +134,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <std::size_t n>
-    constexpr arg_t<n> arg{};
+    BOOST_HANA_INLINE_VARIABLE constexpr arg_t<n> arg{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

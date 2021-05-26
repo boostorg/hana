@@ -148,7 +148,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(Cond&& cond, Then&& then, Else&& else_) const;
     };
 
-    constexpr eval_if_t eval_if{};
+    BOOST_HANA_INLINE_VARIABLE constexpr eval_if_t eval_if{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

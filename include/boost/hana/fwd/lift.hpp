@@ -55,7 +55,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename A>
-    constexpr lift_t<A> lift{};
+    BOOST_HANA_INLINE_VARIABLE constexpr lift_t<A> lift{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

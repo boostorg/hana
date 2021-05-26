@@ -194,7 +194,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <std::size_t n>
-    constexpr make_iterate_t<n> iterate{};
+    BOOST_HANA_INLINE_VARIABLE constexpr make_iterate_t<n> iterate{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

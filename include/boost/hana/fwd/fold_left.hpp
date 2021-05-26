@@ -81,7 +81,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(Xs&& xs, F&& f) const;
     };
 
-    constexpr fold_left_t fold_left{};
+    BOOST_HANA_INLINE_VARIABLE constexpr fold_left_t fold_left{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

@@ -26,7 +26,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr decltype(auto) operator()(Set&& set, Args&& ...args) const;
     };
 
-    constexpr insert_t insert{};
+    BOOST_HANA_INLINE_VARIABLE constexpr insert_t insert{};
 
 
     //! Insert a value at a given index in a sequence.

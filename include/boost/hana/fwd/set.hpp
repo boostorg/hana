@@ -133,7 +133,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example
     //! -------
     //! @include example/set/make.cpp
-    constexpr auto make_set = make<set_tag>;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto make_set = make<set_tag>;
 
     //! Insert an element in a `hana::set`.
     //! @relates hana::set

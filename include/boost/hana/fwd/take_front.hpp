@@ -51,7 +51,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, N const& n) const;
     };
 
-    constexpr take_front_t take_front{};
+    BOOST_HANA_INLINE_VARIABLE constexpr take_front_t take_front{};
 #endif
 
     //! Equivalent to `take_front`; provided for convenience.
@@ -71,7 +71,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct take_front_c_t;
 
     template <std::size_t n>
-    constexpr take_front_c_t<n> take_front_c{};
+    BOOST_HANA_INLINE_VARIABLE constexpr take_front_c_t<n> take_front_c{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

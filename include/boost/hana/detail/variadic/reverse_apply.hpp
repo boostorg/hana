@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 BOOST_HANA_NAMESPACE_BEGIN namespace detail { namespace variadic {
-    BOOST_HANA_CONSTEXPR_LAMBDA auto reverse_apply =
+    BOOST_HANA_INLINE_VARIABLE BOOST_HANA_CONSTEXPR_LAMBDA auto reverse_apply =
         [](auto&& f, auto&& ...x) -> decltype(auto) {
             return detail::variadic::reverse_apply_unrolled(
                 static_cast<decltype(f)>(f),

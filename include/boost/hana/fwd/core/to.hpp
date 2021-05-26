@@ -108,7 +108,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     };
 
     template <typename To>
-    constexpr to_t<To> to{};
+    BOOST_HANA_INLINE_VARIABLE constexpr to_t<To> to{};
 #endif
 
     //! @ingroup group-core

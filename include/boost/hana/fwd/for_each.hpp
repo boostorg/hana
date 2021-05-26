@@ -48,7 +48,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr void operator()(Xs&& xs, F&& f) const;
     };
 
-    constexpr for_each_t for_each{};
+    BOOST_HANA_INLINE_VARIABLE constexpr for_each_t for_each{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

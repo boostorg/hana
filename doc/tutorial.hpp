@@ -109,9 +109,9 @@ below, which are tested on an ongoing basis:
 
 Compiler/Toolchain | Status
 ------------------ | ------
-Clang >= 3.9.1     | Fully working; tested on each push to GitHub
-Xcode >= 9.1       | Fully working; tested on each push to GitHub
-GCC >= 6.0.0       | Fully working; tested on each push to GitHub
+Clang >= 7         | Fully working; tested on each push to GitHub
+Xcode >= 11        | Fully working; tested on each push to GitHub
+GCC >= 8           | Fully working; tested on each push to GitHub
 VS2017 >= Update 7 | Fully working; tested on each push to GitHub
 
 More specifically, Hana requires a compiler/standard library supporting the
@@ -2420,13 +2420,15 @@ for `Constant` and `IntegralConstant`.
 Hana's algorithms are `constexpr` function objects instead of being template
 functions. This allows passing them to higher-order algorithms, which is very
 useful. However, since those function objects are defined at namespace scope
-in the header files, this causes each translation unit to see a different
-algorithm object. Hence, the address of an algorithm function object is not
-guaranteed to be unique across translation units, which can cause an ODR
-violation if one relies on such an address. So, in short, do not rely on the
-uniqueness of the address of any global object provided by Hana, which does
-not make sense in the general case anyway because such objects are `constexpr`.
-See [issue #76](https://github.com/boostorg/hana/issues/76) for more information.
+in the header files, we require support for C++17 inline variables in order to
+avoid ODR violations (by means of the same object being defined twice in
+different translation units). When compiling in C++14 mode, where inline
+variables are not available, each translation unit will see a different
+algorithm object, so the address of an algorithm function object is not
+guaranteed to be unique across translation units. This is technically an ODR
+violation, but it shouldn't bite you unless you rely on the addresses being
+the same. So, in short, do not rely on the uniqueness of the address of any
+global object provided by Hana if you are compiling in C++14 mode.
 
 
 

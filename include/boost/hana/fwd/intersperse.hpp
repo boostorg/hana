@@ -50,7 +50,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, Z&& z) const;
     };
 
-    constexpr intersperse_t intersperse{};
+    BOOST_HANA_INLINE_VARIABLE constexpr intersperse_t intersperse{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

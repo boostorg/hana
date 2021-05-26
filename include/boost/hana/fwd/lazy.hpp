@@ -118,7 +118,7 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! Example
     //! -------
     //! @include example/lazy/make.cpp
-    constexpr auto make_lazy = make<lazy_tag>;
+    BOOST_HANA_INLINE_VARIABLE constexpr auto make_lazy = make<lazy_tag>;
 BOOST_HANA_NAMESPACE_END
 
 #endif // !BOOST_HANA_FWD_LAZY_HPP

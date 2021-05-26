@@ -57,7 +57,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         { return std::move(val_); }
     };
 
-    constexpr detail::create<_always> always{};
+    BOOST_HANA_INLINE_VARIABLE constexpr detail::create<_always> always{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

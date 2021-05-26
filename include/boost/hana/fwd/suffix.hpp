@@ -65,7 +65,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs&& xs, Sfx&& sfx) const;
     };
 
-    constexpr suffix_t suffix{};
+    BOOST_HANA_INLINE_VARIABLE constexpr suffix_t suffix{};
 #endif
 BOOST_HANA_NAMESPACE_END
 

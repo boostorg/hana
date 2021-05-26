@@ -86,7 +86,7 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(Xs const& xs, Ys const& ys, Pred const& pred) const;
     };
 
-    constexpr lexicographical_compare_t lexicographical_compare{};
+    BOOST_HANA_INLINE_VARIABLE constexpr lexicographical_compare_t lexicographical_compare{};
 #endif
 BOOST_HANA_NAMESPACE_END
 
