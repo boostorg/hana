@@ -1,0 +1,52 @@
+
+
+{
+  "chart": {
+    "type": "column"
+  },
+  "legend": {
+    "enabled": false
+  },
+  "xAxis": {
+    "type": "category"
+  },
+  "title": {
+    "text": "Including various metaprogramming libraries"
+  },
+  "plotOptions": {
+    "series": {
+      "borderWidth": 0,
+      "dataLabels": {
+        "enabled": true,
+        "format": "{point.y:.5f}s"
+      }
+    }
+  },
+  "series": [{
+    "name": "Include time",
+    "colorByPoint": true,
+    "data": [
+      {
+        "name": "Baseline (no includes)",
+        "y": 0.030657630599999996
+      }, {
+        "name": "Boost.Hana",
+        "y": 0.2415207322
+      }
+
+      
+      , {
+        "name": "Boost.MPL",
+        "y": 1.3855531708000002
+      }, {
+        "name": "Boost.Fusion",
+        "y": 1.3047671878
+      }
+      
+
+      
+
+      
+    ]
+  }]
+}
