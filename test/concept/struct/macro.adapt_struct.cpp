@@ -30,6 +30,9 @@ namespace ns {
     struct MemberArray {
         int array[10];
     };
+    struct MemberFunction {
+        int memfun(int x) { return x + 1; }
+    };
 }
 
 BOOST_HANA_ADAPT_STRUCT(ns::Data0);
@@ -37,12 +40,14 @@ BOOST_HANA_ADAPT_STRUCT(ns::Data1, member1);
 BOOST_HANA_ADAPT_STRUCT(ns::Data2, member1, member2);
 BOOST_HANA_ADAPT_STRUCT(ns::Data3, member1, member2, member3);
 BOOST_HANA_ADAPT_STRUCT(ns::MemberArray, array);
+BOOST_HANA_ADAPT_STRUCT(ns::MemberFunction, memfun);
 
 static_assert(hana::Struct<ns::Data0>::value, "");
 static_assert(hana::Struct<ns::Data1>::value, "");
 static_assert(hana::Struct<ns::Data2>::value, "");
 static_assert(hana::Struct<ns::Data3>::value, "");
 static_assert(hana::Struct<ns::MemberArray>::value, "");
+static_assert(hana::Struct<ns::MemberFunction>::value, "");
 
 int main() {
     BOOST_HANA_CONSTANT_CHECK(hana::contains(ns::Data1{}, BOOST_HANA_STRING("member1")));
@@ -55,4 +60,9 @@ int main() {
     BOOST_HANA_CONSTANT_CHECK(hana::contains(ns::Data3{}, BOOST_HANA_STRING("member3")));
 
     BOOST_HANA_CONSTANT_CHECK(hana::contains(ns::MemberArray{}, BOOST_HANA_STRING("array")));
+    
+    BOOST_HANA_CONSTANT_CHECK(hana::contains(ns::MemberFunction{}, BOOST_HANA_STRING("memfun")));
+    
+    constexpr auto accessors = hana::accessors<ns::MemberFunction>();
+    BOOST_HANA_RUNTIME_CHECK(hana::second(accessors[hana::size_c<0>])(ns::MemberFunction{})(1) == 2);
 }
