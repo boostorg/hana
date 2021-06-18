@@ -64,6 +64,10 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr char const* c_str() {
             return &detail::string_storage<s...>[0];
         }
+
+        static constexpr auto const& c_str_ref() {
+            return detail::string_storage<s...>;
+        }
     };
     //! @endcond
 
