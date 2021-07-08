@@ -5,6 +5,7 @@
 #include <boost/hana/core/to.hpp>
 
 #include <boost/hana/assert.hpp>
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/core/tag_of.hpp>
 
 #include <string>
@@ -103,4 +104,6 @@ int main() {
 
     static_assert(hana::is_convertible<int, void>{}, "");
     static_assert(!hana::is_embedded<int, void>{}, "");
+
+    static_assert(hana::IntegralConstant<hana::is_convertible<int, void>>{}, "");
 }
