@@ -49,8 +49,8 @@ BOOST_HANA_NAMESPACE_BEGIN
         };
 
         template <typename To, typename From>
-        struct maybe_static_cast<To, From, decltype((void)
-            static_cast<To>(std::declval<From>())
+        struct maybe_static_cast<To, From, decltype(
+            std::declval<void(&)(To)>()(std::declval<From>())
         )> {
             template <typename X>
             static constexpr To apply(X&& x)
@@ -62,6 +62,13 @@ BOOST_HANA_NAMESPACE_BEGIN
     struct to_impl<To, From, when<condition>>
         : convert_detail::maybe_static_cast<To, From>
     { };
+
+    template <typename To, typename From>
+    struct to_impl<To, From, when<std::is_void<To>::value>> {
+        template <typename X>
+        static constexpr X apply(X&&)
+        { return; }
+    };
 
     template <typename To>
     struct to_impl<To, To> : embedding<> {
