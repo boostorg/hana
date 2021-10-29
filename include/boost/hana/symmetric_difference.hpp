@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/union.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Ys>
     constexpr auto symmetric_difference_t::operator()(Xs&& xs, Ys&& ys) const {
@@ -41,6 +41,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             );
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_SYMMETRIC_DIFFERENCE_HPP

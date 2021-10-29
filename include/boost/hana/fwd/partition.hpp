@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! Partition a sequence based on a `predicate`.
     //! @ingroup group-Sequence
     //!
@@ -76,6 +76,6 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     BOOST_HANA_INLINE_VARIABLE constexpr partition_t partition{};
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_PARTITION_HPP

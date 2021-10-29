@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-functional
     //! The identity function -- returns its argument unchanged.
     //!
@@ -33,6 +33,6 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     BOOST_HANA_INLINE_VARIABLE constexpr id_t id{};
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTIONAL_ID_HPP

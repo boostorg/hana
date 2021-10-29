@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-functional
     //! Curry a function up to the given number of arguments.
     //!
@@ -165,6 +165,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         { return std::move(f)(); }
     };
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTIONAL_CURRY_HPP

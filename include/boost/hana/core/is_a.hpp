@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // is_a
     //////////////////////////////////////////////////////////////////////////
@@ -36,6 +36,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         constexpr auto operator()(T const&) const
         { return hana::is_a<DataType, T>; }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CORE_IS_A_HPP

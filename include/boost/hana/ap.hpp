@@ -23,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/transform.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     template <typename A, bool condition>
     struct ap_impl<A, when<condition>> : default_ {
         template <typename ...Args>
@@ -73,6 +73,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             );
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_AP_HPP

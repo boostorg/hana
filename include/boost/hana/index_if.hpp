@@ -27,7 +27,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred>
     constexpr auto index_if_t::operator()(Xs&& xs, Pred&& pred) const {
@@ -100,6 +100,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             -> typename detail::index_if<Pred, Xs...>::type
         { return {}; }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_INDEX_IF_HPP

@@ -19,7 +19,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/none_of.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Ys>
     constexpr auto is_disjoint_t::operator()(Xs&& xs, Ys&& ys) const {
@@ -60,6 +60,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             return hana::none_of(xs, detail::in_by_reference<Ys>{ys});
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_IS_DISJOINT_HPP

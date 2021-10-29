@@ -23,7 +23,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/less.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Ys>
     constexpr auto lexicographical_compare_t::operator()(Xs const& xs, Ys const& ys) const {
@@ -105,6 +105,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             >);
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LEXICOGRAPHICAL_COMPARE_HPP

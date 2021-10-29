@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <cstddef>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! Returns the last `n` elements of a sequence, or the whole sequence
     //! if the sequence has less than `n` elements.
     //! @ingroup group-Sequence
@@ -73,6 +73,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <std::size_t n>
     BOOST_HANA_INLINE_VARIABLE constexpr take_back_c_t<n> take_back_c{};
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_TAKE_BACK_HPP

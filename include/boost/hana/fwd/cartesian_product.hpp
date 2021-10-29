@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! Computes the cartesian product of a sequence of sequences.
     //! @ingroup group-Sequence
     //!
@@ -57,6 +57,6 @@ BOOST_HANA_NAMESPACE_BEGIN
 
     BOOST_HANA_INLINE_VARIABLE constexpr cartesian_product_t cartesian_product{};
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CARTESIAN_PRODUCT_HPP

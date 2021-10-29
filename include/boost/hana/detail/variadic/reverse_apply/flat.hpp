@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace detail { namespace variadic {
+namespace boost { namespace hana { namespace detail { namespace variadic {
     template <int ...i, typename F, typename ...X>
     constexpr decltype(auto)
     reverse_apply_flat_helper(std::integer_sequence<int, i...>, F&& f, X&& ...x)
@@ -36,6 +36,6 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail { namespace variadic {
             static_cast<X&&>(x)...
         );
     }
-}} BOOST_HANA_NAMESPACE_END
+}} }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_VARIADIC_REVERSE_APPLY_FLAT_HPP

@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/empty.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     template <typename M>
     struct MonadPlus
         : hana::integral_constant<bool,
@@ -28,6 +28,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             !is_default<empty_impl<typename tag_of<M>::type>>::value
         >
     { };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CONCEPT_MONAD_PLUS_HPP

@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <cstddef>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! Returns the `n`th element of an iterable.
     //! @ingroup group-Iterable
     //!
@@ -84,6 +84,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <std::size_t n, typename Xs>
     constexpr decltype(auto) at_c(Xs&& xs);
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_AT_HPP

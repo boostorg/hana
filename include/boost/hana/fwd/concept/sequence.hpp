@@ -14,7 +14,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/core/when.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! @defgroup group-Sequence Sequence
     //! The `Sequence` concept represents generic index-based sequences.
@@ -160,6 +160,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename S, typename = void>
     struct Sequence : Sequence<S, when<true>> { };
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_SEQUENCE_HPP

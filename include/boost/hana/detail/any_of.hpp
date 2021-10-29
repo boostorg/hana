@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace detail {
+namespace boost { namespace hana { namespace detail {
     std::false_type expand(...);
 
     template <template <typename ...> class Predicate, typename ...T>
@@ -41,6 +41,6 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
     struct any_of
         : decltype(any_of_impl<Predicate, T...>(int{}))
     { };
-} BOOST_HANA_NAMESPACE_END
+} }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_ANY_OF_HPP

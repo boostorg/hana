@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <cstddef>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-functional
     //! Applies another function `n` times to its argument.
     //!
@@ -196,6 +196,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <std::size_t n>
     BOOST_HANA_INLINE_VARIABLE constexpr make_iterate_t<n> iterate{};
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FUNCTIONAL_ITERATE_HPP

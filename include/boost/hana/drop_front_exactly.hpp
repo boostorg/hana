@@ -22,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/is_empty.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename N>
     constexpr auto drop_front_exactly_t::operator()(Xs&& xs, N const& n) const {
@@ -80,6 +80,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             return result; // NRVO applied
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DROP_FRONT_EXACTLY_HPP

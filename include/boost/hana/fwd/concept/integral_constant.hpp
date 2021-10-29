@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! The `IntegralConstant` concept represents compile-time integral values.
     //!
@@ -68,6 +68,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! `hana::integral_constant`
     template <typename C>
     struct IntegralConstant;
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_INTEGRAL_CONSTANT_HPP
