@@ -4,7 +4,7 @@
 
 language: cpp
 os: linux # Jobs are on Linux unless specified otherwise
-dist: xenial
+dist: focal
 sudo: false
 
 env:
@@ -22,17 +22,17 @@ matrix:
     # Note that we only use the memory checker on the main configuration to
     # speed up Travis builds.
     ##########################################################################
-    # Clang 7
-    - env: UNIT_TESTS=true COMPILER=clang++-7 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: { apt: { packages: ["clang-7", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-xenial-7"] } }
+    # Clang 12
+    - env: UNIT_TESTS=true COMPILER=clang++-12 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: &defaults { apt: { packages: ["clang-12", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-focal-12"] } }
 
-    # Clang 8
-    - env: UNIT_TESTS=true COMPILER=clang++-8 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: &defaults { apt: { packages: ["clang-8", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-xenial-8"] } }
+    # Clang 13
+    - env: UNIT_TESTS=true COMPILER=clang++-13 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: &defaults { apt: { packages: ["clang-13", "valgrind"], sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-focal-13"] } }
 
-    # GCC 8
-    - env: UNIT_TESTS=true COMPILER=g++-8 BOOST_VERSION=default ENABLE_MEMCHECK=true
-      addons: { apt: { packages: ["g++-8", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
+    # GCC 11
+    - env: UNIT_TESTS=true COMPILER=g++-11 BOOST_VERSION=default ENABLE_MEMCHECK=true
+      addons: { apt: { packages: ["g++-11", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
 
     # Xcode 11
     - os: osx
@@ -51,12 +51,12 @@ matrix:
       addons: *defaults
 
     # With C++17, on GCC
-    - env: UNIT_TESTS=true COMPILER=g++-8     BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON"
-      addons: { apt: { packages: ["g++-8", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
+    - env: UNIT_TESTS=true COMPILER=g++-11 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON"
+      addons: { apt: { packages: ["g++-11", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
 
     # With C++20, on GCC
-    - env: UNIT_TESTS=true COMPILER=g++-8     BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_CXX_STANDARD=20 -DCMAKE_CXX_STANDARD_REQUIRED=ON"
-      addons: { apt: { packages: ["g++-8", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
+    - env: UNIT_TESTS=true COMPILER=g++-11 BOOST_VERSION=default CMAKE_OPTIONS="-DCMAKE_CXX_STANDARD=20 -DCMAKE_CXX_STANDARD_REQUIRED=ON"
+      addons: { apt: { packages: ["g++-11", "valgrind"], sources: ["ubuntu-toolchain-r-test"] } }
 
     # Without concept checks
     - env: UNIT_TESTS=true COMPILER=default BOOST_VERSION=default CMAKE_OPTIONS="-DBOOST_HANA_ENABLE_CONCEPT_CHECKS=OFF"
@@ -127,7 +127,7 @@ install:
   ############################################################################
   # Setup default versions and override CXX set by Travis if needed
   ############################################################################
-  - if [[ "${COMPILER}" == "default" ]]; then COMPILER=clang++-8; fi
+  - if [[ "${COMPILER}" == "default" ]]; then COMPILER=clang++-13; fi
   - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.76.0; fi
 
   - if [[ "${COMPILER}" != "" ]]; then export CXX=${COMPILER}; fi
