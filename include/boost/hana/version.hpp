@@ -24,11 +24,11 @@ Distributed under the Boost Software License, Version 1.0.
 
 //! @ingroup group-config
 //! Macro expanding to the minor version of the library, i.e. the `y` in `x.y.z`.
-#define BOOST_HANA_MINOR_VERSION 7
+#define BOOST_HANA_MINOR_VERSION 8
 
 //! @ingroup group-config
 //! Macro expanding to the patch level of the library, i.e. the `z` in `x.y.z`.
-#define BOOST_HANA_PATCH_VERSION 1
+#define BOOST_HANA_PATCH_VERSION 0
 
 //! @ingroup group-config
 //! Macro expanding to the full version of the library, in hexadecimal
