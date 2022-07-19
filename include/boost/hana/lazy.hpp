@@ -35,7 +35,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // lazy
     //////////////////////////////////////////////////////////////////////////
@@ -224,6 +224,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             return hana::make_lazy(static_cast<F&&>(f))(static_cast<Expr&&>(expr));
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_LAZY_HPP

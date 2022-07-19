@@ -16,7 +16,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <cstddef>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! Creates an `integral_constant` holding the given compile-time value.
     //! @relates hana::integral_constant
     //!
@@ -170,6 +170,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         template <char ...c>
         constexpr auto operator"" _c();
     }
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_INTEGRAL_CONSTANT_HPP

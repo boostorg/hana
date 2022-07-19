@@ -31,7 +31,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     // integral_constant
     //////////////////////////////////////////////////////////////////////////
@@ -266,6 +266,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         apply(hana::false_ const&, Then&&, Else&& e)
         { return static_cast<Else&&>(e); }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_BOOL_HPP

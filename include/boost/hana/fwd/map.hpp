@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/keys.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! Tag representing `hana::map`s.
     //! @relates hana::map
     struct map_tag { };
@@ -377,6 +377,6 @@ constexpr auto symmetric_difference = [](auto&& xs, auto&& ys) {
 #endif
 
 
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_MAP_HPP

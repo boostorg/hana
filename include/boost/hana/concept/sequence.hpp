@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/detail/integral_constant.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     namespace detail {
         template <typename S, typename Tag = typename hana::tag_of<S>::type>
         struct sequence_dispatch
@@ -39,6 +39,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         : detail::sequence_dispatch<S>
     { };
     //! @endcond
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CONCEPT_SEQUENCE_HPP

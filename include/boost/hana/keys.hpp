@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/transform.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Map>
     constexpr auto keys_t::operator()(Map&& map) const {
@@ -43,6 +43,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             return hana::transform(hana::accessors<S>(), hana::first);
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_KEYS_HPP

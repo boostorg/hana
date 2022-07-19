@@ -26,7 +26,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename X>
     constexpr auto append_t::operator()(Xs&& xs, X&& x) const {
@@ -69,6 +69,6 @@ BOOST_HANA_NAMESPACE_BEGIN
                                  std::make_index_sequence<N>{});
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_APPEND_HPP

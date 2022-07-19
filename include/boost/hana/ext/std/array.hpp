@@ -66,7 +66,7 @@ namespace std {
 #endif
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     namespace ext { namespace std { struct array_tag; }}
 
     template <typename T, std::size_t N>
@@ -166,6 +166,6 @@ BOOST_HANA_NAMESPACE_BEGIN
             }
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXT_STD_ARRAY_HPP

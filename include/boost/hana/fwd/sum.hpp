@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/integral_constant.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! Compute the sum of the numbers of a structure.
     //! @ingroup group-Foldable
     //!
@@ -77,6 +77,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     template <typename M = integral_constant_tag<int>>
     BOOST_HANA_INLINE_VARIABLE constexpr sum_t<M> sum{};
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_SUM_HPP

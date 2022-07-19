@@ -22,7 +22,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename R>
     constexpr decltype(auto) one_t<R>::operator()() const {
@@ -74,6 +74,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         static constexpr decltype(auto) apply()
         { return hana::to<C>(detail::constant_from_one<C>{}); }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ONE_HPP

@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! @defgroup group-Constant Constant
     //! The `Constant` concept represents data that can be manipulated at
@@ -205,6 +205,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! [1]: http://en.cppreference.com/w/cpp/named_req/LiteralType
     template <typename C>
     struct Constant;
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_CONSTANT_HPP

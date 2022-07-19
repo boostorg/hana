@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/transform.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Pred, typename F>
     constexpr auto adjust_if_t::operator()(Xs&& xs, Pred const& pred, F const& f) const {
@@ -73,6 +73,6 @@ BOOST_HANA_NAMESPACE_BEGIN
                                    detail::apply_if<Pred, F>{pred, f});
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_ADJUST_IF_HPP

@@ -15,7 +15,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     struct deleted_implementation {
         template <typename ...T>
         static constexpr auto apply(T&& ...) = delete;
@@ -51,6 +51,6 @@ BOOST_HANA_NAMESPACE_BEGIN
 #else
     #define BOOST_HANA_DISPATCH_IF(IMPL, ...) IMPL
 #endif
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_DISPATCH_IF_HPP

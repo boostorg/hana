@@ -16,13 +16,13 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/partial.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace detail {
+namespace boost { namespace hana { namespace detail {
     //! @cond
     template <typename Algorithm>
     template <typename X>
     constexpr decltype(auto) nested_to_t<Algorithm>::operator()(X&& x) const
     { return hana::partial(Algorithm{}, static_cast<X&&>(x)); }
     //! @endcond
-} BOOST_HANA_NAMESPACE_END
+} }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_NESTED_TO_HPP

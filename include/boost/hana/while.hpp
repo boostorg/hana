@@ -24,7 +24,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <type_traits>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Pred, typename State, typename F>
     constexpr decltype(auto) while_t::operator()(Pred&& pred, State&& state, F&& f) const {
@@ -112,6 +112,6 @@ BOOST_HANA_NAMESPACE_BEGIN
                                 static_cast<F&&>(f));
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_WHILE_HPP

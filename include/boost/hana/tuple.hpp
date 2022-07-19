@@ -40,7 +40,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     namespace detail {
         template <typename Xs, typename Ys, std::size_t ...n>
         constexpr void assign(Xs& xs, Ys&& ys, std::index_sequence<n...>) {
@@ -315,6 +315,6 @@ BOOST_HANA_NAMESPACE_BEGIN
         tuple<typename detail::decay<Xs>::type...> apply(Xs&& ...xs)
         { return {static_cast<Xs&&>(xs)...}; }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_TUPLE_HPP

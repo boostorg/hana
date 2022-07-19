@@ -20,7 +20,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/one.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     template <typename R>
     struct Ring
         : hana::integral_constant<bool,
@@ -29,6 +29,6 @@ BOOST_HANA_NAMESPACE_BEGIN
                                   typename tag_of<R>::type>>::value
         >
     { };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_CONCEPT_RING_HPP

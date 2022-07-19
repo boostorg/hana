@@ -17,7 +17,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
+namespace boost { namespace hana { namespace experimental {
     namespace detail {
         struct cstring {
             char const* ptr;
@@ -59,6 +59,6 @@ BOOST_HANA_NAMESPACE_BEGIN namespace experimental {
         constexpr auto name = detail::type_name_impl2<T>();
         return detail::type_name_impl1<T>(std::make_index_sequence<name.length>{});
     }
-} BOOST_HANA_NAMESPACE_END
+} }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_EXPERIMENTAL_TYPE_NAME_HPP

@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN namespace detail {
+namespace boost { namespace hana { namespace detail {
     // Do not call this swap, otherwise it can get picked up by ADL and conflict
     // with std::swap (see https://github.com/boostorg/hana/issues/297).
     template <typename T>
@@ -181,6 +181,6 @@ BOOST_HANA_NAMESPACE_BEGIN namespace detail {
                 smallest = first;
         return smallest;
     }
-} BOOST_HANA_NAMESPACE_END
+} }} // end namespace boost::hana
 
 #endif // !BOOST_HANA_DETAIL_ALGORITHM_HPP

@@ -30,7 +30,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <utility>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename F>
     constexpr decltype(auto) unpack_t::operator()(Xs&& xs, F&& f) const {
@@ -136,6 +136,6 @@ BOOST_HANA_NAMESPACE_BEGIN
                               static_cast<Udt&&>(udt)));
         }
     };
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_UNPACK_HPP

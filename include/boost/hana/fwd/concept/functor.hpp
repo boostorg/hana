@@ -13,7 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/config.hpp>
 
 
-BOOST_HANA_NAMESPACE_BEGIN
+namespace boost { namespace hana {
     //! @ingroup group-concepts
     //! @defgroup group-Functor Functor
     //! The `Functor` concept represents types that can be mapped over.
@@ -134,6 +134,6 @@ BOOST_HANA_NAMESPACE_BEGIN
     //! [3]: http://en.wikipedia.org/wiki/Category_theory
     template <typename F>
     struct Functor;
-BOOST_HANA_NAMESPACE_END
+}} // end namespace boost::hana
 
 #endif // !BOOST_HANA_FWD_CONCEPT_FUNCTOR_HPP
