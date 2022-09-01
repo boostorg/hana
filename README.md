@@ -141,6 +141,19 @@ ctest -R path.to.file # Runs the program as a test
 > file to which a target is associated (like a test or an example), you can
 > then compile it by pressing ⌘B, or compile and then run it using ⇧⌘B.
 
+## Installing LuaBridge (vcpkg)
+
+Alternatively, you can build and install hana using [vcpkg](https://github.com/Microsoft/vcpkg/) dependency manager:
+
+```sh or powershell
+git clone https://github.com/Microsoft/vcpkg.git
+cd vcpkg
+./bootstrap-vcpkg.sh
+./vcpkg integrate install
+./vcpkg install hana
+```
+
+The hana port in vcpkg is kept up to date by Microsoft team members and community contributors. If the version is out of date, please [create an issue or pull request](https://github.com/Microsoft/vcpkg) on the vcpkg repository.
 
 ## Project organization
 The project is organized in a couple of subdirectories.
