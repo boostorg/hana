@@ -171,13 +171,8 @@ Please see [LICENSE.md](LICENSE.md).
 
 
 ## Releasing
-To release a new version of Hana, use the `util/release.sh` script. The script
-will merge `develop` to `master`, create a tag on `master` and then bump the
-version on `develop`. The tag on `master` will be annotated with the contents
-of the `RELEASE_NOTES.md` file. Once the `release.sh` script has been run, the
-`master` and `develop` branches should be pushed manually, as well as the tag
-that was created on `master`. Finally, create a GitHub release pointing to the
-new tag on `master`.
+Releasing is now done exclusively via the Boost release process. There are no
+separate releases of Hana since the library is now pretty stable.
 
 
 <!-- Links -->
