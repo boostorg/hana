@@ -12,11 +12,11 @@ namespace hana = boost::hana;
 struct SomeStruct {
     BOOST_HANA_DEFINE_STRUCT(SomeStruct, (int, x));
 
-    constexpr bool operator==(SomeStruct const& other) {
+    constexpr bool operator==(SomeStruct const& other) const {
         return hana::equal(hana::members(*this), hana::members(other));
     }
 
-    constexpr bool operator!=(SomeStruct const& other) {
+    constexpr bool operator!=(SomeStruct const& other) const {
         return hana::not_equal(hana::members(*this), hana::members(other));
     }
 };

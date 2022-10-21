@@ -18,7 +18,7 @@ Distributed under the Boost Software License, Version 1.0.
 namespace boost { namespace hana { namespace detail {
     template <bool ...b>
     struct fast_and
-        : std::is_same<fast_and<b...>, fast_and<(b, true)...>>
+        : std::is_same<fast_and<b...>, fast_and<((void) b, true)...>>
     { };
 } }} // end namespace boost::hana
 

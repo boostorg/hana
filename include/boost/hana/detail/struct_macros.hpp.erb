@@ -8,7 +8,7 @@
         export MAX_NUMBER_OF_MEMBERS=55; erb struct_macros.hpp.erb
 
     'MAX_NUMBER_OF_MEMBERS' must be greater than 0. In case 'MAX_NUMBER_OF_MEMBERS'
-    is not specified, it defaults to 40. To regenerate the default struct macros,
+    is not specified, it defaults to 55. To regenerate the default struct macros,
     issue the following command from the root of the project:
 
       erb include/boost/hana/detail/struct_macros.hpp.erb > include/boost/hana/detail/struct_macros.hpp
@@ -17,7 +17,7 @@
 %>
 
 <%
-    MAX_NUMBER_OF_MEMBERS = (ENV["MAX_NUMBER_OF_MEMBERS"] || 40).to_i
+    MAX_NUMBER_OF_MEMBERS = (ENV["MAX_NUMBER_OF_MEMBERS"] || 55).to_i
     raise "MAX_NUMBER_OF_MEMBERS must be > 0" if not MAX_NUMBER_OF_MEMBERS > 0
 %>
 
