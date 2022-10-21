@@ -20,7 +20,7 @@ you contribute:
    ```shell
    mkdir build
    cmake -S . -B build
-   cmake --build . --target check
+   cmake --build build --target check
    ```
 5. Commit your changes. Your commit message should start with a one line
    short description of the modifications, with the details and explanations

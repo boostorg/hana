@@ -80,17 +80,16 @@ installation of [CMake][]. Once this is done, you can `cd` to the root
 of the project and setup the build directory:
 ```shell
 mkdir build
-cd build
-cmake ..
+cmake -S . -B build
 ```
 
-Usually, you'll want to specify a custom compiler because the system's
+Sometimes, you'll want to specify a custom compiler because the system's
 compiler is too old:
 ```shell
-cmake .. -DCMAKE_CXX_COMPILER=/path/to/compiler
+cmake -S . -B build -DCMAKE_CXX_COMPILER=/path/to/compiler
 ```
 
-Usually, this will work just fine. However, on some systems, the standard
+Usually, this will work just fine. However, on some older systems, the standard
 library and/or compiler provided by default does not support C++14. If
 this is your case, the [wiki][Hana.wiki] has more information about
 setting you up on different systems.
@@ -100,12 +99,12 @@ It's also fine if you don't have them; a few tests requiring the Boost headers
 will be disabled in that case. However, if you'd like Hana to use a custom
 installation of Boost, you can specify the path to this custom installation:
 ```shell
-cmake .. -DCMAKE_CXX_COMPILER=/path/to/compiler -DBOOST_ROOT=/path/to/boost
+cmake -S . -B build -DCMAKE_CXX_COMPILER=/path/to/compiler -DBOOST_ROOT=/path/to/boost
 ```
 
 You can now build and run the unit tests and the examples:
 ```shell
-cmake --build . --target check
+cmake --build build --target check
 ```
 
 You should be aware that compiling the unit tests is pretty time and RAM
@@ -130,9 +129,8 @@ root of the project to the new source file is `path/to/file.cpp`. When you
 re-run the CMake generation step, a new target named `path.to.file` will be
 created, and a test of the same name will also be created. Hence,
 ```shell
-cd build # Go back to the build directory
-cmake --build . --target path.to.file # Builds the program associated to path/to/file.cpp
-ctest -R path.to.file # Runs the program as a test
+cmake --build build --target path.to.file # Builds the program associated to path/to/file.cpp
+cd build && ctest -R path.to.file # Runs the program as a test
 ```
 
 > #### Tip for Sublime Text users
