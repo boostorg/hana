@@ -67,10 +67,10 @@ namespace boost { namespace hana { namespace traits {
     BOOST_HANA_INLINE_VARIABLE constexpr auto is_trivial = detail::hana_trait<std::is_trivial>{};
     BOOST_HANA_INLINE_VARIABLE constexpr auto is_trivially_copyable = detail::hana_trait<std::is_trivially_copyable>{};
     BOOST_HANA_INLINE_VARIABLE constexpr auto is_standard_layout = detail::hana_trait<std::is_standard_layout>{};
-#if __cplusplus < 202002L
+#if (!defined(_MSC_VER) && __cplusplus < 202002L) || (defined(_MSC_VER) && defined(_HAS_CXX20) && _HAS_CXX20 == 0)
     BOOST_HANA_INLINE_VARIABLE constexpr auto is_pod = detail::hana_trait<std::is_pod>{};
 #endif
-#if __cplusplus < 201703L
+#if (!defined(_MSC_VER) && __cplusplus < 201703L) || (defined(_MSC_VER) && defined(_HAS_CXX17) && _HAS_CXX17 == 0)
     BOOST_HANA_INLINE_VARIABLE constexpr auto is_literal_type = detail::hana_trait<std::is_literal_type>{};
 #endif
     BOOST_HANA_INLINE_VARIABLE constexpr auto is_empty = detail::hana_trait<std::is_empty>{};
