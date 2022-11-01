@@ -28,14 +28,15 @@ if (NOT Boost_FOUND)
     list(APPEND EXCLUDED_PUBLIC_HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST})
 endif()
 
+# TODO: add experimental::type_name build on GCC, uncomment check
 # The experimental::type_name test is only supported on Clang and AppleClang >= 7.0
-if (NOT (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang"
-        OR (${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang" AND
-            NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 7)))
-    list(APPEND EXCLUDED_PUBLIC_HEADERS
-        "boost/hana/experimental/type_name.hpp")
-    list(APPEND EXCLUDED_UNIT_TESTS "experimental/type_name.cpp")
-endif()
+# if (NOT (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang"
+#         OR (${CMAKE_CXX_COMPILER_ID} STREQUAL "AppleClang" AND
+#             NOT ${CMAKE_CXX_COMPILER_VERSION} VERSION_LESS 7)))
+#     list(APPEND EXCLUDED_PUBLIC_HEADERS
+#         "boost/hana/experimental/type_name.hpp")
+#     list(APPEND EXCLUDED_UNIT_TESTS "experimental/type_name.cpp")
+# endif()
 
 # On Windows, Clang-cl emulates a MSVC bug that causes EBO not to be applied
 # properly. We disable the tests that check for EBO.
