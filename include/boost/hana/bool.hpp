@@ -157,7 +157,8 @@ namespace boost { namespace hana {
 
             if (N > 2) {
                 bool starts_with_zero = arr[0] == '0';
-                bool is_hex = starts_with_zero && arr[1] == 'x';
+                bool is_hex =
+                    starts_with_zero && (arr[1] == 'x' || arr[1] == 'X');
                 bool is_binary = starts_with_zero && arr[1] == 'b';
 
                 if (is_hex) {

@@ -35,6 +35,9 @@ constexpr auto deadbeef = hana::llong_c<0xDEADBEEF>;
 BOOST_HANA_CONSTANT_CHECK(deadbeef == 0xDEADBEEF_c);
 BOOST_HANA_CONSTANT_CHECK(deadbeef == 0xDeAdBeEf_c);
 BOOST_HANA_CONSTANT_CHECK(deadbeef == 0xdeadbeef_c);
+BOOST_HANA_CONSTANT_CHECK(deadbeef == 0XDEADBEEF_c);
+BOOST_HANA_CONSTANT_CHECK(deadbeef == 0XDeAdBeEf_c);
+BOOST_HANA_CONSTANT_CHECK(deadbeef == 0Xdeadbeef_c);
 
 //decimal
 BOOST_HANA_CONSTANT_CHECK(deadbeef == hana::llong_c<3735928559>); // test the test
