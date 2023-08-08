@@ -114,7 +114,7 @@ namespace boost { namespace hana {
         template<unsigned N>
         struct literal_helper {
             constexpr literal_helper(char const (&s)[N]) {
-                for (std::size_t i = 0; i != N; ++i)
+                for (unsigned i = 0; i != N; ++i)
                     buf[i] = s[i];
             }
             static constexpr unsigned size() { return N - 1; }
