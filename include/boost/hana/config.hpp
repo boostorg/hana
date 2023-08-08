@@ -80,10 +80,35 @@ Distributed under the Boost Software License, Version 1.0.
 #   endif
 #endif
 
-#if (__cpp_deduction_guides >= 201907L) && \
+//////////////////////////////////////////////////////////////////////////////
+// C++20 string literal UDL suport
+//////////////////////////////////////////////////////////////////////////////
+#if defined(_MSC_VER) && !defined(__clang__)
+#   if _MSVC_LANG > 201703 && _MSC_FULL_VER >= 192829921
+#       define BOOST_HANA_CONFIG_HAS_CXX20_STRING_UDL
+#   endif
+#elif defined(__clang__)
+#   if (__cplusplus > 201703 && \
+        BOOST_HANA_CONFIG_CLANG >= BOOST_HANA_CONFIG_VERSION(12, 0, 0))
+#       define BOOST_HANA_CONFIG_HAS_CXX20_STRING_UDL
+#       if BOOST_HANA_CONFIG_CLANG < BOOST_HANA_CONFIG_VERSION(18, 0, 0)
+#           define BOOST_HANA_CONFIG_CXX20_STRING_UDL_CLANG_WORKAROUND
+#       endif
+#   endif
+#elif defined(__GNUC__)
+#   if (__cplusplus > 201703 && \
+        BOOST_HANA_CONFIG_GCC >= BOOST_HANA_CONFIG_VERSION(9, 3, 0))
+#       define BOOST_HANA_CONFIG_HAS_CXX20_STRING_UDL
+#   endif
+#elif (__cpp_deduction_guides >= 201703 && \
+    __cpp_nontype_template_args >= 201911)
+#   define BOOST_HANA_CONFIG_HAS_CXX20_STRING_UDL
+#endif
+#if defined(BOOST_HANA_CONFIG_HAS_CXX20_STRING_UDL) && \
     !defined(BOOST_HANA_CONFIG_ENABLE_STRING_UDL)
 #   define BOOST_HANA_CONFIG_ENABLE_STRING_UDL
 #endif
+
 
 //////////////////////////////////////////////////////////////////////////////
 // Caveats and other compiler-dependent options

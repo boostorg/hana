@@ -233,7 +233,7 @@ namespace boost { namespace hana {
 #endif
 
 #ifdef BOOST_HANA_CONFIG_ENABLE_STRING_UDL
-#   if (__cpp_deduction_guides >= 201907L)
+#   ifdef BOOST_HANA_CONFIG_HAS_CXX20_STRING_UDL
     namespace string_detail {
         template<unsigned N>
         struct literal_helper;
@@ -256,15 +256,14 @@ namespace boost { namespace hana {
         //! [Hana.issue80] if you need this.
         //!
         //! @warning
-        //! This user-defined literal is an extension which requires a special
-        //! string literal operator that was added to the standard in C++20.
-        //! Prior to that, it is supported by both Clang and GCC, with slightly
-        //! different syntax. Since it is not standard, it is disabled by
-        //! default in pre=C++20 mode and defining the
-        //! `BOOST_HANA_CONFIG_ENABLE_STRING_UDL` config macro is required
-        //! to get this operator. Hence, if you do not have C++20 and want to
-        //! stay safe, just use the `BOOST_HANA_STRING` macro instead. If you
-        //! want to be fast and furious (I do), define
+        //! This user-defined literal requires a special string literal operator
+        //! that was added to the standard in C++20. Prior to that, an extension
+        //! supported by both Clang and GCC provides similar functionality, but
+        //! since it is not standard, it is disabled by default in pre=C++20
+        //! mode and defining the `BOOST_HANA_CONFIG_ENABLE_STRING_UDL` config
+        //! macro is required to get this operator. Hence, if you do not have
+        //! C++20 and want to stay safe, just use the `BOOST_HANA_STRING` macro
+        //! instead. If you want to be fast and furious (I do), define
         //! `BOOST_HANA_CONFIG_ENABLE_STRING_UDL`.
         //!
         //!
@@ -273,7 +272,12 @@ namespace boost { namespace hana {
         //! @include example/string/literal.cpp
         //!
         //! [Hana.issue80]: https://github.com/boostorg/hana/issues/80
-#   if (__cpp_deduction_guides >= 201907L)
+#   if defined(BOOST_HANA_DOXYGEN_INVOKED)
+        template <implementation_defined>
+        constexpr auto operator"" _s();
+#   elif defined(BOOST_HANA_CONFIG_CXX20_STRING_UDL_CLANG_WORKAROUND)
+        // Older versions of clang get confused by a forward declaration.
+#   elif defined(BOOST_HANA_CONFIG_HAS_CXX20_STRING_UDL)
         template <string_detail::literal_helper>
         constexpr auto operator"" _s();
 #   else

@@ -109,7 +109,7 @@ namespace boost { namespace hana {
 /**/
 
 #ifdef BOOST_HANA_CONFIG_ENABLE_STRING_UDL
-#   if (__cpp_deduction_guides >= 201907L)
+#   ifdef BOOST_HANA_CONFIG_HAS_CXX20_STRING_UDL
     namespace string_detail {
         template<unsigned N>
         struct literal_helper {
@@ -118,7 +118,7 @@ namespace boost { namespace hana {
                     buf[i] = s[i];
             }
             static constexpr unsigned size() { return N - 1; }
-            char buf[N];
+            char buf[N] = {};
         };
         template<unsigned N>
         literal_helper(char const (&)[N]) -> literal_helper<N>;
@@ -129,7 +129,7 @@ namespace boost { namespace hana {
     // _s user-defined literal
     //////////////////////////////////////////////////////////////////////////
     namespace literals {
-#   if (__cpp_deduction_guides >= 201907L)
+#   ifdef BOOST_HANA_CONFIG_HAS_CXX20_STRING_UDL
         template<string_detail::literal_helper s>
         constexpr auto operator"" _s() {
             return []<std::size_t... I>(std::index_sequence<I...>) {
