@@ -1,4 +1,4 @@
-# Boost.Hana <a target="_blank" href="http://semver.org">![Version][badge.version]</a> <a target="_blank" href="https://travis-ci.org/boostorg/hana">![Travis status][badge.Travis]</a> <a target="_blank" href="https://ci.appveyor.com/project/ldionne/hana">![Appveyor status][badge.Appveyor]</a> <a target="_blank" href="http://melpon.org/wandbox/permlink/g4ozIK33ITDtyGa3">![Try it online][badge.wandbox]</a> <a target="_blank" href="https://gitter.im/boostorg/hana">![Gitter Chat][badge.Gitter]</a>
+# Boost.Hana <a target="_blank" href="http://semver.org">![Version][badge.version]</a> <a target="_blank" href="https://travis-ci.org/boostorg/hana">![Travis status][badge.Travis]</a> <a target="_blank" href="https://ci.appveyor.com/project/ldionne/hana">![Appveyor status][badge.Appveyor]</a> <a target="_blank" href="https://godbolt.org/z/36MvzMb7n">![Try it online][badge.tryit]</a> <a target="_blank" href="https://gitter.im/boostorg/hana">![Gitter Chat][badge.Gitter]</a>
 
 > Your standard library for metaprogramming
 
@@ -80,17 +80,16 @@ installation of [CMake][]. Once this is done, you can `cd` to the root
 of the project and setup the build directory:
 ```shell
 mkdir build
-cd build
-cmake ..
+cmake -S . -B build
 ```
 
-Usually, you'll want to specify a custom compiler because the system's
+Sometimes, you'll want to specify a custom compiler because the system's
 compiler is too old:
 ```shell
-cmake .. -DCMAKE_CXX_COMPILER=/path/to/compiler
+cmake -S . -B build -DCMAKE_CXX_COMPILER=/path/to/compiler
 ```
 
-Usually, this will work just fine. However, on some systems, the standard
+Usually, this will work just fine. However, on some older systems, the standard
 library and/or compiler provided by default does not support C++14. If
 this is your case, the [wiki][Hana.wiki] has more information about
 setting you up on different systems.
@@ -100,12 +99,12 @@ It's also fine if you don't have them; a few tests requiring the Boost headers
 will be disabled in that case. However, if you'd like Hana to use a custom
 installation of Boost, you can specify the path to this custom installation:
 ```shell
-cmake .. -DCMAKE_CXX_COMPILER=/path/to/compiler -DBOOST_ROOT=/path/to/boost
+cmake -S . -B build -DCMAKE_CXX_COMPILER=/path/to/compiler -DBOOST_ROOT=/path/to/boost
 ```
 
 You can now build and run the unit tests and the examples:
 ```shell
-cmake --build . --target check
+cmake --build build --target check
 ```
 
 You should be aware that compiling the unit tests is pretty time and RAM
@@ -130,9 +129,8 @@ root of the project to the new source file is `path/to/file.cpp`. When you
 re-run the CMake generation step, a new target named `path.to.file` will be
 created, and a test of the same name will also be created. Hence,
 ```shell
-cd build # Go back to the build directory
-cmake --build . --target path.to.file # Builds the program associated to path/to/file.cpp
-ctest -R path.to.file # Runs the program as a test
+cmake --build build --target path.to.file # Builds the program associated to path/to/file.cpp
+cd build && ctest -R path.to.file # Runs the program as a test
 ```
 
 > #### Tip for Sublime Text users
@@ -171,13 +169,8 @@ Please see [LICENSE.md](LICENSE.md).
 
 
 ## Releasing
-To release a new version of Hana, use the `util/release.sh` script. The script
-will merge `develop` to `master`, create a tag on `master` and then bump the
-version on `develop`. The tag on `master` will be annotated with the contents
-of the `RELEASE_NOTES.md` file. Once the `release.sh` script has been run, the
-`master` and `develop` branches should be pushed manually, as well as the tag
-that was created on `master`. Finally, create a GitHub release pointing to the
-new tag on `master`.
+Releasing is now done exclusively via the Boost release process. There are no
+separate releases of Hana since the library is now pretty stable.
 
 
 <!-- Links -->
@@ -185,7 +178,7 @@ new tag on `master`.
 [badge.Gitter]: https://img.shields.io/badge/gitter-join%20chat-blue.svg
 [badge.Travis]: https://travis-ci.org/boostorg/hana.svg?branch=master
 [badge.version]: https://badge.fury.io/gh/boostorg%2Fhana.svg
-[badge.Wandbox]: https://img.shields.io/badge/try%20it-online-blue.svg
+[badge.tryit]: https://img.shields.io/badge/try%20it-online-blue.svg
 [CMake]: http://www.cmake.org
 [Doxygen]: http://www.doxygen.org
 [eRuby]: http://en.wikipedia.org/wiki/ERuby

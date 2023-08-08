@@ -31,7 +31,7 @@ sufficient when adding a new automatic unit test (in a file `${FILE}`):
 DIRECTORIES=$(find test -type d -name auto | grep -v test/_include/auto)
 for d in ${DIRECTORIES}; do
     cat > ${d}/${FILE}.cpp <<EOF
-// Copyright Louis Dionne 2013-2017
+// Copyright Louis Dionne 2013-2022
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 

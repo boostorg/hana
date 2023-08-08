@@ -6,11 +6,11 @@ the maintainer), you should try to follow these few simple guidelines when
 you contribute:
 
 1. Fork the repository.
-2. Create a new branch based on the `develop` branch (`git checkout -b your_branch develop`).
+2. Create a new branch based on the `master` branch (`git checkout -b your_branch master`).
    If your contribution is a bug fix, you should name your branch `bugfix/xxx`;
    for a feature, it should be `feature/xxx`. Otherwise, just use your good
    judgment. Consistent naming of branches is appreciated since it makes the
-   output of `git branch` easier to understand with a single glance.
+   output of `git branch` easier to understand at a single glance.
 3. Do your modifications on that branch. Except for special cases, your
    contribution should include proper unit tests and documentation. Also,
    please try to follow the style guide below.
@@ -19,9 +19,8 @@ you contribute:
 
    ```shell
    mkdir build
-   cd build
-   cmake ..
-   cmake --build . --target check
+   cmake -S . -B build
+   cmake --build build --target check
    ```
 5. Commit your changes. Your commit message should start with a one line
    short description of the modifications, with the details and explanations
@@ -45,10 +44,10 @@ you contribute:
    _logical_ commit. If your contribution has several logical commits,
    it's fine.
 6. Push the changes to your fork (`git push origin your_branch`).
-7. Open a pull request against Hana's `develop` branch (not against `master`).
-   I will do my best to respond in a timely manner. I might discuss your patch
-   and suggest some modifications, or I might amend your patch myself and ask
-   you for feedback. You will always be given proper credit.
+7. Open a pull request against Hana's `master` branch. I will do my best to respond
+   in a timely manner. I might discuss your patch and suggest some modifications,
+   or I might amend your patch myself and ask you for feedback. You will always be
+   given proper credit.
 
 
 ## Style guide

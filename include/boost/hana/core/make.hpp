@@ -2,7 +2,7 @@
 @file
 Defines `boost::hana::make`.
 
-@copyright Louis Dionne 2013-2017
+Copyright Louis Dionne 2013-2022
 Distributed under the Boost Software License, Version 1.0.
 (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
  */
@@ -32,7 +32,7 @@ namespace boost { namespace hana {
 
         template <typename ...X>
         static constexpr auto make_helper(long, X&& ...) {
-            static_assert((sizeof...(X), false),
+            static_assert(((void) sizeof...(X), false),
             "there exists no constructor for the given data type");
         }
 
