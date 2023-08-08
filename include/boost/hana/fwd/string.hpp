@@ -233,13 +233,21 @@ namespace boost { namespace hana {
 #endif
 
 #ifdef BOOST_HANA_CONFIG_ENABLE_STRING_UDL
+#   if (__cpp_deduction_guides >= 201907L)
+    namespace string_detail {
+        template<unsigned N>
+        struct literal_helper;
+    }
+#   endif
+
     namespace literals {
         //! Creates a compile-time string from a string literal.
         //! @relatesalso boost::hana::string
         //!
         //! The string literal is parsed at compile-time and the result is
-        //! returned as a `hana::string`. This feature is an extension that
-        //! is disabled by default; see below for details.
+        //! returned as a `hana::string`. This feature requires C++20 or a
+        //! compiler extension that is disabled by default; see below for
+        //! details.
         //!
         //! @note
         //! Only narrow string literals are supported right now; support for
@@ -249,14 +257,15 @@ namespace boost { namespace hana {
         //!
         //! @warning
         //! This user-defined literal is an extension which requires a special
-        //! string literal operator that is not part of the standard yet.
-        //! That operator is supported by both Clang and GCC, and several
-        //! proposals were made for it to enter C++17. However, since it is
-        //! not standard, it is disabled by default and defining the
+        //! string literal operator that was added to the standard in C++20.
+        //! Prior to that, it is supported by both Clang and GCC, with slightly
+        //! different syntax. Since it is not standard, it is disabled by
+        //! default in pre=C++20 mode and defining the
         //! `BOOST_HANA_CONFIG_ENABLE_STRING_UDL` config macro is required
-        //! to get this operator. Hence, if you want to stay safe, just use
-        //! the `BOOST_HANA_STRING` macro instead. If you want to be fast and
-        //! furious (I do), define `BOOST_HANA_CONFIG_ENABLE_STRING_UDL`.
+        //! to get this operator. Hence, if you do not have C++20 and want to
+        //! stay safe, just use the `BOOST_HANA_STRING` macro instead. If you
+        //! want to be fast and furious (I do), define
+        //! `BOOST_HANA_CONFIG_ENABLE_STRING_UDL`.
         //!
         //!
         //! Example
@@ -264,8 +273,13 @@ namespace boost { namespace hana {
         //! @include example/string/literal.cpp
         //!
         //! [Hana.issue80]: https://github.com/boostorg/hana/issues/80
+#   if (__cpp_deduction_guides >= 201907L)
+        template <string_detail::literal_helper>
+        constexpr auto operator"" _s();
+#   else
         template <typename CharT, CharT ...s>
         constexpr auto operator"" _s();
+#   endif
     }
 #endif
 }} // end namespace boost::hana

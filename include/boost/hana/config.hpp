@@ -80,6 +80,11 @@ Distributed under the Boost Software License, Version 1.0.
 #   endif
 #endif
 
+#if (__cpp_deduction_guides >= 201907L) && \
+    !defined(BOOST_HANA_CONFIG_ENABLE_STRING_UDL)
+#   define BOOST_HANA_CONFIG_ENABLE_STRING_UDL
+#endif
+
 //////////////////////////////////////////////////////////////////////////////
 // Caveats and other compiler-dependent options
 //////////////////////////////////////////////////////////////////////////////
@@ -145,17 +150,21 @@ Distributed under the Boost Software License, Version 1.0.
 #   define BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
 #endif
 
-#if defined(BOOST_HANA_DOXYGEN_INVOKED)
+#if defined(BOOST_HANA_DOXYGEN_INVOKED) && \
+    !defined(BOOST_HANA_CONFIG_ENABLE_STRING_UDL)
     //! @ingroup group-config
-    //! Enables usage of the "string literal operator template" GNU extension.
+    //! Enables usage of the "string literal operator template" GNU extension
+    //! before C++20.
     //!
-    //! That operator is not part of the language yet, but it is supported by
-    //! both Clang and GCC. This operator allows Hana to provide the nice `_s`
-    //! user-defined literal for creating compile-time strings.
+    //! C++20 added functionality allowing Hana to provide the nice `_s`
+    //! user-defined literal for creating compile-time strings; prior to that,
+    //! both Clang and GCC supported an extension allowing the same
+    //! functionality but via a different mechanism.
     //!
-    //! When this macro is not defined, the GNU extension will be not used
-    //! by Hana. Because this is a non-standard extension, the macro is not
-    //! defined by default.
+    //! When C++20 support is detected, this macro is defined by default and
+    //! the C++20 mechanism is used. Otherwise, if this macro is not defined,
+    //! the macro is not defined by default and the GNU extension will not be
+    //! used by Hana because it is a non-standard extension.
 #   define BOOST_HANA_CONFIG_ENABLE_STRING_UDL
 #endif
 

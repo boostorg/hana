@@ -13,7 +13,7 @@ namespace hana = boost::hana;
 using namespace hana::literals;
 
 
-// By default, this is disabled
+// This requires C++20 or a compiler extension which is disabled by default
 #ifdef BOOST_HANA_CONFIG_ENABLE_STRING_UDL
 
     constexpr auto str = "Hello world!"_s;
