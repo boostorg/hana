@@ -131,7 +131,7 @@ namespace boost { namespace hana {
     namespace literals {
 #   if (__cpp_deduction_guides >= 201907L)
         template<string_detail::literal_helper s>
-        constexpr auto operator""_s() {
+        constexpr auto operator"" _s() {
             return []<std::size_t... I>(std::index_sequence<I...>) {
                 return hana::string_c<s.buf[I]...>;
             }(std::make_index_sequence<s.size()>());
