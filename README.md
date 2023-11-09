@@ -130,7 +130,7 @@ re-run the CMake generation step, a new target named `path.to.file` will be
 created, and a test of the same name will also be created. Hence,
 ```shell
 cmake --build build --target path.to.file # Builds the program associated to path/to/file.cpp
-cd build && ctest -R path.to.file # Runs the program as a test
+ctest --test-dir build -R path.to.file # Runs the program as a test
 ```
 
 > #### Tip for Sublime Text users
