@@ -31,7 +31,7 @@ namespace boost { namespace hana { namespace experimental {
         #if defined(__clang__)
             constexpr char const* pretty_function = __PRETTY_FUNCTION__;
             constexpr std::size_t total_size = sizeof(__PRETTY_FUNCTION__) - 1;
-            constexpr std::size_t prefix_size = sizeof("boost::hana::experimental::detail::cstring boost::hana::experimental::detail::type_name_impl2() [T = ") - 1;
+            constexpr std::size_t prefix_size = sizeof("cstring boost::hana::experimental::detail::type_name_impl2() [T = ") - 1;
             constexpr std::size_t suffix_size = sizeof("]") - 1;
         #else
             #error "No support for this compiler."
