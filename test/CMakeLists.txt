@@ -28,17 +28,6 @@ if (NOT Boost_FOUND)
     list(APPEND EXCLUDED_PUBLIC_HEADERS ${PUBLIC_HEADERS_REQUIRING_BOOST})
 endif()
 
-# On Windows, Clang-cl emulates a MSVC bug that causes EBO not to be applied
-# properly. We disable the tests that check for EBO.
-if (MSVC AND ${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
-    list(APPEND EXCLUDED_UNIT_TESTS
-        "detail/ebo.cpp"
-        "issues/github_202.cpp"
-        "pair/empty_storage.cpp"
-        "tuple/empty_member.cpp"
-    )
-endif()
-
 
 ##############################################################################
 # Generate tests that include each public header.
