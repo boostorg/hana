@@ -21,10 +21,11 @@ template <typename ...Bases> struct __declspec(empty_bases) inherit : Bases... {
 template <typename ...Bases> struct inherit : Bases... { };
 #endif
 
+#ifndef BOOST_HANA_CONFIG_CLANG_CL // MSVC doesn't implement EBO in all cases
 static_assert(sizeof(inherit<>) == sizeof(inherit<ebo<idx<0>, empty<0>>>), "");
 static_assert(sizeof(inherit<>) == sizeof(inherit<ebo<idx<0>, empty<0>>, ebo<idx<1>, empty<1>>>), "");
 static_assert(sizeof(inherit<>) == sizeof(inherit<ebo<idx<0>, empty<0>>, ebo<idx<1>, empty<1>>, ebo<idx<2>, empty<2>>>), "");
-
+#endif
 
 int main() {
     // Test default-construction
