@@ -14,8 +14,8 @@ project boost/hana :
 
 rule hana-all-tests {
     local toolset =
-        <toolset>clang:<cxxflags>"-std=c++1y -pedantic -Wall -Wextra"
-        <toolset>darwin:<cxxflags>"-std=c++1y -pedantic -Wall -Wextra"
+        <toolset>clang:<cxxflags>"-std=c++1y -Wall -Wextra"
+        <toolset>darwin:<cxxflags>"-std=c++1y -Wall -Wextra"
         [ requires
             cxx14_constexpr
             cxx14_decltype_auto
