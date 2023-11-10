@@ -1,0 +1,38 @@
+name: Hana tests
+
+permissions:
+  contents: read
+
+on: [push, pull_request]
+
+jobs:
+  clang_latest:
+    name: Clang Latest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: sudo apt-get install clang-17 cmake ninja
+      - name: Configure CMake
+        run: mkdir build && cmake -S . -B build -G Ninja
+      - name: Run the tests
+        run: cmake --build build --target check
+
+  gcc_latest:
+    name: GCC Latest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install dependencies
+        run: sudo apt-get install gcc-13 cmake ninja
+      - name: Configure CMake
+        run: mkdir build && cmake -S . -B build -G Ninja
+      - name: Run the tests
+        run: cmake --build build --target check
+
+  apple_clang_latest:
+    name: Apple Clang Latest
+    runs-on: macos-latest
+    steps:
+      - name: Configure CMake
+        run: mkdir build && cmake -S . -B build -G Ninja
+      - name: Run the tests
+        run: cmake --build build --target check
