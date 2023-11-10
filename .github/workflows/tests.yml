@@ -1,0 +1,55 @@
+name: Hana CI
+
+permissions:
+  contents: read
+
+on: pull_request
+
+jobs:
+  tests:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            xcode-version: latest-stable
+          - os: macos-latest
+            compiler: llvm
+          # - os: macos-latest
+          #   compiler: gcc
+          # - os: windows-latest
+          #   compiler: llvm
+          - os: ubuntu-latest
+            compiler: llvm
+          # - os: ubuntu-latest
+          #   compiler: gcc
+
+    steps:
+      - name: Setup build environment
+        uses: aminya/setup-cpp@v1
+        with:
+          vcvarsall: ${{ contains(matrix.os, 'windows') }}
+          cmake: true
+          ninja: true
+
+      - name: Setup compiler
+        uses: aminya/setup-cpp@v1
+        if: ${{ matrix.compiler }}
+        with:
+          compiler: ${{ matrix.compiler }}
+
+      - name: Install Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        if: ${{ matrix.xcode-version }}
+        with:
+          xcode-version: ${{ matrix.xcode-version }}
+
+      - name: Checkout source code
+        uses: actions/checkout@v3
+
+      - name: Configure CMake
+        run: mkdir build && cmake -S . -B build -G Ninja
+
+      - name: Run the tests
+        run: cmake --build build --target check
