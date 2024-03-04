@@ -42,7 +42,8 @@ option(BOOST_HANA_ENABLE_DEBUG_MODE "Enable Hana's debug mode." OFF)
 
 option(BOOST_HANA_ENABLE_STRING_UDL
 "Enable the GNU extension allowing the special string literal operator\
- template, which enables the _s suffix for creating compile-time strings." ON)
+template, which enables the _s suffix for creating compile-time strings\
+(unnecessary if you have a C++20 compiler)." ON)
 
 option(BOOST_HANA_ENABLE_EXCEPTIONS
 "Build with exceptions enabled. Note that Hana does not make use of exceptions,\
