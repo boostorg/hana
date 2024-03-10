@@ -141,9 +141,11 @@ int main() {
     hana::traits::remove_all_extents(s);
 
     // Miscellaneous transformations
+#if __cplusplus < 202302L
     hana::traits::aligned_storage(hana::size_c<1>);
     hana::traits::aligned_storage(hana::size_c<1>, hana::size_c<1>);
     hana::traits::aligned_union(hana::size_c<0>, s);
+#endif
     hana::traits::decay(s);
 
     hana::traits::common_type(s, s);
