@@ -3,6 +3,8 @@
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
 #include <boost/hana/core/default.hpp>
+
+#include <boost/hana/concept/integral_constant.hpp>
 namespace hana = boost::hana;
 
 
@@ -14,5 +16,7 @@ struct method_impl<int> { };
 
 static_assert(hana::is_default<method_impl<void>>{}, "");
 static_assert(!hana::is_default<method_impl<int>>{}, "");
+
+static_assert(hana::IntegralConstant<hana::is_default<method_impl<void>>>{}, "");
 
 int main() { }
