@@ -109,9 +109,9 @@ below, which are tested on an ongoing basis:
 
 Compiler/Toolchain | Status
 ------------------ | ------
-Clang >= 7         | Fully working; tested on each push to GitHub
+Clang >= 12        | Fully working; tested on each push to GitHub
 Xcode >= 11        | Fully working; tested on each push to GitHub
-GCC >= 8           | Fully working; tested on each push to GitHub
+GCC >= 11          | Fully working; tested on each push to GitHub
 VS2017 >= Update 7 | Fully working; tested on each push to GitHub
 
 More specifically, Hana requires a compiler/standard library supporting the
