@@ -8,9 +8,12 @@
 #include <boost/hana/functional/compose.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/fwd/ap.hpp>
+#include <boost/hana/fwd/difference.hpp>
 #include <boost/hana/fwd/equal.hpp>
 #include <boost/hana/fwd/find_if.hpp>
+#include <boost/hana/fwd/intersection.hpp>
 #include <boost/hana/fwd/lift.hpp>
+#include <boost/hana/fwd/set.hpp>
 #include <boost/hana/fwd/union.hpp>
 #include <boost/hana/if.hpp>
 #include <boost/hana/is_subset.hpp>
@@ -48,11 +51,30 @@ constexpr auto doubleton(X x, Y y) {
 }
 
 namespace boost { namespace hana {
+    //////////////////////////////////////////////////////////////////////////
+    // SetTheoretic
+    //////////////////////////////////////////////////////////////////////////
     template <>
     struct union_impl<infinite_set_tag> {
         template <typename Xs, typename Ys>
         static constexpr auto apply(Xs xs, Ys ys) {
             return flatten(doubleton(xs, ys));
+        }
+    };
+
+    template <>
+    struct difference_impl<infinite_set_tag> {
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs xs, Ys ys) {
+            return difference_impl<set_tag>(xs, ys);
+        }
+    };
+
+    template <>
+    struct intersection_impl<infinite_set_tag> {
+        template <typename Xs, typename Ys>
+        static constexpr auto apply(Xs xs, Ys ys) {
+            return intersection_impl<set_tag>(xs, ys);
         }
     };
 
