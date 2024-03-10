@@ -107,4 +107,26 @@ int main() {
             hana::type_c<hana::false_>
         ));
     }
+
+    // Enumeration constants should hash to themselves
+    {
+        enum enum_1                  { zero };
+        enum class enum_2            { zero };
+        enum class enum_3 : unsigned { zero };
+
+        BOOST_HANA_CONSTANT_ASSERT(hana::equal(
+            hana::hash(hana::integral_c<enum_1, zero>),
+            hana::type_c<hana::integral_constant<enum_1, zero>>
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(hana::equal(
+            hana::hash(hana::integral_c<enum_2, enum_2::zero>),
+            hana::type_c<hana::integral_constant<enum_2, enum_2::zero>>
+        ));
+
+        BOOST_HANA_CONSTANT_ASSERT(hana::equal(
+            hana::hash(hana::integral_c<enum_3, enum_3::zero>),
+            hana::type_c<hana::integral_constant<enum_3, enum_3::zero>>
+        ));
+    }
 }
