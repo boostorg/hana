@@ -8,8 +8,7 @@ import regex ;
 
 project :
     requirements
-        <include>./_include
-        <include>../include
+        <include>_include
 ;
 
 rule hana-all-tests {
