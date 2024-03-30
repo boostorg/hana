@@ -7,11 +7,11 @@ import project ;
 
 project /boost/hana
     : common-requirements
-        <source>/boost/config//boost_config
-        <source>/boost/core//boost_core
-        <source>/boost/fusion//boost_fusion
-        <source>/boost/mpl//boost_mpl
-        <source>/boost/tuple//boost_tuple
+        <library>/boost/config//boost_config
+        <library>/boost/core//boost_core
+        <library>/boost/fusion//boost_fusion
+        <library>/boost/mpl//boost_mpl
+        <library>/boost/tuple//boost_tuple
         <include>include
     ;
 
