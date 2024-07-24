@@ -5,20 +5,23 @@
 
 require-b2 5.2 ;
 
+constant boost_dependencies :
+    /boost/config//boost_config
+    /boost/core//boost_core
+    /boost/fusion//boost_fusion
+    /boost/mpl//boost_mpl
+    /boost/tuple//boost_tuple ;
+
 project /boost/hana
     : common-requirements
-        <library>/boost/config//boost_config
-        <library>/boost/core//boost_core
-        <library>/boost/fusion//boost_fusion
-        <library>/boost/mpl//boost_mpl
-        <library>/boost/tuple//boost_tuple
         <include>include
     ;
 
 explicit
-    [ alias boost_hana ]
+    [ alias boost_hana : : : : <library>$(boost_dependencies) ]
     [ alias all : boost_hana test ]
     ;
 
 call-if : boost-library hana
     ;
+
