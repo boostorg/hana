@@ -9,6 +9,7 @@ import regex ;
 
 project :
     requirements
+        <library>/boost/hana//boost_hana
         <include>_include
 ;
 
