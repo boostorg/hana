@@ -2,14 +2,15 @@
 # Distributed under the Boost Software License, Version 1.0.
 # (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
+import-search /boost/config/checks ;
 import config : requires ;
 import testing ;
 import regex ;
 
 project :
     requirements
-        <include>./_include
-        <include>../include
+        <library>/boost/hana//boost_hana
+        <include>_include
 ;
 
 rule hana-all-tests {

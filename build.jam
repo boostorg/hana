@@ -1,0 +1,27 @@
+# Copyright René Ferdinand Rivera Morell 2023-2024
+# Distributed under the Boost Software License, Version 1.0.
+# (See accompanying file LICENSE_1_0.txt or copy at
+# http://www.boost.org/LICENSE_1_0.txt)
+
+require-b2 5.2 ;
+
+constant boost_dependencies :
+    /boost/config//boost_config
+    /boost/core//boost_core
+    /boost/fusion//boost_fusion
+    /boost/mpl//boost_mpl
+    /boost/tuple//boost_tuple ;
+
+project /boost/hana
+    : common-requirements
+        <include>include
+    ;
+
+explicit
+    [ alias boost_hana : : : : <library>$(boost_dependencies) ]
+    [ alias all : boost_hana test ]
+    ;
+
+call-if : boost-library hana
+    ;
+
