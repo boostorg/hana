@@ -109,10 +109,34 @@ namespace boost { namespace hana {
 /**/
 
 #ifdef BOOST_HANA_CONFIG_ENABLE_STRING_UDL
+#   ifdef BOOST_HANA_CONFIG_HAS_CXX20_STRING_UDL
+    namespace string_detail {
+        template<unsigned N>
+        struct literal_helper {
+            constexpr literal_helper(char const (&s)[N]) {
+                for (unsigned i = 0; i != N; ++i)
+                    buf[i] = s[i];
+            }
+            static constexpr unsigned size() { return N - 1; }
+            char buf[N] = {};
+        };
+        template<unsigned N>
+        literal_helper(char const (&)[N]) -> literal_helper<N>;
+    }
+#   endif
+
     //////////////////////////////////////////////////////////////////////////
     // _s user-defined literal
     //////////////////////////////////////////////////////////////////////////
     namespace literals {
+#   ifdef BOOST_HANA_CONFIG_HAS_CXX20_STRING_UDL
+        template<string_detail::literal_helper s>
+        constexpr auto operator"" _s() {
+            return []<std::size_t... I>(std::index_sequence<I...>) {
+                return hana::string_c<s.buf[I]...>;
+            }(std::make_index_sequence<s.size()>());
+        }
+#   else
         template <typename CharT, CharT ...s>
         constexpr auto operator"" _s() {
             static_assert(std::is_same<CharT, char>::value,
@@ -121,6 +145,7 @@ namespace boost { namespace hana {
             "if you need support for fancier types of compile-time strings.");
             return hana::string_c<s...>;
         }
+#   endif
     }
 #endif
 
