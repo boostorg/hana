@@ -31,10 +31,10 @@ struct pick {
     { return hana::arg<n>(std::forward<T>(args)...); }
 };
 
-template <char ...c> constexpr pick<c...> operator"" _st() { return {}; }
-template <char ...c> constexpr pick<c...> operator"" _nd() { return {}; }
-template <char ...c> constexpr pick<c...> operator"" _rd() { return {}; }
-template <char ...c> constexpr pick<c...> operator"" _th() { return {}; }
+template <char ...c> constexpr pick<c...> operator ""_st() { return {}; }
+template <char ...c> constexpr pick<c...> operator ""_nd() { return {}; }
+template <char ...c> constexpr pick<c...> operator ""_rd() { return {}; }
+template <char ...c> constexpr pick<c...> operator ""_th() { return {}; }
 
 
 static_assert(1_st(1, '2', 3.3, 444) == 1, "");

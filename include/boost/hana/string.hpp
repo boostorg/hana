@@ -114,7 +114,7 @@ namespace boost { namespace hana {
     //////////////////////////////////////////////////////////////////////////
     namespace literals {
         template <typename CharT, CharT ...s>
-        constexpr auto operator"" _s() {
+        constexpr auto operator ""_s() {
             static_assert(std::is_same<CharT, char>::value,
             "hana::string: Only narrow string literals are supported with "
             "the _s string literal right now. See https://github.com/boostorg/hana/issues/80 "
