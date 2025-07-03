@@ -834,7 +834,7 @@ type-level approach, aren't we? But there's more; we can also use
 
 @code{cpp}
 template <char ...digits>
-constexpr auto operator"" _c() {
+constexpr auto operator ""_c() {
   // parse the digits and return an integral_constant
 }
 

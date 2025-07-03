@@ -195,7 +195,7 @@ namespace boost { namespace hana {
 
     namespace literals {
         template <char ...c>
-        constexpr auto operator"" _c() {
+        constexpr auto operator ""_c() {
             return hana::llong<ic_detail::parse<sizeof...(c)>({c...})>{};
         }
     }

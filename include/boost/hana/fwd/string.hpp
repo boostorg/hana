@@ -265,7 +265,7 @@ namespace boost { namespace hana {
         //!
         //! [Hana.issue80]: https://github.com/boostorg/hana/issues/80
         template <typename CharT, CharT ...s>
-        constexpr auto operator"" _s();
+        constexpr auto operator ""_s();
     }
 #endif
 }} // end namespace boost::hana

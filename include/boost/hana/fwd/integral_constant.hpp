@@ -168,7 +168,7 @@ namespace boost { namespace hana {
         //! -------
         //! @snippet example/integral_constant.cpp literals
         template <char ...c>
-        constexpr auto operator"" _c();
+        constexpr auto operator ""_c();
     }
 }} // end namespace boost::hana
 
