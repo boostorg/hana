@@ -165,6 +165,7 @@ namespace boost { namespace hana { namespace traits {
     BOOST_HANA_INLINE_VARIABLE constexpr auto remove_all_extents = metafunction<std::remove_all_extents>;
 
     // Miscellaneous transformations
+#if __cplusplus < 202302L
     BOOST_HANA_INLINE_VARIABLE constexpr struct aligned_storage_t {
         template <typename Len, typename Align>
         constexpr auto operator()(Len const&, Align const&) const {
@@ -190,6 +191,7 @@ namespace boost { namespace hana { namespace traits {
             return hana::type_c<Result>;
         }
     } aligned_union{};
+#endif
 
     BOOST_HANA_INLINE_VARIABLE constexpr auto decay = metafunction<std::decay>;
     // enable_if
