@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/config.hpp>
 #include <boost/hana/detail/decay.hpp>
+#include <type_traits>
 
 
 namespace boost { namespace hana {
@@ -47,7 +48,10 @@ namespace boost { namespace hana {
         using overload_t<F>::type::operator();
         using overload_t<G...>::type::operator();
 
-        template <typename F_, typename ...G_>
+        template <typename F_, typename ...G_,
+                  typename = std::enable_if_t<
+                     !std::is_same<overload_t,std::decay_t<F_>>::value
+                 >>
         constexpr explicit overload_t(F_&& f, G_&& ...g)
             : overload_t<F>::type(static_cast<F_&&>(f))
             , overload_t<G...>::type(static_cast<G_&&>(g)...)
