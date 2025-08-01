@@ -72,10 +72,11 @@ namespace boost { namespace hana {
     };
 
     //////////////////////////////////////////////////////////////////////////
-    // Model for integral data types
+    // Model for signed integral data types
     //////////////////////////////////////////////////////////////////////////
     template <typename T>
     struct div_impl<T, T, when<std::is_integral<T>::value &&
+                               std::is_signed<T>::value &&
                                !std::is_same<T, bool>::value>> {
         template <typename X, typename Y>
         static constexpr decltype(auto) apply(X&& x, Y&& y)
