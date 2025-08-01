@@ -12,6 +12,7 @@ Distributed under the Boost Software License, Version 1.0.
 
 #include <boost/hana/fwd/union.hpp>
 
+#include <boost/hana/concept/set_theoretic.hpp>
 #include <boost/hana/config.hpp>
 #include <boost/hana/core/dispatch.hpp>
 
@@ -20,10 +21,20 @@ namespace boost { namespace hana {
     //! @cond
     template <typename Xs, typename Ys>
     constexpr auto union_t::operator()(Xs&& xs, Ys&& ys) const {
-        using S = typename hana::tag_of<Xs>::type;
-        using Union = BOOST_HANA_DISPATCH_IF(union_impl<S>,
-            true
+        using TX = typename hana::tag_of<Xs>::type;
+        using TY = typename hana::tag_of<Ys>::type;
+        using Union = BOOST_HANA_DISPATCH_IF(union_impl<TX>,
+            hana::SetTheoretic<TX>::value &&
+            std::is_same<TX, TY>::value
         );
+
+    #ifndef BOOST_HANA_CONFIG_DISABLE_CONCEPT_CHECKS
+        static_assert(hana::SetTheoretic<TX>::value,
+        "hana::union_(xs, ys) requires 'xs' to be SetTheoretic");
+
+        static_assert(std::is_same<TX, TY>::value,
+        "hana::union_(xs, ys) requires 'xs' and 'ys' to be of the same type");
+    #endif
 
         return Union::apply(static_cast<Xs&&>(xs), static_cast<Ys&&>(ys));
     }
