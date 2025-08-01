@@ -2,7 +2,9 @@
 // Distributed under the Boost Software License, Version 1.0.
 // (See accompanying file LICENSE.md or copy at http://boost.org/LICENSE_1_0.txt)
 
+#include <boost/hana/concept/integral_constant.hpp>
 #include <boost/hana/core/common.hpp>
+#include <boost/hana/not.hpp>
 
 #include <type_traits>
 namespace hana = boost::hana;
@@ -28,5 +30,7 @@ static_assert(!hana::has_common<void, T>{}, "");
 static_assert(!hana::has_common<T, void>{}, "");
 static_assert(!hana::has_common<invalid, T>{}, "");
 static_assert(!hana::has_common<T, invalid>{}, "");
+
+static_assert(hana::IntegralConstant<hana::has_common<T, T>>{}, "");
 
 int main() { }
