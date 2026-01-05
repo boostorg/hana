@@ -10,6 +10,8 @@
 
 #include <laws/base.hpp>
 #include <support/minimal_product.hpp>
+#include <support/constexpr_move_only.hpp>
+
 namespace hana = boost::hana;
 
 
@@ -94,4 +96,15 @@ int main() {
             !=
         hana::make_map(p<1, 1>(), p<2, 2>())
     );
+
+    auto map_unique_1 = hana::make_map(hana::make_pair(
+        hana::integral_constant<int, 0>{},
+        ConstexprMoveOnly<0>{})
+    );
+    auto map_unique_2 = hana::make_map(hana::make_pair(
+        hana::integral_constant<int, 0>{},
+        ConstexprMoveOnly<1>{})
+    );
+    BOOST_HANA_CONSTANT_ASSERT(map_unique_1 == map_unique_1);
+    BOOST_HANA_CONSTANT_ASSERT(map_unique_1 != map_unique_2);
 }

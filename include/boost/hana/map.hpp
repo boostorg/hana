@@ -13,6 +13,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/fwd/map.hpp>
 
 #include <boost/hana/all_of.hpp>
+#include <boost/hana/at_key.hpp>
 #include <boost/hana/basic_tuple.hpp>
 #include <boost/hana/bool.hpp>
 #include <boost/hana/concept/comparable.hpp>
@@ -39,7 +40,6 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/functional/on.hpp>
 #include <boost/hana/functional/partial.hpp>
 #include <boost/hana/fwd/any_of.hpp>
-#include <boost/hana/fwd/at_key.hpp>
 #include <boost/hana/fwd/difference.hpp>
 #include <boost/hana/fwd/erase_key.hpp>
 #include <boost/hana/fwd/intersection.hpp>
@@ -53,6 +53,7 @@ Distributed under the Boost Software License, Version 1.0.
 #include <boost/hana/optional.hpp>
 #include <boost/hana/remove_if.hpp>
 #include <boost/hana/second.hpp>
+#include <boost/hana/set.hpp>
 #include <boost/hana/unpack.hpp>
 #include <boost/hana/value.hpp>
 
@@ -369,19 +370,29 @@ namespace boost { namespace hana {
         }
 
         template <typename M1, typename M2>
+        struct compare_at_key {
+            const M1 &m1;
+            const M2 &m2;
+            
+            template <typename K>
+            constexpr auto operator()(const K& key) const {
+                return hana::equal(hana::at_key(m1, key), hana::at_key(m2, key));
+            }
+        };
+
+        template <typename M1, typename M2>
         static constexpr auto equal_helper(M1 const& m1, M2 const& m2, hana::true_) {
-            return hana::all_of(hana::keys(m1), hana::demux(equal)(
-                hana::partial(hana::find, m1),
-                hana::partial(hana::find, m2)
-            ));
+            return hana::all_of(
+                    hana::keys(m1),
+                    equal_impl::compare_at_key<M1, M2>{m1, m2});
         }
 
         template <typename M1, typename M2>
         static constexpr auto apply(M1 const& m1, M2 const& m2) {
-            return equal_impl::equal_helper(m1, m2, hana::bool_c<
-                decltype(hana::length(m1.storage))::value ==
-                decltype(hana::length(m2.storage))::value
-            >);
+            return equal_impl::equal_helper(m1, m2, 
+                    hana::to_set(hana::keys(m1)) ==
+                    hana::to_set(hana::keys(m2))
+            );
         }
     };
 
